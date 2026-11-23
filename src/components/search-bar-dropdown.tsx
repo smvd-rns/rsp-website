@@ -20,11 +20,13 @@ interface SearchBarDropdownContentProps
   extends ReturnType<typeof useSearchBar> {
   showFilters: boolean;
   hasActiveFilters: boolean;
+  inDialog?: boolean;
 }
 
 export const SearchBarDropdownContent = ({
   showFilters,
   hasActiveFilters,
+  inDialog = false,
   term,
   scope,
   setScope,
@@ -77,25 +79,8 @@ export const SearchBarDropdownContent = ({
   const isSpeakerActive = searchFields.includes("speaker_names");
   const isVenueActive = searchFields.includes("venue_name");
 
-  return (
-    <PopoverContent
-      className="p-0 bg-card/95 backdrop-blur-md border border-border/80 shadow-2xl rounded-2xl overflow-hidden z-50 flex flex-col transition-all"
-      style={{
-        width: "var(--radix-popover-trigger-width)",
-        maxHeight: "min(38rem, 85vh)",
-      }}
-      align="start"
-      onOpenAutoFocus={(e) => e.preventDefault()}
-      onInteractOutside={(e) => {
-        const target = e.target as HTMLElement;
-        if (
-          target.closest("#search-filters-toggle") ||
-          target.closest("#search-input-container")
-        ) {
-          e.preventDefault();
-        }
-      }}
-    >
+  const innerContent = (
+    <>
       {/* Collapsible Filters & Config Panel */}
       {showFilters && (
         <div className="bg-muted/40 p-3 border-b border-border flex flex-col gap-3 text-xs">
@@ -343,6 +328,37 @@ export const SearchBarDropdownContent = ({
         searchFields={searchFields}
         toggleSearchField={toggleSearchField}
       />
+    </>
+  );
+
+  if (inDialog) {
+    return (
+      <div className="flex flex-col flex-1 overflow-hidden w-full">
+        {innerContent}
+      </div>
+    );
+  }
+
+  return (
+    <PopoverContent
+      className="p-0 bg-card/98 backdrop-blur-xl border border-border/90 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.18)] rounded-2xl overflow-hidden z-50 flex flex-col transition-all ring-1 ring-black/5"
+      style={{
+        width: "var(--radix-popover-trigger-width)",
+        maxHeight: "min(38rem, 85vh)",
+      }}
+      align="start"
+      onOpenAutoFocus={(e) => e.preventDefault()}
+      onInteractOutside={(e) => {
+        const target = e.target as HTMLElement;
+        if (
+          target.closest("#search-filters-toggle") ||
+          target.closest("#search-input-container")
+        ) {
+          e.preventDefault();
+        }
+      }}
+    >
+      {innerContent}
     </PopoverContent>
   );
 };

@@ -15,13 +15,13 @@ export async function GET() {
   try {
     const [annRes, secRes, itemRes, catRes] = await Promise.all([
       pool.query(
-        `SELECT * FROM prod.announcements WHERE is_active = true ORDER BY orderind ASC NULLS LAST`,
+        `SELECT * FROM prod.announcements WHERE is_active = true ORDER BY order_ind ASC NULLS LAST`,
       ),
       pool.query(
-        `SELECT * FROM prod.featured_sections WHERE is_active = true ORDER BY orderind ASC NULLS LAST`,
+        `SELECT * FROM prod.featured_sections WHERE is_active = true ORDER BY order_ind ASC NULLS LAST`,
       ),
       pool.query(
-        `SELECT * FROM prod.featured_items ORDER BY orderind ASC NULLS LAST`,
+        `SELECT * FROM prod.featured_items ORDER BY order_ind ASC NULLS LAST`,
       ),
       pool.query(
         `SELECT id, name, img, image_url, path, orderind, parentid, allowed_roles, url_path FROM rsp.categories WHERE url_path != 'trash' AND url_path NOT LIKE 'trash.%'`,
@@ -38,7 +38,7 @@ export async function GET() {
       is_annual_recurring: Boolean(r.is_annual_recurring),
       start_date: (r.start_date as string) || null,
       end_date: (r.end_date as string) || null,
-      order_ind: Number(r.orderind ?? 0),
+      order_ind: Number(r.order_ind ?? r.orderind ?? 0),
       ui_props: r.ui_props,
     })) as Announcement[];
 
@@ -48,7 +48,7 @@ export async function GET() {
       subtitle: (r.subtitle as string) || null,
       description: (r.description as string) || null,
       is_active: Boolean(r.is_active),
-      order_ind: Number(r.orderind ?? 0),
+      order_ind: Number(r.order_ind ?? r.orderind ?? 0),
     })) as FeaturedSection[];
 
     const itemsRaw = itemRes.rows.map((r: Record<string, unknown>) => ({
@@ -56,7 +56,7 @@ export async function GET() {
       section_id: Number(r.section_id),
       entity_type: String(r.entity_type) as "recording" | "category",
       entity_id: Number(r.entity_id),
-      order_ind: Number(r.orderind ?? 0),
+      order_ind: Number(r.order_ind ?? r.orderind ?? 0),
     })) as FeaturedItem[];
 
     const categoryMap = new Map<number, Category>();

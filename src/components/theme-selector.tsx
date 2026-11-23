@@ -5,8 +5,8 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-export type Theme = "clean" | "monk" | "dark";
-const COLOR_THEMES: Theme[] = ["clean", "monk", "dark"];
+export type Theme = "clean" | "monk" | "peacock";
+const COLOR_THEMES: Theme[] = ["clean", "monk", "peacock"];
 
 const themeButtonCn = (active: boolean) =>
   cn(

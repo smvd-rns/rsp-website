@@ -15,7 +15,7 @@ export const MobileDrawer = () => {
         <Button
           variant="ghost"
           size="icon-sm"
-          className="w-8 h-8 md:hidden hover:bg-accent transition-all shrink-0"
+          className="w-8 h-8 md:hidden text-white hover:bg-white/15 transition-all shrink-0 cursor-pointer"
           aria-label="Open menu"
         >
           <Menu className="w-5 h-5" />

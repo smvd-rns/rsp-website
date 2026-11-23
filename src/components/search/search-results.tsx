@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, Folder, Headphones, Sparkles } from "lucide-react";
+import { ChevronRight, FileText, Folder, Headphones, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { SearchFieldKey } from "@/hooks/use-search-settings";
@@ -98,27 +98,27 @@ export const SearchResults = ({
   }
 
   const searchingInTags = toggleSearchField && searchFields && (
-    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xxs px-3 py-1.5 bg-muted/40 border-b border-border/40">
-      <span className="font-semibold text-muted-foreground whitespace-nowrap">
-        Searching in:
+    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-muted/25 border-b border-border/50 overflow-x-auto no-scrollbar text-xxs">
+      <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider shrink-0 mr-0.5">
+        Search in:
       </span>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex items-center gap-1">
         {SEARCH_FIELD_ITEMS.map((field) => {
           const isChecked = searchFields.includes(field.id);
           return (
-            <label
+            <button
               key={field.id}
-              htmlFor={`search-field-${field.id}`}
-              className="flex items-center gap-1 cursor-pointer select-none text-xxs text-foreground font-medium"
+              type="button"
+              onClick={() => toggleSearchField(field.id)}
+              className={cn(
+                "px-2 py-0.5 rounded-md text-[11px] font-medium transition-all cursor-pointer border select-none shrink-0",
+                isChecked
+                  ? "bg-primary/10 text-primary border-primary/25 font-semibold shadow-2xs"
+                  : "bg-background text-muted-foreground border-border/50 hover:text-foreground opacity-60",
+              )}
             >
-              <Checkbox
-                id={`search-field-${field.id}`}
-                checked={isChecked}
-                onCheckedChange={() => toggleSearchField(field.id)}
-                className="size-3.5"
-              />
-              <span>{field.label}</span>
-            </label>
+              {field.label}
+            </button>
           );
         })}
       </div>
@@ -152,15 +152,15 @@ export const SearchResults = ({
   return (
     <div className="flex flex-col flex-1 overflow-hidden">
       {/* Category / Type Filter Selector Bar */}
-      <div className="flex items-center gap-1.5 px-3 py-2 border-b border-border/60 bg-muted/20 overflow-x-auto no-scrollbar shrink-0">
+      <div className="flex items-center gap-2 px-3 py-2 border-b border-border/60 bg-muted/30 overflow-x-auto no-scrollbar shrink-0">
         <button
           type="button"
           onClick={() => setActiveTab("all")}
           className={cn(
-            "px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
+            "px-3 py-1 text-xs font-bold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5 shadow-2xs border",
             activeTab === "all"
-              ? "bg-primary text-primary-foreground shadow-xs"
-              : "text-muted-foreground hover:text-foreground hover:bg-muted/70",
+              ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+              : "bg-card text-muted-foreground border-border/60 hover:text-foreground hover:bg-muted/70",
           )}
         >
           <span>All</span>
@@ -168,7 +168,7 @@ export const SearchResults = ({
             className={cn(
               "text-[10px] px-1.5 py-0.2 rounded-full font-bold",
               activeTab === "all"
-                ? "bg-primary-foreground/20 text-primary-foreground"
+                ? "bg-white/20 text-white"
                 : "bg-muted text-muted-foreground",
             )}
           >
@@ -181,10 +181,10 @@ export const SearchResults = ({
             type="button"
             onClick={() => setActiveTab("recordings")}
             className={cn(
-              "px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
+              "px-3 py-1 text-xs font-bold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5 border shadow-2xs",
               activeTab === "recordings"
-                ? "bg-primary text-primary-foreground shadow-xs"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/70",
+                ? "bg-orange-600 text-white border-orange-600 shadow-xs"
+                : "bg-card text-orange-800 border-orange-200/80 hover:bg-orange-50",
             )}
           >
             <Headphones className="w-3 h-3 shrink-0" />
@@ -193,8 +193,8 @@ export const SearchResults = ({
               className={cn(
                 "text-[10px] px-1.5 py-0.2 rounded-full font-bold",
                 activeTab === "recordings"
-                  ? "bg-primary-foreground/20 text-primary-foreground"
-                  : "bg-muted text-muted-foreground",
+                  ? "bg-white/20 text-white"
+                  : "bg-orange-100 text-orange-800",
               )}
             >
               {recordings.length}
@@ -207,10 +207,10 @@ export const SearchResults = ({
             type="button"
             onClick={() => setActiveTab("categories")}
             className={cn(
-              "px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
+              "px-3 py-1 text-xs font-bold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5 border shadow-2xs",
               activeTab === "categories"
-                ? "bg-primary text-primary-foreground shadow-xs"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/70",
+                ? "bg-emerald-600 text-white border-emerald-600 shadow-xs"
+                : "bg-card text-emerald-800 border-emerald-200/80 hover:bg-emerald-50",
             )}
           >
             <Folder className="w-3 h-3 shrink-0" />
@@ -219,8 +219,8 @@ export const SearchResults = ({
               className={cn(
                 "text-[10px] px-1.5 py-0.2 rounded-full font-bold",
                 activeTab === "categories"
-                  ? "bg-primary-foreground/20 text-primary-foreground"
-                  : "bg-muted text-muted-foreground",
+                  ? "bg-white/20 text-white"
+                  : "bg-emerald-100 text-emerald-800",
               )}
             >
               {categories.length}
@@ -233,10 +233,10 @@ export const SearchResults = ({
             type="button"
             onClick={() => setActiveTab("materials")}
             className={cn(
-              "px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
+              "px-3 py-1 text-xs font-bold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5 border shadow-2xs",
               activeTab === "materials"
-                ? "bg-primary text-primary-foreground shadow-xs"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/70",
+                ? "bg-blue-600 text-white border-blue-600 shadow-xs"
+                : "bg-card text-blue-800 border-blue-200/80 hover:bg-blue-50",
             )}
           >
             <FileText className="w-3 h-3 shrink-0" />
@@ -245,8 +245,8 @@ export const SearchResults = ({
               className={cn(
                 "text-[10px] px-1.5 py-0.2 rounded-full font-bold",
                 activeTab === "materials"
-                  ? "bg-primary-foreground/20 text-primary-foreground"
-                  : "bg-muted text-muted-foreground",
+                  ? "bg-white/20 text-white"
+                  : "bg-blue-100 text-blue-800",
               )}
             >
               {materials.length}
@@ -262,66 +262,59 @@ export const SearchResults = ({
         ref={containerRef}
         className="overflow-y-auto flex-1 p-2 flex flex-col gap-3"
       >
-        {/* Categories Section */}
+        {/* Categories Section (Emerald Themed) */}
         {showCategories && (
-          <div className="flex flex-col gap-1">
-            <div className="px-2 py-1 text-[11px] font-bold tracking-wider uppercase text-muted-foreground flex items-center justify-between">
+          <div className="flex flex-col gap-1.5">
+            <div className="px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-900 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
               <span className="flex items-center gap-1.5">
-                <Folder className="w-3.5 h-3.5 text-primary" />
+                <Folder className="w-3.5 h-3.5 text-emerald-600" />
                 <span>Categories</span>
               </span>
-              <span>{categories.length}</span>
+              <span className="text-[10px] px-2 py-0.2 rounded-full bg-emerald-600 text-white font-bold shadow-2xs">{categories.length}</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-              {categories.map((cat, idx) => {
-                const imgUrl = getCategoryImageUrl(cat, "webp") ?? "/rsp.webp";
-                return (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    data-search-item
-                    onClick={() => {
-                      trackEvent("search_result_clicked", {
-                        query_term: term,
-                        clicked_slug: categoryPath(cat.url_path),
-                        position_index: idx,
-                      });
-                      onSelectCategory(cat);
-                    }}
-                    className="w-full text-left flex items-center gap-2.5 p-2 rounded-xl border border-border/50 bg-card hover:bg-muted/50 hover:border-primary/40 focus:bg-accent focus:outline-none transition-all cursor-pointer group shadow-2xs"
-                  >
-                    <img
-                      src={imgUrl}
-                      alt=""
-                      width={36}
-                      height={36}
-                      className="h-9 w-9 rounded-lg object-cover shrink-0 border border-border/40"
-                      loading="lazy"
-                    />
-                    <div className="flex flex-col min-w-0">
-                      <span className="truncate font-semibold text-xs text-foreground group-hover:text-primary transition-colors">
-                        {cat.name}
-                      </span>
-                      <span className="text-[10px] text-muted-foreground truncate">
-                        Browse collection
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
+              {categories.map((cat, idx) => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  data-search-item
+                  onClick={() => {
+                    trackEvent("search_result_clicked", {
+                      query_term: term,
+                      clicked_slug: categoryPath(cat.url_path),
+                      position_index: idx,
+                    });
+                    onSelectCategory(cat);
+                  }}
+                  className="w-full text-left flex items-center gap-2.5 p-2.5 rounded-xl border border-emerald-200/80 bg-emerald-50/40 hover:bg-emerald-50/90 hover:border-emerald-400 focus:bg-emerald-100/60 focus:outline-none transition-all cursor-pointer group shadow-2xs"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-linear-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                    <Folder className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="flex flex-col min-w-0 flex-1">
+                    <span className="truncate font-semibold text-xs text-foreground group-hover:text-emerald-700 transition-colors">
+                      {cat.name}
+                    </span>
+                    <span className="text-[10px] text-emerald-700/80 font-medium truncate">
+                      Browse collection
+                    </span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-emerald-600/70 group-hover:text-emerald-700 group-hover:translate-x-0.5 transition-all shrink-0 ml-auto" />
+                </button>
+              ))}
             </div>
           </div>
         )}
 
-        {/* Discourse Recordings Section */}
+        {/* Discourse Recordings Section (Saffron / Orange Themed) */}
         {showRecordings && (
-          <div className="flex flex-col gap-1">
-            <div className="px-2 py-1 text-[11px] font-bold tracking-wider uppercase text-muted-foreground flex items-center justify-between">
+          <div className="flex flex-col gap-1.5">
+            <div className="px-3 py-1 rounded-lg bg-orange-500/10 border border-orange-500/25 text-orange-900 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
               <span className="flex items-center gap-1.5">
-                <Headphones className="w-3.5 h-3.5 text-primary" />
+                <Headphones className="w-3.5 h-3.5 text-orange-600" />
                 <span>Discourses & Lectures</span>
               </span>
-              <span>{recordings.length}</span>
+              <span className="text-[10px] px-2 py-0.2 rounded-full bg-orange-600 text-white font-bold shadow-2xs">{recordings.length}</span>
             </div>
             <div className="flex flex-col gap-1.5">
               {recordings.map((rec, idx) => (
@@ -339,16 +332,16 @@ export const SearchResults = ({
                     });
                     onSelectRecording(rec);
                   }}
-                  className="relative w-full text-left flex items-center gap-2.5 p-2.5 rounded-xl border border-border/40 bg-card hover:bg-muted/50 hover:border-primary/30 focus:bg-accent focus:outline-none transition-all cursor-pointer group shadow-2xs"
+                  className="relative w-full text-left flex items-center gap-2.5 p-2.5 rounded-xl border border-orange-200/80 bg-orange-50/30 hover:bg-orange-50/80 hover:border-orange-400 focus:bg-orange-100/60 focus:outline-none transition-all cursor-pointer group shadow-2xs"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary">
-                    <Headphones className="w-3.5 h-3.5" />
+                  <div className="w-8 h-8 rounded-lg bg-linear-to-br from-orange-500 to-amber-600 text-white flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                    <Headphones className="w-4 h-4 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <RecordingMeta rec={rec} sm />
                   </div>
                   {rec.category && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-md bg-muted/80 font-medium text-muted-foreground shrink-0 self-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                    <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-orange-500/10 border border-orange-300/60 font-semibold text-orange-800 shrink-0 self-center group-hover:bg-orange-500/20 group-hover:text-orange-900 transition-colors max-w-[130px] sm:max-w-[190px] truncate shadow-2xs">
                       {rec.category.name}
                     </span>
                   )}
@@ -358,15 +351,15 @@ export const SearchResults = ({
           </div>
         )}
 
-        {/* Study Materials Section */}
+        {/* Study Materials Section (Royal Blue Themed) */}
         {showMaterials && (
-          <div className="flex flex-col gap-1">
-            <div className="px-2 py-1 text-[11px] font-bold tracking-wider uppercase text-muted-foreground flex items-center justify-between">
+          <div className="flex flex-col gap-1.5">
+            <div className="px-3 py-1 rounded-lg bg-blue-500/10 border border-blue-500/25 text-blue-900 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
               <span className="flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 text-primary" />
+                <FileText className="w-3.5 h-3.5 text-blue-600" />
                 <span>Study Materials & References</span>
               </span>
-              <span>{materials.length}</span>
+              <span className="text-[10px] px-2 py-0.2 rounded-full bg-blue-600 text-white font-bold shadow-2xs">{materials.length}</span>
             </div>
             <div className="flex flex-col gap-1.5">
               {materials.map((mat, idx) => (
@@ -384,19 +377,19 @@ export const SearchResults = ({
                     });
                     onSelectMaterial(mat);
                   }}
-                  className="w-full text-left flex flex-col gap-1.5 p-2.5 rounded-xl border border-border/40 bg-card hover:bg-muted/50 hover:border-primary/30 focus:bg-accent focus:outline-none transition-all cursor-pointer group shadow-2xs"
+                  className="w-full text-left flex flex-col gap-1.5 p-2.5 rounded-xl border border-blue-200/80 bg-blue-50/30 hover:bg-blue-50/80 hover:border-blue-400 focus:bg-blue-100/60 focus:outline-none transition-all cursor-pointer group shadow-2xs"
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary">
-                        <FileText className="w-3.5 h-3.5" />
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                        <FileText className="w-4 h-4 text-white" />
                       </div>
-                      <span className="font-medium text-xs text-foreground group-hover:text-primary transition-colors truncate">
+                      <span className="font-semibold text-xs text-foreground group-hover:text-blue-700 transition-colors truncate">
                         {mat.name}
                       </span>
                     </div>
                     {mat.type && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-muted/80 font-mono font-semibold text-muted-foreground uppercase tracking-wide shrink-0">
+                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-blue-600 text-white font-mono font-bold uppercase tracking-wider shrink-0 shadow-2xs">
                         {mat.type}
                       </span>
                     )}
@@ -404,7 +397,7 @@ export const SearchResults = ({
                   <MaterialLineage
                     category={mat.category}
                     recording={mat.recording}
-                    className="pl-9"
+                    className="pl-10"
                   />
                 </button>
               ))}

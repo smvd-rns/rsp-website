@@ -21,11 +21,14 @@ jobs:
 
       - name: Deploy to Droplet via SSH Key
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          APP_ENV: ${{ secrets.APP_ENV }}
         with:
           host: ${{ secrets.DROPLET_HOST || '143.110.240.33' }}
           username: ${{ secrets.DROPLET_USER || 'root' }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
           passphrase: ${{ secrets.DROPLET_SSH_PASSPHRASE }}
+          envs: APP_ENV
           script: |
             set -e
             echo "Navigating to /var/www/rsp-web..."
@@ -34,6 +37,12 @@ jobs:
             echo "Pulling latest changes from main branch..."
             git fetch origin main
             git reset --hard origin/main
+
+            if [ -n "$APP_ENV" ]; then
+              echo "Updating .env from GitHub Actions APP_ENV secret..."
+              echo "$APP_ENV" > .env
+              chmod 600 .env
+            fi
 
             echo "Installing dependencies..."
             pnpm install

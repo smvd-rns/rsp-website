@@ -8,17 +8,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Identifier required" }, { status: 400 });
     }
 
-    const trimmed = identifier.trim();
+    const trimmed = identifier.trim().toLowerCase();
     if (trimmed.includes("@")) {
       return NextResponse.json({ email: trimmed });
     }
 
-    // Try finding email by username or name in local users table
+    // Exact username match only to prevent user enumeration
     const result = await pool.query(
       `SELECT email FROM rsp.users 
-       WHERE name ILIKE $1 
-          OR email ILIKE $1 || '@%' 
-          OR email ILIKE '%' || $1 || '%'
+       WHERE LOWER(name) = $1 
        LIMIT 1`,
       [trimmed]
     );
@@ -27,11 +25,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ email: result.rows[0].email });
     }
 
-    // Default fallback
-    return NextResponse.json({ email: trimmed });
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
   } catch (err) {
     console.error("Resolve user error:", err);
     return NextResponse.json({ error: "Failed to resolve user" }, { status: 500 });
   }
 }
-

@@ -93,8 +93,8 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <ThemeProvider
       attribute="class"
-      defaultTheme="monk"
-      themes={["clean", "monk", "dark"]}
+      defaultTheme="clean"
+      themes={["clean", "monk", "peacock"]}
       disableTransitionOnChange
     >
       <Suspense>

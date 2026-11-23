@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import type { Json } from "@/database.types";
 import { axiomLogger, withApiLogging } from "@/lib/axiom-logger";
 import { getSupabaseServerClient } from "@/lib/supabase-server";
+import { getSessionFromRequest } from "@/lib/auth-server";
 import type { QueryAttachment } from "@/types";
 import { validateQueryAttachments } from "../query-utils";
 
@@ -16,7 +17,10 @@ export const POST = withApiLogging(
   "/api/queries/reply",
   async (req: NextRequest) => {
     try {
+      const session = await getSessionFromRequest(req);
       const body = (await req.json()) as QueryReplyBody;
+
+      const effectiveUserId = session?.userId ? String(session.userId) : (body.user_id ?? null);
 
       if (!body.query_id || (!body.message && !body.attachments?.length)) {
         return NextResponse.json(
@@ -29,7 +33,7 @@ export const POST = withApiLogging(
 
       const attachmentError = await validateQueryAttachments(
         body.attachments,
-        body.user_id,
+        effectiveUserId,
       );
       if (attachmentError) return attachmentError;
 
@@ -39,7 +43,7 @@ export const POST = withApiLogging(
         .from("query_replies")
         .insert({
           query_id: body.query_id,
-          user_id: body.user_id ?? null,
+          user_id: effectiveUserId,
           message: body.message || "",
           attachments: (body.attachments ?? []) as unknown as Json,
         })

@@ -25,7 +25,7 @@ export const UserNav = () => {
           type="button"
           size="sm"
           onClick={() => setAuthOpen(true)}
-          className="gap-1.5"
+          className="gap-1.5 bg-white text-orange-700 hover:bg-white/90 font-bold shadow-xs border-0 rounded-full px-3 text-xs"
         >
           <LogIn className="w-3 h-3" />
           Login

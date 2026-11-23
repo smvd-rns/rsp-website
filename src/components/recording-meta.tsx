@@ -75,9 +75,6 @@ export const RecordingMeta = ({ rec, m, sm, showLink }: RecordingMetaProps) => {
           "flex items-center gap-2 text-muted-foreground font-medium",
           sm ? "text-xxs" : "text-xs",
         )}
-        style={{
-          marginLeft: sm ? "-1.5rem" : undefined,
-        }}
       >
         {rawDate && (
           <span

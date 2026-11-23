@@ -98,7 +98,7 @@ export async function GET(req: NextRequest) {
       await pool.query(
         `INSERT INTO rsp.users (id, email, name, role, status, avatar_url)
          VALUES ($1, $2, $3, $4, $5, $6)`,
-        [nextId, email, name, 1, "verified", profileImage]
+        [nextId, email, name, 2, "verified", profileImage]
       );
 
       userResDb = await pool.query(

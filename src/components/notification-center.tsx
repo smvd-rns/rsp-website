@@ -89,24 +89,24 @@ export const NotificationCenter = () => {
           variant="ghost"
           size="icon"
           aria-label="Toggle notifications"
-          className="relative"
+          className="relative text-white hover:bg-white/15 cursor-pointer"
         >
           {unreadCount > 0 ? (
             <>
               <BellRing
-                className="w-5 h-5 text-primary"
+                className="w-5 h-5 text-amber-200"
                 style={{ animation: "bounce 1s infinite" }}
               />
               <span
                 className="absolute flex h-2 w-2"
                 style={{ top: "0.25rem", right: "0.25rem" }}
               >
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-80" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-80" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-300" />
               </span>
             </>
           ) : (
-            <Bell className="w-5 h-5 text-muted-foreground" />
+            <Bell className="w-5 h-5 text-white/85" />
           )}
         </Button>
       </SheetTrigger>

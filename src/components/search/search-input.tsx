@@ -30,7 +30,7 @@ export function SearchInput({
         value={term}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="pl-9 pr-10 h-9.5 w-full bg-background/80 border-border/80 shadow-xs focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0 rounded-xl"
+        className="pl-9 pr-10 h-9.5 w-full bg-card border-border shadow-2xs focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0 rounded-xl transition-all"
         {...props}
       />
       <div className="absolute right-3 flex items-center gap-1.5">

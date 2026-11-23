@@ -399,9 +399,9 @@ export async function searchContent(
   const matParams: any[] = [pattern, trimmed];
 
   if (!isSuperAdmin) {
-    catRoleWhere += " AND url_path NOT LIKE 'all-category-dump%' AND url_path NOT LIKE 'trash%'";
-    recRoleWhere += " AND c.url_path NOT LIKE 'all-category-dump%' AND c.url_path NOT LIKE 'trash%'";
-    matRoleWhere += " AND c.url_path NOT LIKE 'all-category-dump%' AND c.url_path NOT LIKE 'trash%'";
+    catRoleWhere += " AND lower(name) NOT LIKE '%dump%' AND url_path NOT LIKE '%dump%' AND url_path NOT LIKE 'all-category-dump%' AND lower(name) NOT LIKE '%trash%' AND url_path NOT LIKE 'trash%'";
+    recRoleWhere += " AND (c.name IS NULL OR lower(c.name) NOT LIKE '%dump%') AND (c.url_path IS NULL OR c.url_path NOT LIKE '%dump%') AND (c.url_path IS NULL OR c.url_path NOT LIKE 'all-category-dump%') AND (c.url_path IS NULL OR c.url_path NOT LIKE 'trash%')";
+    matRoleWhere += " AND (c.name IS NULL OR lower(c.name) NOT LIKE '%dump%') AND (c.url_path IS NULL OR c.url_path NOT LIKE '%dump%') AND (c.url_path IS NULL OR c.url_path NOT LIKE 'all-category-dump%') AND (c.url_path IS NULL OR c.url_path NOT LIKE 'trash%')";
 
     if (roleId && roleId > 1) {
       catParams.push(roleId);

@@ -17,13 +17,11 @@ export function Header() {
 
   return (
     <header
-      className={cn(
-        "w-full border-b border-border/80 bg-card/90 px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2 sm:gap-4 shadow-2xs",
-        pathname === "/about" && "dark",
-      )}
+      className="w-full border-b px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2 sm:gap-4 shadow-md transition-colors"
       style={{
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
+        background: "var(--header-bg, linear-gradient(135deg, #c2410c 0%, #ea580c 50%, #d97706 100%))",
+        borderColor: "var(--header-border, rgba(180, 83, 9, 0.4))",
+        color: "var(--header-foreground, #ffffff)",
         zIndex: 30,
         top: 0,
         position: "sticky",
@@ -39,7 +37,7 @@ export function Header() {
           aria-label="Home"
           prefetch={false}
         >
-          <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 ring-1 ring-primary/20 hidden md:flex">
+          <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 ring-2 ring-white/30 shadow-xs hidden md:flex">
             <picture>
               <source srcSet="/icon-192x192.avif" type="image/avif" />
               <img
@@ -54,10 +52,10 @@ export function Header() {
             </picture>
           </div>
           <div className="hidden sm:flex flex-col">
-            <span className="font-bold text-sm font-heading leading-tight text-foreground">
+            <span className="font-bold text-sm font-heading leading-tight text-white drop-shadow-xs">
               Radheshyam Das
             </span>
-            <span className="text-xxs text-muted-foreground font-semibold leading-none">
+            <span className="text-xxs text-white/80 font-medium leading-none">
               Spiritual Discourses
             </span>
           </div>

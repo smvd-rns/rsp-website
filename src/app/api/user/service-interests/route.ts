@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { axiomLogger, withApiLogging } from "@/lib/axiom-logger";
 import { getSupabaseServerClient } from "@/lib/supabase-server";
+import { getSessionFromRequest } from "@/lib/auth-server";
 import type { UserServiceInterest } from "@/types";
 
 interface ServiceInterestsBody {
@@ -13,10 +14,23 @@ export const POST = withApiLogging(
   "/api/user/service-interests",
   async (req: NextRequest) => {
     try {
+      const session = await getSessionFromRequest(req);
+      if (!session?.userId) {
+        return NextResponse.json({ error: "Unauthorized: Login required" }, { status: 401 });
+      }
+
       const body = (await req.json()) as ServiceInterestsBody;
 
       if (!body.user_id) {
         return NextResponse.json({ error: "Missing user_id" }, { status: 400 });
+      }
+
+      const isAdmin = Number(session.role) === 1 || Number(session.role) === 8;
+      if (!isAdmin && String(session.userId) !== String(body.user_id)) {
+        return NextResponse.json(
+          { error: "Forbidden: Cannot modify another user's service interests" },
+          { status: 403 }
+        );
       }
 
       const supabase = getSupabaseServerClient();

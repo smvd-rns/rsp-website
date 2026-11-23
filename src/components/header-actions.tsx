@@ -22,12 +22,12 @@ export const HeaderActions = () => {
     session?.user?.user_metadata?.["role"] === "admin";
 
   return (
-    <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+    <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0 text-white">
       {/* Primary Top Navigation on Desktop */}
-      <nav className="hidden lg:flex items-center gap-1 text-xs font-semibold text-muted-foreground mr-1">
+      <nav className="hidden lg:flex items-center gap-1 text-xs font-semibold mr-1">
         <Link
           href="/about"
-          className="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-accent/60 transition-colors"
+          className="px-2.5 py-1.5 rounded-lg text-white/90 hover:text-white hover:bg-white/15 transition-colors"
           prefetch={false}
         >
           About
@@ -36,7 +36,7 @@ export const HeaderActions = () => {
           href="https://voicepublication.in/collections/radheshyam-das-books"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-accent/60 transition-colors"
+          className="px-2.5 py-1.5 rounded-lg text-white/90 hover:text-white hover:bg-white/15 transition-colors"
         >
           Books
         </a>
@@ -44,7 +44,7 @@ export const HeaderActions = () => {
           href="https://courses.radheshyamdas.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-accent/60 transition-colors"
+          className="px-2.5 py-1.5 rounded-lg text-white/90 hover:text-white hover:bg-white/15 transition-colors"
         >
           Courses
         </a>
@@ -52,7 +52,7 @@ export const HeaderActions = () => {
           href="https://drive.google.com/drive/u/7/folders/16O9qZXeWSruSU3YyYhnpZkCsmIHtIf6s"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-accent/60 transition-colors"
+          className="px-2.5 py-1.5 rounded-lg text-white/90 hover:text-white hover:bg-white/15 transition-colors"
         >
           Calendar
         </a>
@@ -60,13 +60,13 @@ export const HeaderActions = () => {
           href="http://cvms.radheshyamdas.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-2.5 py-1.5 rounded-lg text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors font-bold"
+          className="px-3 py-1.5 rounded-full bg-white text-orange-700 hover:bg-amber-50 font-bold transition-all shadow-xs text-xs active:scale-95"
         >
           Donate
         </a>
         <Link
           href="/contact-us"
-          className="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-accent/60 transition-colors"
+          className="px-2.5 py-1.5 rounded-lg text-white/90 hover:text-white hover:bg-white/15 transition-colors"
           prefetch={false}
         >
           Contact
@@ -76,14 +76,11 @@ export const HeaderActions = () => {
       {isAdmin && (
         <Link
           href="/admin"
-          className={cn(
-            buttonVariants({ variant: "outline", size: "sm" }),
-            "gap-1.5 font-medium border-primary/20 hover:border-primary/50 text-foreground transition-all shadow-sm px-2.5 h-8 text-xs",
-          )}
+          className="inline-flex items-center gap-1.5 font-medium border border-white/30 bg-white/15 hover:bg-white/25 text-white transition-all shadow-xs rounded-lg px-2.5 h-8 text-xs"
           title="Admin Dashboard"
           prefetch={false}
         >
-          <Shield className="w-3.5 h-3.5 text-primary" />
+          <Shield className="w-3.5 h-3.5 text-white" />
           <span className="hidden sm:inline">Admin</span>
         </Link>
       )}

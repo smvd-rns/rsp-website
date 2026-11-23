@@ -6,7 +6,28 @@ import {
   signSessionToken,
 } from "@/lib/auth-server";
 
+// Rate limiting against automated bot account creation (max 5 accounts per IP per hour)
+const registrationsByIp = new Map<string, { count: number; resetAt: number }>();
+
 export async function POST(req: NextRequest) {
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "127.0.0.1";
+
+  const now = Date.now();
+  const regRecord = registrationsByIp.get(ip) || { count: 0, resetAt: now + 3600 * 1000 };
+  if (regRecord.resetAt < now) {
+    regRecord.count = 0;
+    regRecord.resetAt = now + 3600 * 1000;
+  }
+  if (regRecord.count >= 5) {
+    return NextResponse.json(
+      { error: "Too many accounts created from this network. Please try again later." },
+      { status: 429 }
+    );
+  }
+
   try {
     const body = await req.json();
     const { name, email, password } = body;
@@ -49,15 +70,18 @@ export async function POST(req: NextRequest) {
 
     await pool.query(
       `INSERT INTO rsp.users (id, email, name, role, status, password_hash)
-       VALUES ($1, $2, $3, 1, 'verified', $4)`,
+       VALUES ($1, $2, $3, 2, 'verified', $4)`,
       [nextId, cleanEmail, cleanName, pwdHash]
     );
+
+    regRecord.count += 1;
+    registrationsByIp.set(ip, regRecord);
 
     const token = await signSessionToken({
       userId: String(nextId),
       email: cleanEmail,
       name: cleanName,
-      role: 1,
+      role: 2,
       provider: "credentials",
     });
 
@@ -67,7 +91,7 @@ export async function POST(req: NextRequest) {
         id: String(nextId),
         email: cleanEmail,
         name: cleanName,
-        role: 1,
+        role: 2,
       },
     });
 
