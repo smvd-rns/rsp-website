@@ -79,7 +79,7 @@ export const SearchBarDropdownContent = ({
 
   return (
     <PopoverContent
-      className="p-0 bg-card border border-border shadow-md rounded-xl overflow-hidden z-50 flex flex-col"
+      className="p-0 bg-card/95 backdrop-blur-md border border-border/80 shadow-2xl rounded-2xl overflow-hidden z-50 flex flex-col transition-all"
       style={{
         width: "var(--radix-popover-trigger-width)",
         maxHeight: "min(38rem, 85vh)",

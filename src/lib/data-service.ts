@@ -393,19 +393,37 @@ export async function searchContent(
 
   let catRoleWhere = "";
   let recRoleWhere = "";
+  let matRoleWhere = "";
   const catParams: any[] = [pattern, trimmed];
   const recParams: any[] = [pattern];
+  const matParams: any[] = [pattern, trimmed];
 
   if (!isSuperAdmin) {
+    catRoleWhere += " AND url_path NOT LIKE 'all-category-dump%' AND url_path NOT LIKE 'trash%'";
+    recRoleWhere += " AND c.url_path NOT LIKE 'all-category-dump%' AND c.url_path NOT LIKE 'trash%'";
+    matRoleWhere += " AND c.url_path NOT LIKE 'all-category-dump%' AND c.url_path NOT LIKE 'trash%'";
+
     if (roleId && roleId > 1) {
       catParams.push(roleId);
-      catRoleWhere = ` AND (0 = ANY(allowed_roles) OR $${catParams.length} = ANY(allowed_roles))`;
+      catRoleWhere += ` AND (0 = ANY(allowed_roles) OR $${catParams.length} = ANY(allowed_roles))`;
+
       recParams.push(roleId);
-      recRoleWhere = ` AND (0 = ANY(r.allowed_roles) OR $${recParams.length} = ANY(r.allowed_roles))`;
+      recRoleWhere += ` AND (0 = ANY(r.allowed_roles) OR $${recParams.length} = ANY(r.allowed_roles))`;
+      recRoleWhere += ` AND (c.allowed_roles IS NULL OR 0 = ANY(c.allowed_roles) OR $${recParams.length} = ANY(c.allowed_roles))`;
+
+      matParams.push(roleId);
+      matRoleWhere += ` AND (c.allowed_roles IS NULL OR 0 = ANY(c.allowed_roles) OR $${matParams.length} = ANY(c.allowed_roles))`;
+      matRoleWhere += ` AND (0 = ANY(r.allowed_roles) OR $${matParams.length} = ANY(r.allowed_roles))`;
+      matRoleWhere += ` AND (m.allowed_roles IS NULL OR m.allowed_roles = '{}' OR 0 = ANY(m.allowed_roles) OR $${matParams.length} = ANY(m.allowed_roles))`;
     } else {
-      catRoleWhere = ` AND (0 = ANY(allowed_roles))`;
-      recRoleWhere = ` AND (0 = ANY(r.allowed_roles))`;
+      catRoleWhere += ` AND (0 = ANY(allowed_roles))`;
+      recRoleWhere += ` AND (0 = ANY(r.allowed_roles)) AND (c.allowed_roles IS NULL OR 0 = ANY(c.allowed_roles))`;
+      matRoleWhere += ` AND (c.allowed_roles IS NULL OR 0 = ANY(c.allowed_roles)) AND (0 = ANY(r.allowed_roles)) AND (m.allowed_roles IS NULL OR m.allowed_roles = '{}' OR 0 = ANY(m.allowed_roles))`;
     }
+  } else {
+    catRoleWhere += " AND url_path NOT LIKE 'trash%'";
+    recRoleWhere += " AND (c.url_path IS NULL OR c.url_path NOT LIKE 'trash%')";
+    matRoleWhere += " AND (c.url_path IS NULL OR c.url_path NOT LIKE 'trash%')";
   }
 
   const catPromise = pool.query(
@@ -432,7 +450,7 @@ export async function searchContent(
       c.url_path AS category_url_path
     FROM rsp.recordings r
     LEFT JOIN rsp.events e ON e.id = r.eventid::bigint
-    LEFT JOIN rsp.categories c ON c.id = r.parentid
+    INNER JOIN rsp.categories c ON c.id = r.parentid
     WHERE (
       r.name ILIKE $1 
       OR r.speaker ILIKE $1 
@@ -480,15 +498,16 @@ export async function searchContent(
       c.name AS category_name,
       c.url_path AS category_url_path
     FROM rsp.materials m
-    LEFT JOIN rsp.recordings r ON r.id = m.recordingid
-    LEFT JOIN rsp.categories c ON c.id = r.parentid
+    INNER JOIN rsp.recordings r ON r.id = m.recordingid
+    INNER JOIN rsp.categories c ON c.id = r.parentid
     WHERE m.name ILIKE $1
+      ${matRoleWhere}
     ORDER BY 
       CASE WHEN lower(m.name) = lower($2) THEN 0 ELSE 1 END,
       m.id DESC
     LIMIT 15;
     `,
-    [pattern, trimmed],
+    matParams,
   );
 
   const [catRes, recRes, matRes] = await Promise.all([

@@ -17,13 +17,23 @@ export const MaterialLineage = ({
   return (
     <div
       className={cn(
-        "text-xxs text-muted-foreground pl-6 flex items-center gap-1 font-medium truncate",
+        "text-[11px] text-muted-foreground/75 flex items-center gap-1.5 font-normal truncate",
         className,
       )}
     >
-      {category && <span className="shrink-0">{category.name}</span>}
-      {category && recording && <ChevronRight className="w-3 h-3 shrink-0" />}
-      {recording && <span className="truncate">{recording.name}</span>}
+      {category && (
+        <span className="shrink-0 max-w-[45%] truncate font-medium text-muted-foreground">
+          {category.name}
+        </span>
+      )}
+      {category && recording && (
+        <ChevronRight className="w-3 h-3 text-muted-foreground/50 shrink-0" />
+      )}
+      {recording && (
+        <span className="truncate text-muted-foreground/80">
+          {recording.name}
+        </span>
+      )}
     </div>
   );
 };

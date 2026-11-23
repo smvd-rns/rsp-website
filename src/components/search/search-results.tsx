@@ -152,19 +152,26 @@ export const SearchResults = ({
   return (
     <div className="flex flex-col flex-1 overflow-hidden">
       {/* Category / Type Filter Selector Bar */}
-      <div className="flex items-center gap-1 px-3 py-2 border-b border-border bg-card overflow-x-auto no-scrollbar shrink-0">
+      <div className="flex items-center gap-1.5 px-3 py-2 border-b border-border/60 bg-muted/20 overflow-x-auto no-scrollbar shrink-0">
         <button
           type="button"
           onClick={() => setActiveTab("all")}
           className={cn(
-            "px-2.5 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
+            "px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
             activeTab === "all"
               ? "bg-primary text-primary-foreground shadow-xs"
-              : "text-muted-foreground hover:text-foreground hover:bg-muted",
+              : "text-muted-foreground hover:text-foreground hover:bg-muted/70",
           )}
         >
           <span>All</span>
-          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-black/10 dark:bg-white/20 font-bold">
+          <span
+            className={cn(
+              "text-[10px] px-1.5 py-0.2 rounded-full font-bold",
+              activeTab === "all"
+                ? "bg-primary-foreground/20 text-primary-foreground"
+                : "bg-muted text-muted-foreground",
+            )}
+          >
             {totalCount}
           </span>
         </button>
@@ -174,15 +181,22 @@ export const SearchResults = ({
             type="button"
             onClick={() => setActiveTab("recordings")}
             className={cn(
-              "px-2.5 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
+              "px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
               activeTab === "recordings"
                 ? "bg-primary text-primary-foreground shadow-xs"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted",
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/70",
             )}
           >
             <Headphones className="w-3 h-3 shrink-0" />
             <span>Discourses</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-black/10 dark:bg-white/20 font-bold">
+            <span
+              className={cn(
+                "text-[10px] px-1.5 py-0.2 rounded-full font-bold",
+                activeTab === "recordings"
+                  ? "bg-primary-foreground/20 text-primary-foreground"
+                  : "bg-muted text-muted-foreground",
+              )}
+            >
               {recordings.length}
             </span>
           </button>
@@ -193,15 +207,22 @@ export const SearchResults = ({
             type="button"
             onClick={() => setActiveTab("categories")}
             className={cn(
-              "px-2.5 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
+              "px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
               activeTab === "categories"
                 ? "bg-primary text-primary-foreground shadow-xs"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted",
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/70",
             )}
           >
             <Folder className="w-3 h-3 shrink-0" />
             <span>Categories</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-black/10 dark:bg-white/20 font-bold">
+            <span
+              className={cn(
+                "text-[10px] px-1.5 py-0.2 rounded-full font-bold",
+                activeTab === "categories"
+                  ? "bg-primary-foreground/20 text-primary-foreground"
+                  : "bg-muted text-muted-foreground",
+              )}
+            >
               {categories.length}
             </span>
           </button>
@@ -212,15 +233,22 @@ export const SearchResults = ({
             type="button"
             onClick={() => setActiveTab("materials")}
             className={cn(
-              "px-2.5 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
+              "px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5",
               activeTab === "materials"
                 ? "bg-primary text-primary-foreground shadow-xs"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted",
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/70",
             )}
           >
             <FileText className="w-3 h-3 shrink-0" />
             <span>Materials</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-black/10 dark:bg-white/20 font-bold">
+            <span
+              className={cn(
+                "text-[10px] px-1.5 py-0.2 rounded-full font-bold",
+                activeTab === "materials"
+                  ? "bg-primary-foreground/20 text-primary-foreground"
+                  : "bg-muted text-muted-foreground",
+              )}
+            >
               {materials.length}
             </span>
           </button>
@@ -260,7 +288,7 @@ export const SearchResults = ({
                       });
                       onSelectCategory(cat);
                     }}
-                    className="w-full text-left flex items-center gap-2.5 p-2 rounded-xl border border-border/60 bg-card hover:bg-accent/60 hover:border-primary/40 focus:bg-accent focus:outline-none transition-all cursor-pointer group shadow-2xs"
+                    className="w-full text-left flex items-center gap-2.5 p-2 rounded-xl border border-border/50 bg-card hover:bg-muted/50 hover:border-primary/40 focus:bg-accent focus:outline-none transition-all cursor-pointer group shadow-2xs"
                   >
                     <img
                       src={imgUrl}
@@ -295,7 +323,7 @@ export const SearchResults = ({
               </span>
               <span>{recordings.length}</span>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1.5">
               {recordings.map((rec, idx) => (
                 <button
                   key={rec.id}
@@ -311,14 +339,16 @@ export const SearchResults = ({
                     });
                     onSelectRecording(rec);
                   }}
-                  className="relative w-full text-left flex gap-2.5 px-3 py-2 rounded-xl border border-transparent hover:border-border hover:bg-accent/60 focus:bg-accent focus:outline-none transition-all cursor-pointer group"
+                  className="relative w-full text-left flex items-center gap-2.5 p-2.5 rounded-xl border border-border/40 bg-card hover:bg-muted/50 hover:border-primary/30 focus:bg-accent focus:outline-none transition-all cursor-pointer group shadow-2xs"
                 >
-                  <Headphones className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                  <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+                    <Headphones className="w-3.5 h-3.5" />
+                  </div>
                   <div className="flex-1 min-w-0">
                     <RecordingMeta rec={rec} sm />
                   </div>
                   {rec.category && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted font-medium text-muted-foreground shrink-0 self-start group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                    <span className="text-[10px] px-2 py-0.5 rounded-md bg-muted/80 font-medium text-muted-foreground shrink-0 self-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                       {rec.category.name}
                     </span>
                   )}
@@ -338,7 +368,7 @@ export const SearchResults = ({
               </span>
               <span>{materials.length}</span>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1.5">
               {materials.map((mat, idx) => (
                 <button
                   key={mat.id}
@@ -354,17 +384,19 @@ export const SearchResults = ({
                     });
                     onSelectMaterial(mat);
                   }}
-                  className="w-full text-left flex flex-col gap-1 px-3 py-2 rounded-xl border border-border/50 bg-card hover:bg-accent/60 hover:border-primary/40 focus:bg-accent focus:outline-none transition-all cursor-pointer group shadow-2xs"
+                  className="w-full text-left flex flex-col gap-1.5 p-2.5 rounded-xl border border-border/40 bg-card hover:bg-muted/50 hover:border-primary/30 focus:bg-accent focus:outline-none transition-all cursor-pointer group shadow-2xs"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0">
-                      <FileText className="w-4 h-4 text-primary shrink-0" />
-                      <span className="font-semibold text-xs text-foreground group-hover:text-primary transition-colors truncate">
+                      <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+                        <FileText className="w-3.5 h-3.5" />
+                      </div>
+                      <span className="font-medium text-xs text-foreground group-hover:text-primary transition-colors truncate">
                         {mat.name}
                       </span>
                     </div>
                     {mat.type && (
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted font-mono font-medium text-muted-foreground uppercase shrink-0">
+                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-muted/80 font-mono font-semibold text-muted-foreground uppercase tracking-wide shrink-0">
                         {mat.type}
                       </span>
                     )}
@@ -372,6 +404,7 @@ export const SearchResults = ({
                   <MaterialLineage
                     category={mat.category}
                     recording={mat.recording}
+                    className="pl-9"
                   />
                 </button>
               ))}
