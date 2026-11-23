@@ -1,0 +1,281 @@
+"use client";
+
+import { useQueryClient } from "@tanstack/react-query";
+import { Heart, Loader2, LogIn, Save } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { AuthModal } from "@/components/auth-modal";
+import { Loading } from "@/components/loading";
+import { useSession } from "@/components/providers";
+import { Button } from "@/components/ui/button";
+import { STORE } from "@/constants";
+import { useUserServiceInterests } from "@/hooks/use-user-service-interests";
+import { getDB } from "@/lib/idb";
+import type { Service, UserServiceInterest } from "@/types";
+import { VolunteerItem } from "./volunteer-item";
+
+interface ServiceInterest {
+  service_id: number;
+  level: string;
+  notes: string;
+}
+
+export function GetInvolvedClient() {
+  const queryClient = useQueryClient();
+  const { session, isLoading: sessionLoading } = useSession();
+  const [services, setServices] = useState<Service[]>([]);
+  const [interests, setInterests] = useState<Map<number, ServiceInterest>>(
+    new Map(),
+  );
+  const [initialInterests, setInitialInterests] = useState<
+    Map<number, ServiceInterest>
+  >(new Map());
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+
+  const { data: userInterestsData, isLoading: interestsLoading } =
+    useUserServiceInterests(session?.user?.id);
+
+  // Load services
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const db = await getDB();
+        if (!db) return;
+        const allServices = await db.getAll(STORE.SERVICES);
+        // Sort by order_ind
+        const sorted = allServices.sort(
+          (a, b) => (a.order_ind ?? 0) - (b.order_ind ?? 0),
+        );
+        setServices(sorted);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to load volunteering opportunities data.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  // Update initial interests state when hook data resolves
+  useEffect(() => {
+    if (userInterestsData) {
+      const interestMap = new Map<number, ServiceInterest>();
+      for (const item of userInterestsData) {
+        interestMap.set(item.service_id, {
+          service_id: item.service_id,
+          level: item.level ?? "curious",
+          notes: item.notes ?? "",
+        });
+      }
+      setInterests(new Map(interestMap));
+      setInitialInterests(new Map(interestMap));
+    }
+  }, [userInterestsData]);
+
+  const handleToggleInterest = (serviceId: number) => {
+    const next = new Map(interests);
+    if (next.has(serviceId)) {
+      next.delete(serviceId);
+    } else {
+      next.set(serviceId, {
+        service_id: serviceId,
+        level: "curious",
+        notes: "",
+      });
+    }
+    setInterests(next);
+  };
+
+  const handleUpdateDetail = (
+    serviceId: number,
+    field: "level" | "notes",
+    value: string,
+  ) => {
+    const next = new Map(interests);
+    const item = next.get(serviceId);
+    if (item) {
+      next.set(serviceId, {
+        ...item,
+        [field]: value,
+      });
+      setInterests(next);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!session?.user) return;
+    setSaving(true);
+
+    try {
+      const toUpsert: Array<
+        Omit<UserServiceInterest, "id" | "created_at" | "updated_at">
+      > = [];
+      const toDelete: number[] = [];
+
+      // Determine additions/updates
+      for (const [id, interest] of interests.entries()) {
+        toUpsert.push({
+          user_id: session.user.id,
+          service_id: id,
+          level: interest.level,
+          notes: interest.notes,
+        });
+      }
+
+      // Determine deletions
+      for (const id of initialInterests.keys()) {
+        if (!interests.has(id)) {
+          toDelete.push(id);
+        }
+      }
+
+      const res = await fetch("/api/user/service-interests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: session.user.id,
+          upsert: toUpsert,
+          delete_service_ids: toDelete,
+        }),
+      });
+
+      const json = await res.json();
+      if (!res.ok || json.error) {
+        throw new Error(json.error || "Failed to save interests");
+      }
+
+      const db = await getDB();
+      if (db) {
+        // Update local deletions in IDB
+        if (toDelete.length > 0) {
+          const allInterests = await db.getAll(STORE.USER_SERVICE_INTERESTS);
+          const targetIds = allInterests
+            .filter(
+              (item) =>
+                item.user_id === session.user.id &&
+                toDelete.includes(item.service_id),
+            )
+            .map((item) => item.id);
+          for (const targetId of targetIds) {
+            await db.delete(STORE.USER_SERVICE_INTERESTS, targetId);
+          }
+        }
+
+        // Update local upserts in IDB
+        if (json.data && Array.isArray(json.data)) {
+          for (const row of json.data) {
+            await db.put(STORE.USER_SERVICE_INTERESTS, row);
+          }
+        }
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: [STORE.USER_SERVICE_INTERESTS, session.user.id],
+      });
+
+      setInitialInterests(new Map(interests));
+      toast.success("Volunteering interests saved successfully!");
+    } catch (err: unknown) {
+      console.error(err);
+      const errMsg =
+        err instanceof Error ? err.message : "Unknown error occurred";
+      toast.error(`Failed to save interests: ${errMsg}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (sessionLoading || loading || interestsLoading) {
+    return <Loading message="Loading volunteering opportunities..." />;
+  }
+
+  if (!session) {
+    return (
+      <div className="max-w-2xl mx-auto py-16 text-center flex flex-col items-center gap-6">
+        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+          <Heart className="w-8 h-8" />
+        </div>
+        <div className="flex flex-col gap-2">
+          <h1 className="text-3xl font-bold tracking-tight">Get Involved</h1>
+          <p className="text-muted-foreground text-sm max-w-md mx-auto">
+            Log in to view available devotional volunteering opportunities and
+            sign up to contribute your skills.
+          </p>
+        </div>
+        <Button onClick={() => setAuthOpen(true)} className="gap-2">
+          <LogIn className="w-4 h-4" />
+          <span>Login to Register Interests</span>
+        </Button>
+        <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="mx-auto py-4 flex flex-col gap-8"
+      style={{ maxWidth: "56rem" }}
+    >
+      <div className="flex flex-col gap-2 border-b border-border pb-6">
+        <h1 className="text-3xl sm:text-4xl font-bold font-heading tracking-tight">
+          Devotional Volunteering & Service
+        </h1>
+        <p className="text-muted-foreground text-sm">
+          Select the services you would like to volunteer for, select your
+          familiarity/skill level, and leave notes on how you can contribute.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        {services.length === 0 ? (
+          <p className="text-muted-foreground text-center py-16 border border-dashed rounded-xl text-sm">
+            No volunteering opportunities currently listed.
+          </p>
+        ) : (
+          services.map((service, idx) => (
+            <div
+              key={service.id}
+              className="opacity-0"
+              style={{
+                animation:
+                  "fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                animationDelay: `${idx * 50}ms`,
+              }}
+            >
+              <VolunteerItem
+                {...{
+                  service,
+                  interests,
+                  handleToggleInterest,
+                  handleUpdateDetail,
+                }}
+              />
+            </div>
+          ))
+        )}
+      </div>
+
+      {services.length > 0 && (
+        <div className="flex justify-end pt-4 border-t border-border">
+          <Button
+            type="button"
+            size="lg"
+            onClick={handleSave}
+            disabled={saving}
+            className="gap-2 px-6"
+          >
+            {saving ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Save className="w-4 h-4" />
+            )}
+            <span>Save Interests</span>
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}

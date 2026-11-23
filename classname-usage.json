@@ -1,0 +1,3099 @@
+{
+  "totalClasses": 365,
+  "timestamp": "2026-10-10T10:42:56.460Z",
+  "baselineCSSBytes": 67086,
+  "baselineBrotliBytes": 9845,
+  "newlyAddedClasses": [],
+  "nextGeneratedCss": [
+    {
+      "file": "60168b1681908ce6.css",
+      "rawBytes": 67909,
+      "brotliBytes": 10378,
+      "gZipBytes": 12145
+    },
+    {
+      "file": "cb0ec87078fcef75.css",
+      "rawBytes": 23232,
+      "brotliBytes": 4537,
+      "gZipBytes": 5214
+    }
+  ],
+  "primitiveUsage": {
+    "src\\components\\ui\\checkbox.tsx": [
+      "src\\app\\queries\\_components\\mention-dialog.tsx",
+      "src\\components\\audio-cache-settings.tsx",
+      "src\\components\\search\\search-results.tsx"
+    ],
+    "src\\components\\ui\\button.tsx": [
+      "src\\app\\about\\about-charcoal-bio.tsx",
+      "src\\app\\about\\about-hero.tsx",
+      "src\\app\\about\\academic-corporate.tsx",
+      "src\\app\\about\\consultation-section.tsx",
+      "src\\app\\about\\initiatives-grid.tsx",
+      "src\\app\\about\\workshops-modules.tsx",
+      "src\\app\\contact-us\\contact-us-client.tsx",
+      "src\\app\\get-involved\\get-involved-client.tsx",
+      "src\\app\\get-involved\\volunteer-item.tsx",
+      "src\\app\\profile\\_components\\personal-settings-form.tsx",
+      "src\\app\\profile\\page.tsx",
+      "src\\app\\queries\\_components\\custom-link-dialog.tsx",
+      "src\\app\\queries\\_components\\mention-dialog.tsx",
+      "src\\app\\queries\\_components\\query-attachment-list.tsx",
+      "src\\app\\queries\\_components\\query-attachment-picker.tsx",
+      "src\\app\\queries\\_components\\query-editor-toolbar.tsx",
+      "src\\app\\queries\\_components\\query-form.tsx",
+      "src\\app\\queries\\_components\\query-item.tsx",
+      "src\\app\\queries\\_components\\query-list.tsx",
+      "src\\app\\queries\\_components\\query-rich-editor.tsx",
+      "src\\app\\queries\\page.tsx",
+      "src\\components\\announcement-banner\\banner-controls.tsx",
+      "src\\components\\audio-cache-settings.tsx",
+      "src\\components\\audio-player-panel.tsx",
+      "src\\components\\auth-modal.tsx",
+      "src\\components\\download-recordings-modal.tsx",
+      "src\\components\\featured-section.tsx",
+      "src\\components\\floating-greeting-pill.tsx",
+      "src\\components\\guidance-spotlight.tsx",
+      "src\\components\\material-badge.tsx",
+      "src\\components\\materials-cache-list.tsx",
+      "src\\components\\materials-popover.tsx",
+      "src\\components\\mobile-drawer-content.tsx",
+      "src\\components\\mobile-drawer.tsx",
+      "src\\components\\not-found-state.tsx",
+      "src\\components\\notification-center.tsx",
+      "src\\components\\player\\control-btns.tsx",
+      "src\\components\\player\\play-pause-button.tsx",
+      "src\\components\\player\\speed-controls.tsx",
+      "src\\components\\player\\volume-controls.tsx",
+      "src\\components\\recording-card.tsx",
+      "src\\components\\recording-meta.tsx",
+      "src\\components\\recording-sort-controls.tsx",
+      "src\\components\\search-bar-dropdown.tsx",
+      "src\\components\\search-bar.tsx",
+      "src\\components\\search\\date-picker.tsx",
+      "src\\components\\search\\searchable-select.tsx",
+      "src\\components\\ui\\calendar.tsx",
+      "src\\components\\ui\\dialog.tsx",
+      "src\\components\\ui\\sheet.tsx",
+      "src\\components\\user-nav.tsx"
+    ],
+    "src\\components\\ui\\dialog.tsx": [
+      "src\\app\\queries\\_components\\custom-link-dialog.tsx",
+      "src\\app\\queries\\_components\\mention-dialog.tsx",
+      "src\\app\\queries\\_components\\new-query-dialog.tsx",
+      "src\\components\\auth-modal.tsx",
+      "src\\components\\download-recordings-modal.tsx",
+      "src\\components\\media-preview-modal.tsx"
+    ],
+    "src\\components\\ui\\input.tsx": [
+      "src\\app\\profile\\_components\\personal-settings-form.tsx",
+      "src\\app\\queries\\_components\\custom-link-dialog.tsx",
+      "src\\app\\queries\\_components\\mention-dialog.tsx",
+      "src\\app\\queries\\_components\\query-filters.tsx",
+      "src\\app\\queries\\_components\\query-form.tsx",
+      "src\\components\\auth-modal.tsx",
+      "src\\components\\search\\search-input.tsx"
+    ],
+    "src\\components\\ui\\skeleton.tsx": [
+      "src\\components\\current-user-avatar.tsx",
+      "src\\components\\mobile-drawer-content.tsx",
+      "src\\components\\recording-meta.tsx",
+      "src\\components\\user-nav.tsx"
+    ],
+    "src\\components\\ui\\tooltip.tsx": [
+      "src\\components\\download-recordings-modal.tsx",
+      "src\\components\\material-badge.tsx",
+      "src\\components\\materials-cache-list.tsx",
+      "src\\components\\materials-popover.tsx",
+      "src\\components\\notification-center.tsx",
+      "src\\components\\recording-card.tsx",
+      "src\\components\\search-bar-dropdown.tsx"
+    ],
+    "src\\components\\ui\\popover.tsx": [
+      "src\\components\\materials-popover.tsx",
+      "src\\components\\player\\speed-controls.tsx",
+      "src\\components\\search-bar-dropdown.tsx",
+      "src\\components\\search\\date-picker.tsx",
+      "src\\components\\search\\searchable-select.tsx"
+    ],
+    "src\\components\\ui\\sheet.tsx": [
+      "src\\components\\mobile-drawer-content.tsx",
+      "src\\components\\notification-center.tsx"
+    ],
+    "src\\components\\ui\\accordion.tsx": [
+      "src\\components\\notification-center.tsx",
+      "src\\components\\search-bar-dropdown.tsx",
+      "src\\components\\search\\search-results.tsx"
+    ],
+    "src\\components\\ui\\dropdown-menu.tsx": [
+      "src\\components\\recording-card.tsx",
+      "src\\components\\user-nav-dropdown-content.tsx"
+    ],
+    "src\\components\\ui\\label.tsx": [
+      "src\\app\\about\\consultation-section.tsx",
+      "src\\app\\profile\\_components\\personal-settings-form.tsx",
+      "src\\app\\queries\\_components\\custom-link-dialog.tsx",
+      "src\\app\\queries\\_components\\query-form.tsx",
+      "src\\app\\queries\\_components\\query-reply-form.tsx",
+      "src\\components\\recording-sort-controls.tsx",
+      "src\\components\\search-bar-dropdown.tsx"
+    ],
+    "src\\components\\ui\\slider.tsx": [
+      "src\\components\\player\\timeline-slider.tsx",
+      "src\\components\\player\\volume-controls.tsx"
+    ],
+    "src\\components\\ui\\tabs.tsx": [
+      "src\\app\\queries\\_components\\mention-dialog.tsx",
+      "src\\app\\queries\\_components\\query-filters.tsx",
+      "src\\components\\search\\search-scope-tabs.tsx"
+    ],
+    "src\\components\\ui\\command.tsx": [
+      "src\\components\\search\\searchable-select.tsx"
+    ],
+    "src\\components\\ui\\card.tsx": [
+      "src\\app\\contact-us\\contact-us-client.tsx",
+      "src\\app\\get-involved\\volunteer-item.tsx",
+      "src\\app\\profile\\_components\\personal-settings-form.tsx",
+      "src\\app\\profile\\_components\\profile-dashboard-card.tsx"
+    ],
+    "src\\components\\search\\searchable-select.tsx": [
+      "src\\app\\get-involved\\volunteer-item.tsx",
+      "src\\app\\profile\\_components\\personal-settings-form.tsx",
+      "src\\app\\queries\\_components\\query-filters.tsx",
+      "src\\app\\queries\\_components\\query-form.tsx"
+    ],
+    "src\\components\\ui\\textarea.tsx": [
+      "src\\app\\get-involved\\volunteer-item.tsx",
+      "src\\app\\profile\\_components\\personal-settings-form.tsx"
+    ],
+    "src\\components\\ui\\badge.tsx": [
+      "src\\app\\queries\\_components\\mention-dialog.tsx",
+      "src\\app\\queries\\_components\\query-attachment-list.tsx",
+      "src\\app\\queries\\_components\\query-attachment-picker.tsx",
+      "src\\app\\queries\\_components\\query-list.tsx",
+      "src\\app\\queries\\page.tsx"
+    ]
+  },
+  "data": [
+    {
+      "className": "-translate-x-1/2",
+      "frequency": 2,
+      "length": 16,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "-translate-y-1/2",
+      "frequency": 6,
+      "length": 16,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "[&_p:not(:last-child)]:mb-4",
+      "frequency": 1,
+      "length": 27,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "absolute",
+      "frequency": 38,
+      "length": 8,
+      "uncompressedBytes": 28,
+      "brotliBytesUpperLimit": 19,
+      "isNew": false
+    },
+    {
+      "className": "active:scale-98",
+      "frequency": 1,
+      "length": 15,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "animate-in",
+      "frequency": 3,
+      "length": 10,
+      "uncompressedBytes": 235,
+      "brotliBytesUpperLimit": 107,
+      "isNew": false
+    },
+    {
+      "className": "animate-ping",
+      "frequency": 2,
+      "length": 12,
+      "uncompressedBytes": 44,
+      "brotliBytesUpperLimit": 44,
+      "isNew": false
+    },
+    {
+      "className": "animate-pulse",
+      "frequency": 6,
+      "length": 13,
+      "uncompressedBytes": 46,
+      "brotliBytesUpperLimit": 48,
+      "isNew": false
+    },
+    {
+      "className": "animate-shimmer",
+      "frequency": 12,
+      "length": 15,
+      "uncompressedBytes": 71,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "animate-spin",
+      "frequency": 21,
+      "length": 12,
+      "uncompressedBytes": 44,
+      "brotliBytesUpperLimit": 43,
+      "isNew": false
+    },
+    {
+      "className": "aria-invalid:border-destructive",
+      "frequency": 2,
+      "length": 31,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "aspect-square",
+      "frequency": 1,
+      "length": 13,
+      "uncompressedBytes": 30,
+      "brotliBytesUpperLimit": 34,
+      "isNew": false
+    },
+    {
+      "className": "backdrop-blur-xs",
+      "frequency": 7,
+      "length": 16,
+      "uncompressedBytes": 610,
+      "brotliBytesUpperLimit": 135,
+      "isNew": false
+    },
+    {
+      "className": "bg-background",
+      "frequency": 10,
+      "length": 13,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-background/50",
+      "frequency": 6,
+      "length": 16,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-black/10",
+      "frequency": 4,
+      "length": 11,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-card",
+      "frequency": 27,
+      "length": 7,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 38,
+      "isNew": false
+    },
+    {
+      "className": "bg-destructive",
+      "frequency": 1,
+      "length": 14,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-destructive/10",
+      "frequency": 6,
+      "length": 17,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-linear-to-r",
+      "frequency": 4,
+      "length": 14,
+      "uncompressedBytes": 182,
+      "brotliBytesUpperLimit": 93,
+      "isNew": false
+    },
+    {
+      "className": "bg-muted",
+      "frequency": 43,
+      "length": 8,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-muted/20",
+      "frequency": 12,
+      "length": 11,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-muted/40",
+      "frequency": 4,
+      "length": 11,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-muted/5",
+      "frequency": 5,
+      "length": 10,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-muted/50",
+      "frequency": 2,
+      "length": 11,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-primary",
+      "frequency": 13,
+      "length": 10,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-primary/10",
+      "frequency": 10,
+      "length": 13,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-primary/20",
+      "frequency": 2,
+      "length": 13,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-primary/5",
+      "frequency": 6,
+      "length": 12,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-success/10",
+      "frequency": 4,
+      "length": 13,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "bg-transparent",
+      "frequency": 6,
+      "length": 14,
+      "uncompressedBytes": 39,
+      "brotliBytesUpperLimit": 31,
+      "isNew": false
+    },
+    {
+      "className": "bg-warning/10",
+      "frequency": 7,
+      "length": 13,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "border",
+      "frequency": 78,
+      "length": 6,
+      "uncompressedBytes": 61,
+      "brotliBytesUpperLimit": 61,
+      "isNew": false
+    },
+    {
+      "className": "border-b",
+      "frequency": 27,
+      "length": 8,
+      "uncompressedBytes": 179,
+      "brotliBytesUpperLimit": 90,
+      "isNew": false
+    },
+    {
+      "className": "border-border",
+      "frequency": 90,
+      "length": 13,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "border-border/40",
+      "frequency": 24,
+      "length": 16,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "border-dashed",
+      "frequency": 5,
+      "length": 13,
+      "uncompressedBytes": 60,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "border-destructive/20",
+      "frequency": 6,
+      "length": 21,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "border-input",
+      "frequency": 3,
+      "length": 12,
+      "uncompressedBytes": 40,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "border-primary",
+      "frequency": 4,
+      "length": 14,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "border-primary/10",
+      "frequency": 2,
+      "length": 17,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "border-primary/20",
+      "frequency": 7,
+      "length": 17,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "border-success/20",
+      "frequency": 3,
+      "length": 17,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "border-t",
+      "frequency": 18,
+      "length": 8,
+      "uncompressedBytes": 71,
+      "brotliBytesUpperLimit": 65,
+      "isNew": false
+    },
+    {
+      "className": "border-transparent",
+      "frequency": 3,
+      "length": 18,
+      "uncompressedBytes": 39,
+      "brotliBytesUpperLimit": 31,
+      "isNew": false
+    },
+    {
+      "className": "border-warning/20",
+      "frequency": 3,
+      "length": 17,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "cursor-pointer",
+      "frequency": 126,
+      "length": 14,
+      "uncompressedBytes": 31,
+      "brotliBytesUpperLimit": 31,
+      "isNew": false
+    },
+    {
+      "className": "dark",
+      "frequency": 1,
+      "length": 4,
+      "uncompressedBytes": 900,
+      "brotliBytesUpperLimit": 249,
+      "isNew": false
+    },
+    {
+      "className": "data-[range-end=true]:bg-primary",
+      "frequency": 1,
+      "length": 32,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[range-end=true]:text-primary-foreground",
+      "frequency": 1,
+      "length": 45,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[range-middle=true]:bg-muted",
+      "frequency": 1,
+      "length": 33,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[range-start=true]:bg-primary",
+      "frequency": 1,
+      "length": 34,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[range-start=true]:text-primary-foreground",
+      "frequency": 1,
+      "length": 47,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=bottom]:slide-in-from-top-2",
+      "frequency": 2,
+      "length": 38,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=left]:border-r",
+      "frequency": 1,
+      "length": 25,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=left]:data-closed:slide-out-to-left-10",
+      "frequency": 1,
+      "length": 49,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=left]:data-open:slide-in-from-left-10",
+      "frequency": 1,
+      "length": 48,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=left]:h-full",
+      "frequency": 1,
+      "length": 23,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=left]:inset-y-0",
+      "frequency": 1,
+      "length": 26,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=left]:left-0",
+      "frequency": 1,
+      "length": 23,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=left]:slide-in-from-right-2",
+      "frequency": 2,
+      "length": 38,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=left]:sm:max-w-sm",
+      "frequency": 1,
+      "length": 28,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=left]:w-3/4",
+      "frequency": 1,
+      "length": 22,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=right]:border-l",
+      "frequency": 1,
+      "length": 26,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=right]:data-closed:slide-out-to-right-10",
+      "frequency": 1,
+      "length": 51,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=right]:data-open:slide-in-from-right-10",
+      "frequency": 1,
+      "length": 50,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=right]:h-full",
+      "frequency": 1,
+      "length": 24,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=right]:inset-y-0",
+      "frequency": 1,
+      "length": 27,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=right]:right-0",
+      "frequency": 1,
+      "length": 25,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=right]:slide-in-from-left-2",
+      "frequency": 2,
+      "length": 38,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=right]:sm:max-w-sm",
+      "frequency": 1,
+      "length": 29,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=right]:w-3/4",
+      "frequency": 1,
+      "length": 23,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[side=top]:slide-in-from-bottom-2",
+      "frequency": 2,
+      "length": 38,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[state=checked]:bg-primary",
+      "frequency": 1,
+      "length": 31,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[state=checked]:text-primary-foreground",
+      "frequency": 1,
+      "length": 44,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-[state=closed]:overflow-hidden",
+      "frequency": 1,
+      "length": 35,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-closed:animate-accordion-up",
+      "frequency": 1,
+      "length": 32,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-closed:animate-out",
+      "frequency": 6,
+      "length": 23,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-closed:fade-out-0",
+      "frequency": 6,
+      "length": 22,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-closed:zoom-out-95",
+      "frequency": 3,
+      "length": 23,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-horizontal:flex-col",
+      "frequency": 1,
+      "length": 24,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-open:animate-accordion-down",
+      "frequency": 1,
+      "length": 32,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-open:animate-in",
+      "frequency": 6,
+      "length": 20,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-open:fade-in-0",
+      "frequency": 6,
+      "length": 19,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-open:zoom-in-95",
+      "frequency": 3,
+      "length": 20,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "data-selected:bg-muted",
+      "frequency": 1,
+      "length": 22,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "disabled:bg-input/50",
+      "frequency": 2,
+      "length": 20,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "disabled:cursor-not-allowed",
+      "frequency": 5,
+      "length": 27,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "disabled:opacity-60",
+      "frequency": 8,
+      "length": 19,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "disabled:pointer-events-none",
+      "frequency": 3,
+      "length": 28,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "divide-border/40",
+      "frequency": 2,
+      "length": 16,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "divide-y",
+      "frequency": 2,
+      "length": 8,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "duration-200",
+      "frequency": 18,
+      "length": 12,
+      "uncompressedBytes": 56,
+      "brotliBytesUpperLimit": 58,
+      "isNew": false
+    },
+    {
+      "className": "ease-in-out",
+      "frequency": 4,
+      "length": 11,
+      "uncompressedBytes": 88,
+      "brotliBytesUpperLimit": 62,
+      "isNew": false
+    },
+    {
+      "className": "fade-in",
+      "frequency": 2,
+      "length": 7,
+      "uncompressedBytes": 30,
+      "brotliBytesUpperLimit": 34,
+      "isNew": false
+    },
+    {
+      "className": "field-sizing-content",
+      "frequency": 1,
+      "length": 20,
+      "uncompressedBytes": 43,
+      "brotliBytesUpperLimit": 33,
+      "isNew": false
+    },
+    {
+      "className": "fixed",
+      "frequency": 12,
+      "length": 5,
+      "uncompressedBytes": 22,
+      "brotliBytesUpperLimit": 21,
+      "isNew": false
+    },
+    {
+      "className": "flex",
+      "frequency": 452,
+      "length": 4,
+      "uncompressedBytes": 19,
+      "brotliBytesUpperLimit": 23,
+      "isNew": false
+    },
+    {
+      "className": "flex-1",
+      "frequency": 36,
+      "length": 6,
+      "uncompressedBytes": 15,
+      "brotliBytesUpperLimit": 19,
+      "isNew": false
+    },
+    {
+      "className": "flex-col",
+      "frequency": 217,
+      "length": 8,
+      "uncompressedBytes": 32,
+      "brotliBytesUpperLimit": 33,
+      "isNew": false
+    },
+    {
+      "className": "flex-row",
+      "frequency": 4,
+      "length": 8,
+      "uncompressedBytes": 29,
+      "brotliBytesUpperLimit": 33,
+      "isNew": false
+    },
+    {
+      "className": "flex-wrap",
+      "frequency": 18,
+      "length": 9,
+      "uncompressedBytes": 26,
+      "brotliBytesUpperLimit": 30,
+      "isNew": false
+    },
+    {
+      "className": "focus-visible:after:border-ring",
+      "frequency": 1,
+      "length": 31,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus-visible:border-primary",
+      "frequency": 1,
+      "length": 28,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus-visible:border-ring",
+      "frequency": 5,
+      "length": 25,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus-visible:ring-1",
+      "frequency": 5,
+      "length": 20,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus-visible:ring-offset-0",
+      "frequency": 1,
+      "length": 27,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus-visible:ring-primary",
+      "frequency": 1,
+      "length": 26,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus-visible:ring-ring/50",
+      "frequency": 4,
+      "length": 26,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus:bg-accent",
+      "frequency": 4,
+      "length": 15,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus:bg-destructive/10",
+      "frequency": 1,
+      "length": 23,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus:outline-none",
+      "frequency": 8,
+      "length": 18,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus:ring-1",
+      "frequency": 3,
+      "length": 12,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus:ring-primary",
+      "frequency": 4,
+      "length": 18,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus:text-accent-foreground",
+      "frequency": 4,
+      "length": 28,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "focus:text-destructive",
+      "frequency": 1,
+      "length": 22,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "font-bold",
+      "frequency": 127,
+      "length": 9,
+      "uncompressedBytes": 88,
+      "brotliBytesUpperLimit": 57,
+      "isNew": false
+    },
+    {
+      "className": "font-heading",
+      "frequency": 32,
+      "length": 12,
+      "uncompressedBytes": 50,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "font-medium",
+      "frequency": 38,
+      "length": 11,
+      "uncompressedBytes": 94,
+      "brotliBytesUpperLimit": 50,
+      "isNew": false
+    },
+    {
+      "className": "font-semibold",
+      "frequency": 77,
+      "length": 13,
+      "uncompressedBytes": 100,
+      "brotliBytesUpperLimit": 60,
+      "isNew": false
+    },
+    {
+      "className": "font-serif",
+      "frequency": 9,
+      "length": 10,
+      "uncompressedBytes": 42,
+      "brotliBytesUpperLimit": 46,
+      "isNew": false
+    },
+    {
+      "className": "from-primary/20",
+      "frequency": 4,
+      "length": 15,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "gap-1",
+      "frequency": 80,
+      "length": 5,
+      "uncompressedBytes": 26,
+      "brotliBytesUpperLimit": 30,
+      "isNew": false
+    },
+    {
+      "className": "gap-1.5",
+      "frequency": 89,
+      "length": 7,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "gap-2",
+      "frequency": 126,
+      "length": 5,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "gap-2.5",
+      "frequency": 13,
+      "length": 7,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "gap-3",
+      "frequency": 52,
+      "length": 5,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "gap-4",
+      "frequency": 43,
+      "length": 5,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "gap-6",
+      "frequency": 16,
+      "length": 5,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "gap-8",
+      "frequency": 9,
+      "length": 5,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "ghost",
+      "frequency": 1,
+      "length": 5,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "grid",
+      "frequency": 17,
+      "length": 4,
+      "uncompressedBytes": 19,
+      "brotliBytesUpperLimit": 23,
+      "isNew": false
+    },
+    {
+      "className": "grid-cols-1",
+      "frequency": 14,
+      "length": 11,
+      "uncompressedBytes": 59,
+      "brotliBytesUpperLimit": 56,
+      "isNew": false
+    },
+    {
+      "className": "group",
+      "frequency": 8,
+      "length": 5,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "group-aria-expanded/accordion-trigger:hidden",
+      "frequency": 1,
+      "length": 44,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "group-aria-expanded/accordion-trigger:inline",
+      "frequency": 1,
+      "length": 44,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "group-data-[focused=true]/day:border-ring",
+      "frequency": 1,
+      "length": 41,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "group-hover:opacity-100",
+      "frequency": 2,
+      "length": 23,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "group-hover:scale-125",
+      "frequency": 1,
+      "length": 21,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "group-hover:text-primary",
+      "frequency": 3,
+      "length": 24,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "group/accordion-trigger",
+      "frequency": 1,
+      "length": 23,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "group/calendar",
+      "frequency": 1,
+      "length": 14,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "group/command-item",
+      "frequency": 1,
+      "length": 18,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "group/tabs",
+      "frequency": 1,
+      "length": 10,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "group/theme",
+      "frequency": 1,
+      "length": 11,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "grow",
+      "frequency": 2,
+      "length": 4,
+      "uncompressedBytes": 18,
+      "brotliBytesUpperLimit": 22,
+      "isNew": false
+    },
+    {
+      "className": "h-10",
+      "frequency": 3,
+      "length": 4,
+      "uncompressedBytes": 39,
+      "brotliBytesUpperLimit": 43,
+      "isNew": false
+    },
+    {
+      "className": "h-16",
+      "frequency": 5,
+      "length": 4,
+      "uncompressedBytes": 39,
+      "brotliBytesUpperLimit": 43,
+      "isNew": false
+    },
+    {
+      "className": "h-2",
+      "frequency": 6,
+      "length": 3,
+      "uncompressedBytes": 37,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "h-3",
+      "frequency": 83,
+      "length": 3,
+      "uncompressedBytes": 37,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "h-4",
+      "frequency": 144,
+      "length": 3,
+      "uncompressedBytes": 37,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "h-5",
+      "frequency": 26,
+      "length": 3,
+      "uncompressedBytes": 37,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "h-6",
+      "frequency": 20,
+      "length": 3,
+      "uncompressedBytes": 37,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "h-8",
+      "frequency": 53,
+      "length": 3,
+      "uncompressedBytes": 37,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "h-9",
+      "frequency": 12,
+      "length": 3,
+      "uncompressedBytes": 37,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "h-full",
+      "frequency": 39,
+      "length": 6,
+      "uncompressedBytes": 20,
+      "brotliBytesUpperLimit": 24,
+      "isNew": false
+    },
+    {
+      "className": "hidden",
+      "frequency": 21,
+      "length": 6,
+      "uncompressedBytes": 21,
+      "brotliBytesUpperLimit": 18,
+      "isNew": false
+    },
+    {
+      "className": "hover:bg-accent",
+      "frequency": 13,
+      "length": 15,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:bg-destructive/10",
+      "frequency": 3,
+      "length": 23,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:bg-muted",
+      "frequency": 3,
+      "length": 14,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:bg-muted-foreground/10",
+      "frequency": 1,
+      "length": 28,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:bg-primary",
+      "frequency": 1,
+      "length": 16,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:bg-primary/10",
+      "frequency": 1,
+      "length": 19,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:bg-primary/20",
+      "frequency": 5,
+      "length": 19,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:border-border",
+      "frequency": 2,
+      "length": 19,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:gap-2",
+      "frequency": 1,
+      "length": 11,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:no-underline",
+      "frequency": 6,
+      "length": 18,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:shadow-md",
+      "frequency": 2,
+      "length": 15,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:text-accent-foreground",
+      "frequency": 5,
+      "length": 28,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:text-destructive",
+      "frequency": 2,
+      "length": 22,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:text-primary",
+      "frequency": 26,
+      "length": 18,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:text-primary/80",
+      "frequency": 1,
+      "length": 21,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:transition-all",
+      "frequency": 5,
+      "length": 20,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "hover:underline",
+      "frequency": 1,
+      "length": 15,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "icon",
+      "frequency": 1,
+      "length": 4,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "inline-flex",
+      "frequency": 21,
+      "length": 11,
+      "uncompressedBytes": 33,
+      "brotliBytesUpperLimit": 31,
+      "isNew": false
+    },
+    {
+      "className": "inset-0",
+      "frequency": 20,
+      "length": 7,
+      "uncompressedBytes": 17,
+      "brotliBytesUpperLimit": 21,
+      "isNew": false
+    },
+    {
+      "className": "isolate",
+      "frequency": 2,
+      "length": 7,
+      "uncompressedBytes": 27,
+      "brotliBytesUpperLimit": 31,
+      "isNew": false
+    },
+    {
+      "className": "italic",
+      "frequency": 12,
+      "length": 6,
+      "uncompressedBytes": 26,
+      "brotliBytesUpperLimit": 30,
+      "isNew": false
+    },
+    {
+      "className": "items-center",
+      "frequency": 221,
+      "length": 12,
+      "uncompressedBytes": 33,
+      "brotliBytesUpperLimit": 30,
+      "isNew": false
+    },
+    {
+      "className": "items-start",
+      "frequency": 23,
+      "length": 11,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 32,
+      "isNew": false
+    },
+    {
+      "className": "justify-between",
+      "frequency": 50,
+      "length": 15,
+      "uncompressedBytes": 47,
+      "brotliBytesUpperLimit": 35,
+      "isNew": false
+    },
+    {
+      "className": "justify-center",
+      "frequency": 39,
+      "length": 14,
+      "uncompressedBytes": 39,
+      "brotliBytesUpperLimit": 31,
+      "isNew": false
+    },
+    {
+      "className": "justify-end",
+      "frequency": 9,
+      "length": 11,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 36,
+      "isNew": false
+    },
+    {
+      "className": "justify-start",
+      "frequency": 7,
+      "length": 13,
+      "uncompressedBytes": 42,
+      "brotliBytesUpperLimit": 35,
+      "isNew": false
+    },
+    {
+      "className": "leading-none",
+      "frequency": 8,
+      "length": 12,
+      "uncompressedBytes": 43,
+      "brotliBytesUpperLimit": 46,
+      "isNew": false
+    },
+    {
+      "className": "leading-relaxed",
+      "frequency": 17,
+      "length": 15,
+      "uncompressedBytes": 88,
+      "brotliBytesUpperLimit": 53,
+      "isNew": false
+    },
+    {
+      "className": "leading-snug",
+      "frequency": 9,
+      "length": 12,
+      "uncompressedBytes": 79,
+      "brotliBytesUpperLimit": 51,
+      "isNew": false
+    },
+    {
+      "className": "leading-tight",
+      "frequency": 2,
+      "length": 13,
+      "uncompressedBytes": 82,
+      "brotliBytesUpperLimit": 51,
+      "isNew": false
+    },
+    {
+      "className": "left-1/2",
+      "frequency": 2,
+      "length": 8,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "left-3",
+      "frequency": 8,
+      "length": 6,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "lg:col-span-1",
+      "frequency": 3,
+      "length": 13,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "lg:col-span-2",
+      "frequency": 3,
+      "length": 13,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "lg:gap-12",
+      "frequency": 1,
+      "length": 9,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "lg:grid-cols-3",
+      "frequency": 4,
+      "length": 14,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "lg:pb-4",
+      "frequency": 1,
+      "length": 7,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "line-clamp-2",
+      "frequency": 1,
+      "length": 12,
+      "uncompressedBytes": 99,
+      "brotliBytesUpperLimit": 57,
+      "isNew": false
+    },
+    {
+      "className": "max-h-75",
+      "frequency": 3,
+      "length": 8,
+      "uncompressedBytes": 47,
+      "brotliBytesUpperLimit": 51,
+      "isNew": false
+    },
+    {
+      "className": "max-w-2xl",
+      "frequency": 7,
+      "length": 9,
+      "uncompressedBytes": 42,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "max-w-5xl",
+      "frequency": 3,
+      "length": 9,
+      "uncompressedBytes": 42,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "max-w-7xl",
+      "frequency": 3,
+      "length": 9,
+      "uncompressedBytes": 42,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "max-w-lg",
+      "frequency": 5,
+      "length": 8,
+      "uncompressedBytes": 40,
+      "brotliBytesUpperLimit": 44,
+      "isNew": false
+    },
+    {
+      "className": "max-w-md",
+      "frequency": 8,
+      "length": 8,
+      "uncompressedBytes": 40,
+      "brotliBytesUpperLimit": 37,
+      "isNew": false
+    },
+    {
+      "className": "max-w-sm",
+      "frequency": 6,
+      "length": 8,
+      "uncompressedBytes": 40,
+      "brotliBytesUpperLimit": 44,
+      "isNew": false
+    },
+    {
+      "className": "max-w-xs",
+      "frequency": 18,
+      "length": 8,
+      "uncompressedBytes": 40,
+      "brotliBytesUpperLimit": 44,
+      "isNew": false
+    },
+    {
+      "className": "mb-2",
+      "frequency": 2,
+      "length": 4,
+      "uncompressedBytes": 45,
+      "brotliBytesUpperLimit": 49,
+      "isNew": false
+    },
+    {
+      "className": "mb-4",
+      "frequency": 4,
+      "length": 4,
+      "uncompressedBytes": 45,
+      "brotliBytesUpperLimit": 49,
+      "isNew": false
+    },
+    {
+      "className": "mb-6",
+      "frequency": 2,
+      "length": 4,
+      "uncompressedBytes": 45,
+      "brotliBytesUpperLimit": 49,
+      "isNew": false
+    },
+    {
+      "className": "md:border-none",
+      "frequency": 1,
+      "length": 14,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:flex",
+      "frequency": 14,
+      "length": 7,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:flex-row",
+      "frequency": 5,
+      "length": 11,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:gap-8",
+      "frequency": 1,
+      "length": 8,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:grid-cols-3",
+      "frequency": 1,
+      "length": 14,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:group-hover/theme:max-w-xs",
+      "frequency": 1,
+      "length": 29,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:group-hover/theme:opacity-100",
+      "frequency": 1,
+      "length": 32,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:hidden",
+      "frequency": 3,
+      "length": 9,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:items-center",
+      "frequency": 3,
+      "length": 15,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:max-w-0",
+      "frequency": 1,
+      "length": 10,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:opacity-0",
+      "frequency": 1,
+      "length": 12,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:pt-0",
+      "frequency": 1,
+      "length": 7,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:self-auto",
+      "frequency": 2,
+      "length": 12,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:text-left",
+      "frequency": 1,
+      "length": 12,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:text-sm",
+      "frequency": 2,
+      "length": 10,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:w-72",
+      "frequency": 2,
+      "length": 7,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "md:w-auto",
+      "frequency": 2,
+      "length": 9,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "min-h-20",
+      "frequency": 3,
+      "length": 8,
+      "uncompressedBytes": 47,
+      "brotliBytesUpperLimit": 51,
+      "isNew": false
+    },
+    {
+      "className": "min-h-full",
+      "frequency": 1,
+      "length": 10,
+      "uncompressedBytes": 28,
+      "brotliBytesUpperLimit": 30,
+      "isNew": false
+    },
+    {
+      "className": "min-w-8",
+      "frequency": 3,
+      "length": 7,
+      "uncompressedBytes": 44,
+      "brotliBytesUpperLimit": 48,
+      "isNew": false
+    },
+    {
+      "className": "ml-1",
+      "frequency": 5,
+      "length": 4,
+      "uncompressedBytes": 33,
+      "brotliBytesUpperLimit": 32,
+      "isNew": false
+    },
+    {
+      "className": "ml-1.5",
+      "frequency": 1,
+      "length": 6,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "ml-2",
+      "frequency": 3,
+      "length": 4,
+      "uncompressedBytes": 43,
+      "brotliBytesUpperLimit": 47,
+      "isNew": false
+    },
+    {
+      "className": "ml-auto",
+      "frequency": 3,
+      "length": 7,
+      "uncompressedBytes": 26,
+      "brotliBytesUpperLimit": 27,
+      "isNew": false
+    },
+    {
+      "className": "mr-2",
+      "frequency": 8,
+      "length": 4,
+      "uncompressedBytes": 44,
+      "brotliBytesUpperLimit": 48,
+      "isNew": false
+    },
+    {
+      "className": "mt-0.5",
+      "frequency": 18,
+      "length": 6,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "mt-1",
+      "frequency": 6,
+      "length": 4,
+      "uncompressedBytes": 32,
+      "brotliBytesUpperLimit": 32,
+      "isNew": false
+    },
+    {
+      "className": "mt-1.5",
+      "frequency": 1,
+      "length": 6,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "mt-2",
+      "frequency": 11,
+      "length": 4,
+      "uncompressedBytes": 42,
+      "brotliBytesUpperLimit": 46,
+      "isNew": false
+    },
+    {
+      "className": "mt-auto",
+      "frequency": 3,
+      "length": 7,
+      "uncompressedBytes": 25,
+      "brotliBytesUpperLimit": 29,
+      "isNew": false
+    },
+    {
+      "className": "mx-auto",
+      "frequency": 17,
+      "length": 7,
+      "uncompressedBytes": 28,
+      "brotliBytesUpperLimit": 32,
+      "isNew": false
+    },
+    {
+      "className": "object-cover",
+      "frequency": 16,
+      "length": 12,
+      "uncompressedBytes": 31,
+      "brotliBytesUpperLimit": 34,
+      "isNew": false
+    },
+    {
+      "className": "opacity-0",
+      "frequency": 9,
+      "length": 9,
+      "uncompressedBytes": 21,
+      "brotliBytesUpperLimit": 25,
+      "isNew": false
+    },
+    {
+      "className": "opacity-100",
+      "frequency": 2,
+      "length": 11,
+      "uncompressedBytes": 23,
+      "brotliBytesUpperLimit": 27,
+      "isNew": false
+    },
+    {
+      "className": "opacity-60",
+      "frequency": 12,
+      "length": 10,
+      "uncompressedBytes": 23,
+      "brotliBytesUpperLimit": 27,
+      "isNew": false
+    },
+    {
+      "className": "opacity-80",
+      "frequency": 29,
+      "length": 10,
+      "uncompressedBytes": 23,
+      "brotliBytesUpperLimit": 27,
+      "isNew": false
+    },
+    {
+      "className": "outline-none",
+      "frequency": 9,
+      "length": 12,
+      "uncompressedBytes": 57,
+      "brotliBytesUpperLimit": 46,
+      "isNew": false
+    },
+    {
+      "className": "overflow-hidden",
+      "frequency": 48,
+      "length": 15,
+      "uncompressedBytes": 33,
+      "brotliBytesUpperLimit": 24,
+      "isNew": false
+    },
+    {
+      "className": "overflow-x-auto",
+      "frequency": 2,
+      "length": 15,
+      "uncompressedBytes": 33,
+      "brotliBytesUpperLimit": 37,
+      "isNew": false
+    },
+    {
+      "className": "overflow-x-hidden",
+      "frequency": 2,
+      "length": 17,
+      "uncompressedBytes": 37,
+      "brotliBytesUpperLimit": 33,
+      "isNew": false
+    },
+    {
+      "className": "overflow-y-auto",
+      "frequency": 12,
+      "length": 15,
+      "uncompressedBytes": 33,
+      "brotliBytesUpperLimit": 37,
+      "isNew": false
+    },
+    {
+      "className": "p-0",
+      "frequency": 34,
+      "length": 3,
+      "uncompressedBytes": 15,
+      "brotliBytesUpperLimit": 19,
+      "isNew": false
+    },
+    {
+      "className": "p-1",
+      "frequency": 14,
+      "length": 3,
+      "uncompressedBytes": 28,
+      "brotliBytesUpperLimit": 32,
+      "isNew": false
+    },
+    {
+      "className": "p-2",
+      "frequency": 13,
+      "length": 3,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "p-2.5",
+      "frequency": 2,
+      "length": 5,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "p-3",
+      "frequency": 27,
+      "length": 3,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "p-4",
+      "frequency": 24,
+      "length": 3,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "p-6",
+      "frequency": 7,
+      "length": 3,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "p-8",
+      "frequency": 4,
+      "length": 3,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "pb-1",
+      "frequency": 4,
+      "length": 4,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 32,
+      "isNew": false
+    },
+    {
+      "className": "pb-2",
+      "frequency": 5,
+      "length": 4,
+      "uncompressedBytes": 46,
+      "brotliBytesUpperLimit": 50,
+      "isNew": false
+    },
+    {
+      "className": "pb-2.5",
+      "frequency": 1,
+      "length": 6,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "pb-3",
+      "frequency": 7,
+      "length": 4,
+      "uncompressedBytes": 46,
+      "brotliBytesUpperLimit": 50,
+      "isNew": false
+    },
+    {
+      "className": "pb-4",
+      "frequency": 2,
+      "length": 4,
+      "uncompressedBytes": 46,
+      "brotliBytesUpperLimit": 50,
+      "isNew": false
+    },
+    {
+      "className": "pb-6",
+      "frequency": 6,
+      "length": 4,
+      "uncompressedBytes": 46,
+      "brotliBytesUpperLimit": 50,
+      "isNew": false
+    },
+    {
+      "className": "pl-6",
+      "frequency": 2,
+      "length": 4,
+      "uncompressedBytes": 44,
+      "brotliBytesUpperLimit": 48,
+      "isNew": false
+    },
+    {
+      "className": "pl-9",
+      "frequency": 6,
+      "length": 4,
+      "uncompressedBytes": 44,
+      "brotliBytesUpperLimit": 48,
+      "isNew": false
+    },
+    {
+      "className": "placeholder:text-muted-foreground",
+      "frequency": 1,
+      "length": 33,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "pointer-events-none",
+      "frequency": 14,
+      "length": 19,
+      "uncompressedBytes": 41,
+      "brotliBytesUpperLimit": 38,
+      "isNew": false
+    },
+    {
+      "className": "pr-10",
+      "frequency": 4,
+      "length": 5,
+      "uncompressedBytes": 47,
+      "brotliBytesUpperLimit": 51,
+      "isNew": false
+    },
+    {
+      "className": "pr-4",
+      "frequency": 1,
+      "length": 4,
+      "uncompressedBytes": 45,
+      "brotliBytesUpperLimit": 49,
+      "isNew": false
+    },
+    {
+      "className": "pt-0",
+      "frequency": 1,
+      "length": 4,
+      "uncompressedBytes": 20,
+      "brotliBytesUpperLimit": 24,
+      "isNew": false
+    },
+    {
+      "className": "pt-1",
+      "frequency": 5,
+      "length": 4,
+      "uncompressedBytes": 33,
+      "brotliBytesUpperLimit": 32,
+      "isNew": false
+    },
+    {
+      "className": "pt-2",
+      "frequency": 16,
+      "length": 4,
+      "uncompressedBytes": 43,
+      "brotliBytesUpperLimit": 47,
+      "isNew": false
+    },
+    {
+      "className": "pt-4",
+      "frequency": 4,
+      "length": 4,
+      "uncompressedBytes": 43,
+      "brotliBytesUpperLimit": 47,
+      "isNew": false
+    },
+    {
+      "className": "px-1",
+      "frequency": 10,
+      "length": 4,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 38,
+      "isNew": false
+    },
+    {
+      "className": "px-1.5",
+      "frequency": 5,
+      "length": 6,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "px-2",
+      "frequency": 37,
+      "length": 4,
+      "uncompressedBytes": 46,
+      "brotliBytesUpperLimit": 50,
+      "isNew": false
+    },
+    {
+      "className": "px-2.5",
+      "frequency": 8,
+      "length": 6,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "px-3",
+      "frequency": 12,
+      "length": 4,
+      "uncompressedBytes": 46,
+      "brotliBytesUpperLimit": 50,
+      "isNew": false
+    },
+    {
+      "className": "px-4",
+      "frequency": 7,
+      "length": 4,
+      "uncompressedBytes": 46,
+      "brotliBytesUpperLimit": 50,
+      "isNew": false
+    },
+    {
+      "className": "px-6",
+      "frequency": 7,
+      "length": 4,
+      "uncompressedBytes": 46,
+      "brotliBytesUpperLimit": 50,
+      "isNew": false
+    },
+    {
+      "className": "py-0.5",
+      "frequency": 28,
+      "length": 6,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "py-1",
+      "frequency": 13,
+      "length": 4,
+      "uncompressedBytes": 35,
+      "brotliBytesUpperLimit": 39,
+      "isNew": false
+    },
+    {
+      "className": "py-1.5",
+      "frequency": 3,
+      "length": 6,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "py-16",
+      "frequency": 9,
+      "length": 5,
+      "uncompressedBytes": 47,
+      "brotliBytesUpperLimit": 51,
+      "isNew": false
+    },
+    {
+      "className": "py-2",
+      "frequency": 20,
+      "length": 4,
+      "uncompressedBytes": 45,
+      "brotliBytesUpperLimit": 48,
+      "isNew": false
+    },
+    {
+      "className": "py-3",
+      "frequency": 3,
+      "length": 4,
+      "uncompressedBytes": 45,
+      "brotliBytesUpperLimit": 48,
+      "isNew": false
+    },
+    {
+      "className": "py-4",
+      "frequency": 7,
+      "length": 4,
+      "uncompressedBytes": 45,
+      "brotliBytesUpperLimit": 48,
+      "isNew": false
+    },
+    {
+      "className": "py-6",
+      "frequency": 7,
+      "length": 4,
+      "uncompressedBytes": 45,
+      "brotliBytesUpperLimit": 48,
+      "isNew": false
+    },
+    {
+      "className": "relative",
+      "frequency": 39,
+      "length": 8,
+      "uncompressedBytes": 28,
+      "brotliBytesUpperLimit": 19,
+      "isNew": false
+    },
+    {
+      "className": "right-3",
+      "frequency": 5,
+      "length": 7,
+      "uncompressedBytes": 40,
+      "brotliBytesUpperLimit": 44,
+      "isNew": false
+    },
+    {
+      "className": "ring-1",
+      "frequency": 6,
+      "length": 6,
+      "uncompressedBytes": 261,
+      "brotliBytesUpperLimit": 106,
+      "isNew": false
+    },
+    {
+      "className": "ring-foreground/10",
+      "frequency": 3,
+      "length": 18,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "ring-primary",
+      "frequency": 2,
+      "length": 12,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "ring-primary/20",
+      "frequency": 1,
+      "length": 15,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "rounded-2xl",
+      "frequency": 9,
+      "length": 11,
+      "uncompressedBytes": 53,
+      "brotliBytesUpperLimit": 57,
+      "isNew": false
+    },
+    {
+      "className": "rounded-full",
+      "frequency": 58,
+      "length": 12,
+      "uncompressedBytes": 41,
+      "brotliBytesUpperLimit": 45,
+      "isNew": false
+    },
+    {
+      "className": "rounded-lg",
+      "frequency": 27,
+      "length": 10,
+      "uncompressedBytes": 40,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "rounded-md",
+      "frequency": 35,
+      "length": 10,
+      "uncompressedBytes": 51,
+      "brotliBytesUpperLimit": 50,
+      "isNew": false
+    },
+    {
+      "className": "rounded-xl",
+      "frequency": 27,
+      "length": 10,
+      "uncompressedBytes": 52,
+      "brotliBytesUpperLimit": 56,
+      "isNew": false
+    },
+    {
+      "className": "select-none",
+      "frequency": 16,
+      "length": 11,
+      "uncompressedBytes": 55,
+      "brotliBytesUpperLimit": 44,
+      "isNew": false
+    },
+    {
+      "className": "self-start",
+      "frequency": 2,
+      "length": 10,
+      "uncompressedBytes": 34,
+      "brotliBytesUpperLimit": 34,
+      "isNew": false
+    },
+    {
+      "className": "self-stretch",
+      "frequency": 2,
+      "length": 12,
+      "uncompressedBytes": 33,
+      "brotliBytesUpperLimit": 33,
+      "isNew": false
+    },
+    {
+      "className": "shadow-md",
+      "frequency": 27,
+      "length": 9,
+      "uncompressedBytes": 254,
+      "brotliBytesUpperLimit": 106,
+      "isNew": false
+    },
+    {
+      "className": "shadow-primary/10",
+      "frequency": 1,
+      "length": 17,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "shrink-0",
+      "frequency": 111,
+      "length": 8,
+      "uncompressedBytes": 24,
+      "brotliBytesUpperLimit": 28,
+      "isNew": false
+    },
+    {
+      "className": "size-3.5",
+      "frequency": 8,
+      "length": 8,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "size-4",
+      "frequency": 15,
+      "length": 6,
+      "uncompressedBytes": 71,
+      "brotliBytesUpperLimit": 62,
+      "isNew": false
+    },
+    {
+      "className": "sm:flex",
+      "frequency": 5,
+      "length": 7,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:flex-row",
+      "frequency": 4,
+      "length": 11,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:gap-2",
+      "frequency": 3,
+      "length": 8,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:gap-4",
+      "frequency": 1,
+      "length": 8,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:grid-cols-2",
+      "frequency": 11,
+      "length": 14,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:items-center",
+      "frequency": 3,
+      "length": 15,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:p-12",
+      "frequency": 1,
+      "length": 7,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:p-8",
+      "frequency": 2,
+      "length": 6,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:px-4",
+      "frequency": 3,
+      "length": 7,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:self-center",
+      "frequency": 1,
+      "length": 14,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:text-2xl",
+      "frequency": 6,
+      "length": 11,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:text-4xl",
+      "frequency": 5,
+      "length": 11,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:text-5xl",
+      "frequency": 1,
+      "length": 11,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "sm:text-sm",
+      "frequency": 5,
+      "length": 10,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "space-y-2",
+      "frequency": 4,
+      "length": 9,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "space-y-4",
+      "frequency": 3,
+      "length": 9,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "space-y-6",
+      "frequency": 2,
+      "length": 9,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "text-2xl",
+      "frequency": 6,
+      "length": 8,
+      "uncompressedBytes": 95,
+      "brotliBytesUpperLimit": 56,
+      "isNew": false
+    },
+    {
+      "className": "text-3xl",
+      "frequency": 11,
+      "length": 8,
+      "uncompressedBytes": 95,
+      "brotliBytesUpperLimit": 56,
+      "isNew": false
+    },
+    {
+      "className": "text-center",
+      "frequency": 23,
+      "length": 11,
+      "uncompressedBytes": 31,
+      "brotliBytesUpperLimit": 31,
+      "isNew": false
+    },
+    {
+      "className": "text-destructive",
+      "frequency": 29,
+      "length": 16,
+      "uncompressedBytes": 43,
+      "brotliBytesUpperLimit": 47,
+      "isNew": false
+    },
+    {
+      "className": "text-destructive-foreground",
+      "frequency": 1,
+      "length": 27,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "text-foreground",
+      "frequency": 28,
+      "length": 15,
+      "uncompressedBytes": 41,
+      "brotliBytesUpperLimit": 44,
+      "isNew": false
+    },
+    {
+      "className": "text-left",
+      "frequency": 16,
+      "length": 9,
+      "uncompressedBytes": 27,
+      "brotliBytesUpperLimit": 31,
+      "isNew": false
+    },
+    {
+      "className": "text-lg",
+      "frequency": 9,
+      "length": 7,
+      "uncompressedBytes": 92,
+      "brotliBytesUpperLimit": 56,
+      "isNew": false
+    },
+    {
+      "className": "text-muted-foreground",
+      "frequency": 220,
+      "length": 21,
+      "uncompressedBytes": 53,
+      "brotliBytesUpperLimit": 47,
+      "isNew": false
+    },
+    {
+      "className": "text-primary",
+      "frequency": 95,
+      "length": 12,
+      "uncompressedBytes": 35,
+      "brotliBytesUpperLimit": 35,
+      "isNew": false
+    },
+    {
+      "className": "text-primary-foreground",
+      "frequency": 4,
+      "length": 23,
+      "uncompressedBytes": 57,
+      "brotliBytesUpperLimit": 50,
+      "isNew": false
+    },
+    {
+      "className": "text-sm",
+      "frequency": 53,
+      "length": 7,
+      "uncompressedBytes": 92,
+      "brotliBytesUpperLimit": 56,
+      "isNew": false
+    },
+    {
+      "className": "text-success",
+      "frequency": 8,
+      "length": 12,
+      "uncompressedBytes": 35,
+      "brotliBytesUpperLimit": 34,
+      "isNew": false
+    },
+    {
+      "className": "text-warning",
+      "frequency": 13,
+      "length": 12,
+      "uncompressedBytes": 35,
+      "brotliBytesUpperLimit": 35,
+      "isNew": false
+    },
+    {
+      "className": "text-white",
+      "frequency": 7,
+      "length": 10,
+      "uncompressedBytes": 37,
+      "brotliBytesUpperLimit": 41,
+      "isNew": false
+    },
+    {
+      "className": "text-xl",
+      "frequency": 13,
+      "length": 7,
+      "uncompressedBytes": 92,
+      "brotliBytesUpperLimit": 57,
+      "isNew": false
+    },
+    {
+      "className": "text-xs",
+      "frequency": 199,
+      "length": 7,
+      "uncompressedBytes": 92,
+      "brotliBytesUpperLimit": 57,
+      "isNew": false
+    },
+    {
+      "className": "text-xxs",
+      "frequency": 77,
+      "length": 8,
+      "uncompressedBytes": 65,
+      "brotliBytesUpperLimit": 55,
+      "isNew": false
+    },
+    {
+      "className": "to-transparent",
+      "frequency": 4,
+      "length": 14,
+      "uncompressedBytes": 234,
+      "brotliBytesUpperLimit": 83,
+      "isNew": false
+    },
+    {
+      "className": "toaster",
+      "frequency": 1,
+      "length": 7,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "top-1/2",
+      "frequency": 6,
+      "length": 7,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "top-3",
+      "frequency": 7,
+      "length": 5,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "tracking-tight",
+      "frequency": 17,
+      "length": 14,
+      "uncompressedBytes": 89,
+      "brotliBytesUpperLimit": 56,
+      "isNew": false
+    },
+    {
+      "className": "tracking-wider",
+      "frequency": 65,
+      "length": 14,
+      "uncompressedBytes": 89,
+      "brotliBytesUpperLimit": 57,
+      "isNew": false
+    },
+    {
+      "className": "transition-all",
+      "frequency": 58,
+      "length": 14,
+      "uncompressedBytes": 198,
+      "brotliBytesUpperLimit": 86,
+      "isNew": false
+    },
+    {
+      "className": "truncate",
+      "frequency": 48,
+      "length": 8,
+      "uncompressedBytes": 68,
+      "brotliBytesUpperLimit": 52,
+      "isNew": false
+    },
+    {
+      "className": "uppercase",
+      "frequency": 65,
+      "length": 9,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 33,
+      "isNew": false
+    },
+    {
+      "className": "via-primary/5",
+      "frequency": 4,
+      "length": 13,
+      "uncompressedBytes": 0,
+      "brotliBytesUpperLimit": 0,
+      "isNew": false
+    },
+    {
+      "className": "w-10",
+      "frequency": 4,
+      "length": 4,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "w-16",
+      "frequency": 7,
+      "length": 4,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "w-2",
+      "frequency": 4,
+      "length": 3,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "w-3",
+      "frequency": 80,
+      "length": 3,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "w-4",
+      "frequency": 140,
+      "length": 3,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "w-5",
+      "frequency": 26,
+      "length": 3,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "w-6",
+      "frequency": 8,
+      "length": 3,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "w-72",
+      "frequency": 2,
+      "length": 4,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 42,
+      "isNew": false
+    },
+    {
+      "className": "w-8",
+      "frequency": 36,
+      "length": 3,
+      "uncompressedBytes": 36,
+      "brotliBytesUpperLimit": 40,
+      "isNew": false
+    },
+    {
+      "className": "w-full",
+      "frequency": 91,
+      "length": 6,
+      "uncompressedBytes": 19,
+      "brotliBytesUpperLimit": 23,
+      "isNew": false
+    },
+    {
+      "className": "whitespace-nowrap",
+      "frequency": 4,
+      "length": 17,
+      "uncompressedBytes": 38,
+      "brotliBytesUpperLimit": 33,
+      "isNew": false
+    },
+    {
+      "className": "z-10",
+      "frequency": 9,
+      "length": 4,
+      "uncompressedBytes": 17,
+      "brotliBytesUpperLimit": 21,
+      "isNew": false
+    },
+    {
+      "className": "z-50",
+      "frequency": 19,
+      "length": 4,
+      "uncompressedBytes": 17,
+      "brotliBytesUpperLimit": 21,
+      "isNew": false
+    }
+  ]
+}

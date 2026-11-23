@@ -1,0 +1,388 @@
+import type { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
+import { cookies, headers } from "next/headers";
+import { notFound, redirect } from "next/navigation";
+import { getCachedUrlPaths } from "@/app/api/sync/delta-service";
+import { getCategoryPageDataFromDb } from "@/lib/data-service";
+import { verifySessionToken } from "@/lib/auth-server";
+import { ASSET_BASE_URL } from "@/constants";
+import type { CategoryPageData } from "@/hooks/use-category-page";
+import { axiomLogger } from "@/lib/axiom-logger";
+import { resolveCategoryUrlPath } from "@/lib/legacy-url-map";
+import { getCategoryImageUrl } from "@/lib/storage";
+import { getSupabaseServerClient } from "@/lib/supabase-server";
+import {
+  categoryPath,
+  hasStaticFileExtension,
+  isValidCategoryPath,
+  pathToUrlPath,
+  slugToLabel,
+} from "@/lib/utils";
+import { ClientShell } from "@/views/client-shell";
+
+export const instant = false;
+
+interface PageProps {
+  params: Promise<{ slug?: string[] }>;
+}
+
+interface CategoryPageDataResult {
+  data: CategoryPageData | null;
+  status: number;
+}
+
+const getCachedCategoryPageData = async (
+  urlPath: string,
+): Promise<CategoryPageDataResult> => {
+  try {
+    let roleId = 0;
+    try {
+      const cookieStore = await cookies();
+      const token = cookieStore.get("session_token")?.value;
+      if (token) {
+        const session = await verifySessionToken(token);
+        if (session?.role) {
+          roleId = Number(session.role);
+        }
+      }
+    } catch {
+      // outside request context
+    }
+
+    const data = await getCategoryPageDataFromDb(urlPath, roleId);
+    return {
+      data,
+      status: 200,
+    };
+  } catch (error) {
+    console.error("getCachedCategoryPageData db error: ", urlPath, error);
+    axiomLogger.error("getCachedCategoryPageData DB error", {
+      event: "category.db_error",
+      url_path: urlPath,
+      error,
+    });
+    return { data: null, status: 500 };
+  }
+};
+
+const homePageMetadata: Metadata = {
+  title: "Radheshyam Das Spiritual Discourses | Home",
+  description:
+    "Explore a rich treasury of spiritual lectures, deep commentaries on scriptures, and wisdom to guide your daily life by Radheshyam Das.",
+  alternates: {
+    canonical: `https://${process.env["VERCEL_PROJECT_PRODUCTION_URL"] || "radheshyamdas.com"}`,
+  },
+  openGraph: {
+    title: "Radheshyam Das Spiritual Discourses",
+    description:
+      "Explore a rich treasury of spiritual lectures, deep commentaries on scriptures, and wisdom to guide your daily life by Radheshyam Das.",
+    url: "https://radheshyamdas.com",
+    siteName: "Radheshyam Das Spiritual Discourses",
+    type: "website",
+    images: [
+      {
+        url: "https://radheshyamdas.com/rsp.webp",
+        width: 512,
+        height: 512,
+        alt: "Radheshyam Das",
+      },
+    ],
+  },
+};
+
+export const generateMetadata = async ({
+  params,
+}: PageProps): Promise<Metadata> => {
+  if (process.env.NODE_ENV === "development") return {};
+  const { slug } = await params;
+  if (!slug?.length) return homePageMetadata;
+
+  if (hasStaticFileExtension(slug)) {
+    return {
+      title: "Page Not Found",
+      robots: { index: false, follow: false, nocache: true },
+    };
+  }
+
+  if (slug.length === 1 && slug[0] === "library") {
+    return {
+      title: "Spiritual Library | Radheshyam Das Discourses",
+      description:
+        "Explore the comprehensive Vedic library of audio discourses, lecture series, and sacred literature commentaries by Radheshyam Das.",
+      alternates: { canonical: "https://radheshyamdas.com/library" },
+    };
+  }
+
+  const rawUrlPath = pathToUrlPath(slug);
+  const urlPath = resolveCategoryUrlPath(rawUrlPath);
+  const { data: rpcData } = await getCachedCategoryPageData(urlPath);
+  const category = rpcData?.category;
+
+  if (!category) {
+    return {
+      title: "Spiritual Discourses",
+      robots: {
+        index: false,
+        follow: false,
+        nocache: true,
+      },
+    };
+  }
+
+  const title = category?.name
+    ? `${category.name} | Radheshyam Das Spiritual Discourses`
+    : "Spiritual Discourses";
+  const description = category?.name
+    ? `Explore lectures on ${category.name} by Radheshyam Das.`
+    : "Spiritual lectures.";
+  const imgPath =
+    getCategoryImageUrl(category, "webp") ||
+    "https://radheshyamdas.com/rsp.webp";
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `https://radheshyamdas.com${categoryPath(urlPath)}`,
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      images: [{ url: imgPath, alt: category?.name || "HG" }],
+    },
+  };
+};
+
+const generateJsonLdData = async (slug?: string[]) => {
+  if (slug?.length && hasStaticFileExtension(slug)) {
+    return { data: null, structuredData: [], status: 404 };
+  }
+
+  // If old direct category path, redirect to /library/...
+
+  const rawUrlPath = pathToUrlPath(slug ?? []);
+  const urlPath = resolveCategoryUrlPath(rawUrlPath);
+  const { data: rpcData, status } = await getCachedCategoryPageData(urlPath);
+
+  if (rpcData?.redirectTo) {
+    axiomLogger.info(`Redirecting category to ${rpcData.redirectTo}`, {
+      event: "page.redirect",
+      route: "/[[...slug]]",
+      url_path: urlPath,
+      redirect_to: rpcData.redirectTo,
+    });
+    redirect(rpcData.redirectTo);
+  }
+  const { category, recordings = [], subcategories = [] } = rpcData ?? {};
+
+  const jsonLdOutputs = [];
+
+  // Home Specific Structured Data
+  if (!slug?.length) {
+    const aboutList = subcategories
+      .filter((cat) => cat.url_path && cat.url_path !== "trash")
+      .map((cat) => ({
+        "@type": "CollectionPage",
+        name: cat.name,
+        url: `https://radheshyamdas.com${categoryPath(cat.url_path)}`,
+      }));
+
+    jsonLdOutputs.push(
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "Radheshyamdas Spiritual Discourses",
+        url: "https://radheshyamdas.com",
+        about: aboutList.length > 0 ? aboutList : undefined,
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: "Radheshyam Das",
+        alternateName: "Radheshyamdas",
+        affiliation: { "@type": "Organization", name: "ISKCON Pune" },
+        knowsAbout: ["Bhagavad Gita", "Vedic Philosophy", "Srimad Bhagavatam"],
+      },
+    );
+    return { data: rpcData, structuredData: jsonLdOutputs };
+  }
+
+  // Categories & Recordings Framework Separation
+  if (!category) {
+    return { data: rpcData, structuredData: [], status };
+  }
+
+  // BreadCrumbs
+
+  const canonicalSlug = category?.url_path?.split(".") ?? [];
+  jsonLdOutputs.push({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://radheshyamdas.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Library",
+        item: "https://radheshyamdas.com/library",
+      },
+      ...canonicalSlug.map((slugPart, idx) => ({
+        "@type": "ListItem",
+        position: idx + 3,
+        name: slugToLabel(slugPart),
+        item: `https://radheshyamdas.com/library/${canonicalSlug.slice(0, idx + 1).join("/")}`,
+      })),
+    ],
+  });
+
+  // 1. Structural Subcategories List
+  if (subcategories.length > 0) {
+    jsonLdOutputs.push({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `${category?.name || "Category"} - Subcategories`,
+      numberOfItems: subcategories.length,
+      itemListElement: subcategories.map((sub, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "CollectionPage",
+          name: sub.name,
+          url: `https://radheshyamdas.com${categoryPath(sub.url_path)}`,
+        },
+      })),
+    });
+  }
+
+  // 2. Structural Leaf Recordings List
+  if (recordings.length > 0) {
+    jsonLdOutputs.push({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `${category?.name || "Category"} - Discourses`,
+      numberOfItems: recordings.length,
+      itemListElement: recordings.map((rec, index) => {
+        const mediaArray = [];
+
+        if (rec.audio_id) {
+          mediaArray.push({
+            "@type": "AudioObject",
+            name: `${rec.name} (Audio)`,
+            contentUrl: `${ASSET_BASE_URL}${rec.audio_id}`,
+          });
+        }
+
+        if (rec.yt_id) {
+          mediaArray.push({
+            "@type": "VideoObject",
+            name: `${rec.name} (Video)`,
+            embedUrl: `https://youtube.com/embed/${rec.yt_id}`,
+            url: `https://youtube.com/watch?v=${rec.yt_id}`,
+          });
+        }
+
+        return {
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "CreativeWork",
+            name: rec.name,
+            datePublished: rec.recorded_at || undefined,
+            // inLanguage: rec.languages?.length
+            //   ? rec.languages.map((l) => l.name)
+            //   : ["English"],
+            // contentLocation: rec.venue?.name
+            //   ? { "@type": "Place", name: rec.venue.name }
+            //   : undefined,
+            associatedMedia: mediaArray.length > 0 ? mediaArray : undefined,
+          },
+        };
+      }),
+    });
+  }
+
+  return { data: rpcData, structuredData: jsonLdOutputs, status };
+};
+
+const CategoryPage = async ({ params }: PageProps) => {
+  const start = performance.now();
+  const { slug } = await params;
+  const requestedPath = slug?.length ? pathToUrlPath(slug) : "";
+  const { data, structuredData, status } = await generateJsonLdData(slug);
+  const durationMs = Math.round((performance.now() - start) * 100) / 100;
+
+  console.log(
+    `[PAGE RENDER] /[[...slug]] path: "${requestedPath}", status: ${status}, hasData: ${Boolean(data)}`,
+  );
+
+  if (!data && status === 404) {
+    const reqHeaders = await headers();
+    const forwardedFor = reqHeaders.get("x-forwarded-for");
+    const ip =
+      forwardedFor?.split(",")[0]?.trim() ||
+      reqHeaders.get("x-real-ip") ||
+      "unknown";
+    const userAgent = reqHeaders.get("user-agent") ?? undefined;
+    const referer = reqHeaders.get("referer") ?? undefined;
+
+    console.log({ip, referer, userAgent})
+
+    axiomLogger.warn(`Category page not found: /${requestedPath}`, {
+      event: "page.not_found",
+      route: "/[[...slug]]",
+      requested_path: requestedPath,
+      url_path: requestedPath,
+      status: 404,
+      duration_ms: durationMs,
+      ip,
+      user_agent: userAgent,
+      referer,
+    });
+    return notFound();
+  }
+
+  axiomLogger.info(
+    requestedPath
+      ? `Category page render: /${requestedPath}`
+      : "Category page render: /",
+    {
+      event: "page.render",
+      route: "/[[...slug]]",
+      requested_path: requestedPath,
+      status: status ?? 200,
+      has_data: Boolean(data),
+      category_id: data?.category?.id,
+      category_name: data?.category?.name,
+      category_url_path: data?.category?.url_path,
+      recordings_count: data?.recordings?.length ?? 0,
+      subcategories_count: data?.subcategories?.length ?? 0,
+      duration_ms: durationMs,
+    },
+  );
+
+  return (
+    <>
+      {structuredData.map((schema, idx) => (
+        <script
+          // biome-ignore lint/suspicious/noArrayIndexKey: ok
+          key={idx}
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: json+ld
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
+      <ClientShell
+        initialData={data ?? undefined}
+        requestedPath={requestedPath}
+      />
+    </>
+  );
+};
+
+export default CategoryPage;

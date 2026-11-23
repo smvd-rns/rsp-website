@@ -1,0 +1,183 @@
+"use client";
+
+import { FolderOpen } from "lucide-react";
+import { redirect, usePathname } from "next/navigation";
+import { CategoryList } from "@/components/category-list";
+import { FeaturedSection } from "@/components/featured-section";
+import { GuidanceSpotlight } from "@/components/guidance-spotlight";
+import { Loading } from "@/components/loading";
+import { NotFoundState } from "@/components/not-found-state";
+import { RecordingsSection } from "@/components/recordings-section";
+
+import {
+  type CategoryPageData,
+  useCategoryPage,
+} from "@/hooks/use-category-page";
+import { useHomepage } from "@/hooks/use-homepage";
+import { usePublicSync } from "@/hooks/use-public-sync";
+import { useRoleSync } from "@/hooks/use-role-sync";
+import { clearSyncMetaCache } from "@/lib/sync-worker-client";
+import { CategoryBreadcrumbs } from "./category-breadcrumbs";
+import { CategoryHero } from "./category-hero";
+
+interface ClientShellProps {
+  initialData?: CategoryPageData;
+  requestedPath?: string;
+}
+
+export const ClientShell = ({
+  initialData,
+  requestedPath,
+}: ClientShellProps) => {
+  const pathname = usePathname();
+  const slug = pathname.split("/").filter(Boolean);
+  const { data: clientData, isPending, error, refetch } = useCategoryPage(
+    pathname,
+    initialData,
+    requestedPath,
+  );
+  const { data: homepageData } = useHomepage();
+  const isSyncing = false;
+
+  // Use database data directly when provided
+  const data = (initialData?.category || initialData?.subcategories?.length || initialData?.recordings?.length)
+    ? initialData
+    : (clientData || initialData);
+
+  const handleRetry = async () => {
+    await refetch();
+  };
+
+  if (data?.redirectTo) {
+    redirect(data.redirectTo);
+  }
+
+  if (
+    (isPending || isSyncing) &&
+    !data?.subcategories?.length &&
+    !data?.recordings?.length
+  ) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <NotFoundState onRetry={handleRetry} message={error?.message} />;
+  }
+
+  if (slug.length === 0) {
+    return (
+      <div className="flex flex-col py-4" style={{ gap: "2.5rem" }}>
+        <CategoryHero />
+
+        {/* Guidance Spotlight */}
+        {homepageData?.spotlights && homepageData.spotlights.length > 0 && (
+          <GuidanceSpotlight spotlights={homepageData.spotlights} />
+        )}
+
+        {/* Dynamic Featured Sections */}
+        {homepageData?.featuredSections?.map((section) => (
+          <FeaturedSection key={section.id} section={section} />
+        ))}
+
+        {/* Root Categories Section */}
+        <section className="flex flex-col gap-6">
+          <div className="flex items-center gap-2">
+            <FolderOpen className="w-5 h-5 text-primary" />
+            <h2 className="text-2xl font-bold font-heading">
+              Explore Categories
+            </h2>
+          </div>
+
+          <CategoryList
+            categories={data?.subcategories.filter(
+              (c) => c.url_path !== "trash",
+            )}
+          />
+        </section>
+
+        {/* Featured & Recent Discourses */}
+        {data?.recordings && data.recordings.length > 0 && (
+          <RecordingsSection
+            recordings={data.recordings}
+            categoryName="Featured Discourses"
+          />
+        )}
+      </div>
+    );
+  }
+
+  if (slug.length === 1 && slug[0] === "library") {
+    return (
+      <div className="flex flex-col gap-8 py-2">
+        <CategoryBreadcrumbs />
+
+        <div className="flex flex-col gap-2 border-b border-border pb-6">
+          <span className="text-xs font-bold text-primary tracking-wider uppercase">
+            Spiritual Library
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-bold font-heading tracking-tight">
+            All Discourses &amp; Categories
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Explore the complete archive of philosophical lectures, Vedic
+            commentaries, and seminar recordings.
+          </p>
+        </div>
+
+        <section className="flex flex-col gap-4">
+          <CategoryList
+            categories={data?.subcategories.filter(
+              (c) => c.url_path !== "trash",
+            )}
+          />
+        </section>
+
+        {/* Featured & Recent Discourses */}
+        {data?.recordings && data.recordings.length > 0 && (
+          <RecordingsSection
+            recordings={data.recordings}
+            categoryName="Featured Discourses"
+          />
+        )}
+      </div>
+    );
+  }
+
+  if (!data?.category) {
+    return <NotFoundState onRetry={handleRetry} />;
+  }
+
+  const { category, subcategories, recordings } = data;
+
+  return (
+    <div className="flex flex-col gap-8 py-2">
+      <CategoryBreadcrumbs category={category} breadcrumbs={data.breadcrumbs} />
+
+      {/* Category Header */}
+      <div className="flex flex-col gap-2 border-b border-border pb-6">
+        <span className="text-xs font-bold text-primary tracking-wider uppercase">
+          Category
+        </span>
+        <h1 className="text-3xl sm:text-4xl font-bold font-heading tracking-tight">
+          {category.name}
+        </h1>
+      </div>
+
+      {/* Subcategories Section */}
+      {subcategories.length > 0 && (
+        <section className="flex flex-col gap-4">
+          <h2 className="text-xl font-bold font-heading flex items-center gap-2">
+            <FolderOpen className="w-5 h-5 text-primary" />
+            Subcategories
+          </h2>
+          <CategoryList categories={subcategories} />
+        </section>
+      )}
+
+      {/* Recordings Section */}
+      {recordings.length > 0 && (
+        <RecordingsSection {...{ recordings }} categoryName={category.name} />
+      )}
+    </div>
+  );
+};

@@ -1,0 +1,154 @@
+"use client";
+
+import {
+  Home,
+  LogIn,
+  LogOut,
+  MessageSquare,
+  User,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { CurrentUserAvatar } from "@/components/current-user-avatar";
+import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Skeleton } from "@/components/ui/skeleton";
+import { getSupabaseClient } from "@/lib/supabase-browser";
+import { getUserDisplayName } from "@/lib/utils";
+import { AuthModal } from "./auth-modal";
+import { NavLinks } from "./nav-links";
+import { useSession } from "./providers";
+import { Button } from "./ui/button";
+
+interface MobileDrawerContentProps {
+  setOpen: (open: boolean) => void;
+}
+
+export const MobileDrawerContent = ({ setOpen }: MobileDrawerContentProps) => {
+  const router = useRouter();
+  const { session, isLoading } = useSession();
+  const [authOpen, setAuthOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch {
+      // ignore
+    }
+    try {
+      const supabase = getSupabaseClient();
+      await supabase.auth.signOut({ scope: "local" });
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new Event("auth-changed"));
+    setOpen(false);
+    router.refresh();
+  };
+
+  const handleNavigate = (path: string) => {
+    setOpen(false);
+    router.push(path);
+  };
+
+  return (
+    <SheetContent
+      side="left"
+      className="p-6 flex flex-col gap-6 h-full overflow-y-auto"
+      style={{ width: "17.5rem" }}
+    >
+      <SheetHeader className="p-0 border-b border-border pb-4 text-left">
+        <SheetTitle className="font-heading font-bold text-lg flex items-center gap-2">
+          <span className="text-primary font-serif">RSD</span> Media
+        </SheetTitle>
+      </SheetHeader>
+
+      {/* User Settings Section */}
+      <div className="flex flex-col gap-3">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground opacity-80">
+          Account
+        </h3>
+        {isLoading ? (
+          <div className="flex items-center gap-3 py-2">
+            <Skeleton className="h-10 w-10 rounded-full" />
+            <div className="space-y-2">
+              <Skeleton className="h-4" style={{ width: "7rem" }} />
+              <Skeleton className="h-3" style={{ width: "9rem" }} />
+            </div>
+          </div>
+        ) : session ? (
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-3 py-1">
+              <CurrentUserAvatar />
+              <div className="flex flex-col">
+                <span className="font-semibold text-sm truncate">
+                  {getUserDisplayName(session.user)}
+                </span>
+                <span className="text-xs text-muted-foreground truncate">
+                  {session.user.email}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="justify-start p-0"
+                onClick={() => handleNavigate("/profile")}
+              >
+                <User className="w-4 h-4 text-muted-foreground" />
+                Profile
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="justify-start p-0"
+                onClick={() => handleNavigate("/queries")}
+              >
+                <MessageSquare className="w-4 h-4 text-muted-foreground" />
+                My Queries
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="p-0 justify-start text-destructive"
+                onClick={handleLogout}
+              >
+                <LogOut className="w-4 h-4" />
+                Log out
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <Button
+            type="button"
+            size="sm"
+            onClick={() => setAuthOpen(true)}
+            className="w-full gap-2 justify-center"
+          >
+            <LogIn className="w-4 h-4" />
+            Login / Register
+          </Button>
+        )}
+      </div>
+
+      <hr className="border-border" />
+
+      {/* Navigation Links */}
+      <div className="mt-auto flex flex-col gap-4">
+        <Link
+          href="/"
+          className="hover:text-primary transition-all flex items-center gap-1.5 text-sm font-semibold"
+          onClick={() => setOpen(false)}
+          prefetch={false}
+        >
+          <Home className="size-4 text-primary" />
+          <span>Home</span>
+        </Link>
+        <NavLinks onItemClick={() => setOpen(false)} />
+      </div>
+      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
+    </SheetContent>
+  );
+};
