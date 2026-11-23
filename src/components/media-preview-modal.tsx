@@ -295,7 +295,7 @@ export const MediaPreviewModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent
-        className="p-0 overflow-hidden border border-border/90 bg-card shadow-2xl rounded-2xl flex flex-col gap-0"
+        className="p-0 overflow-hidden border-2 border-primary/35 bg-card shadow-[0_25px_70px_-15px_rgba(234,88,12,0.35),0_0_0_1px_rgba(249,115,22,0.25)] ring-4 ring-primary/15 rounded-2xl sm:rounded-3xl flex flex-col gap-0 transition-all duration-300"
         showCloseButton={false}
         style={{
           maxWidth: isMobile
@@ -306,26 +306,29 @@ export const MediaPreviewModal = () => {
           width: "100%",
         }}
       >
+        {/* Sacred Golden-Saffron Radiant Accent Line */}
+        <div className="h-1 sm:h-1.5 w-full bg-linear-to-r from-amber-400 via-orange-500 to-amber-500 shrink-0" />
+
         {/* Modern Elegant Header */}
-        <DialogHeader className="flex flex-row items-center justify-between px-4 sm:px-5 py-3 border-b border-border/80 bg-card shrink-0">
+        <DialogHeader className="flex flex-row items-center justify-between px-4 sm:px-6 py-3 sm:py-3.5 border-b border-border/70 bg-linear-to-r from-amber-500/10 via-orange-500/5 to-amber-500/10 backdrop-blur-md shrink-0">
           {/* Format Icon, Badge, and Title */}
-          <div className="flex items-center gap-2.5 min-w-0 pr-2">
-            <div className={cn("p-2 rounded-xl shrink-0 border flex items-center justify-center", meta.badgeClass)}>
+          <div className="flex items-center gap-3 min-w-0 pr-2">
+            <div className={cn("p-2 sm:p-2.5 rounded-xl shrink-0 border shadow-xs flex items-center justify-center bg-background/80 backdrop-blur-xs", meta.badgeClass)}>
               {meta.icon}
             </div>
             <div className="flex flex-col min-w-0">
               <div className="flex items-center gap-2">
-                <span className={cn("text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.2 rounded border", meta.badgeClass)}>
+                <span className={cn("text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border shadow-2xs", meta.badgeClass)}>
                   {meta.label}
                 </span>
                 {formattedSize && (
-                  <span className="text-[11px] text-muted-foreground font-mono">
+                  <span className="text-[11px] text-muted-foreground font-mono bg-muted/60 px-2 py-0.5 rounded-full">
                     {formattedSize}
                   </span>
                 )}
               </div>
               <DialogTitle
-                className="font-bold text-sm sm:text-base text-foreground truncate mt-0.5"
+                className="font-heading font-bold text-sm sm:text-base text-foreground truncate mt-1 tracking-tight"
                 title={title}
               >
                 {title}
@@ -334,13 +337,18 @@ export const MediaPreviewModal = () => {
           </div>
 
           {/* Action Toolbar */}
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             {directUrl && (
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
-                className="h-8 px-2.5 gap-1.5 text-xs font-semibold rounded-lg border-border/80 hover:bg-muted cursor-pointer shrink-0"
+                className={cn(
+                  "h-8.5 px-3.5 gap-1.5 text-xs font-semibold rounded-full shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer shrink-0",
+                  isVideo
+                    ? "border-red-500/30 bg-red-500/10 text-red-600 hover:bg-red-500/20 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-500/25"
+                    : "border-border/80 hover:bg-muted"
+                )}
                 title={isVideo ? "Watch on YouTube" : "Open in new tab"}
                 onClick={() => window.open(directUrl, "_blank", "noopener,noreferrer")}
               >
@@ -363,7 +371,7 @@ export const MediaPreviewModal = () => {
                 type="button"
                 variant="outline"
                 size="sm"
-                className="h-8 px-2.5 gap-1.5 text-xs font-semibold rounded-lg border-border/80 hover:bg-muted cursor-pointer shrink-0"
+                className="h-8.5 px-3.5 gap-1.5 text-xs font-semibold rounded-full border-primary/30 bg-primary/10 text-primary hover:bg-primary/20 shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer shrink-0"
                 title="Download file directly"
                 onClick={handleDownload}
               >
@@ -376,7 +384,7 @@ export const MediaPreviewModal = () => {
               type="button"
               variant="ghost"
               size="icon-sm"
-              className="h-8 w-8 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground cursor-pointer shrink-0 ml-1"
+              className="h-8.5 w-8.5 rounded-full bg-muted/70 hover:bg-destructive/15 text-muted-foreground hover:text-destructive border border-border/60 transition-all cursor-pointer shrink-0 ml-1 shadow-2xs"
               title="Close preview (Esc)"
               onClick={handleClose}
               aria-label="Close dialog"

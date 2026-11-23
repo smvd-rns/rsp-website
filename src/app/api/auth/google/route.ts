@@ -33,8 +33,12 @@ export async function GET(req: NextRequest) {
       return NextResponse.redirect(new URL(errParam, origin));
     }
 
-    const clientId = process.env.GOOGLE_CLIENT_ID;
-    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+    const clientId =
+      process.env.GOOGLE_AUTH_CLIENT_ID ||
+      process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
+      process.env.GOOGLE_CLIENT_ID;
+    const clientSecret =
+      process.env.GOOGLE_AUTH_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET;
     const redirectUri = `${origin}/api/auth/google`;
 
     // 1. Exchange OAuth code for tokens
