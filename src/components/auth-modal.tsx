@@ -89,8 +89,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     try {
       const clientId =
         process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID ||
-        process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
-        "760360904720-sh0rc0h7nnsmfiof0dfk1m8emq1klg26.apps.googleusercontent.com";
+        process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
       let origin = window.location.origin.replace(/\/+$/, "");
       if (origin.includes("127.0.0.1")) {
         origin = origin.replace("127.0.0.1", "localhost");

@@ -35,11 +35,16 @@ export async function GET(req: NextRequest) {
 
     const clientId =
       process.env.GOOGLE_AUTH_CLIENT_ID ||
-      process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
-      process.env.GOOGLE_CLIENT_ID;
-    const clientSecret =
-      process.env.GOOGLE_AUTH_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET;
+      process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID;
+    const clientSecret = process.env.GOOGLE_AUTH_CLIENT_SECRET;
     const redirectUri = `${origin}/api/auth/google`;
+
+    if (!clientId || !clientSecret) {
+      console.error("[Google OAuth] Missing GOOGLE_AUTH_CLIENT_ID or GOOGLE_AUTH_CLIENT_SECRET");
+      return NextResponse.redirect(
+        new URL("/?auth_error=oauth_credentials_missing", origin)
+      );
+    }
 
     // 1. Exchange OAuth code for tokens
     const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
