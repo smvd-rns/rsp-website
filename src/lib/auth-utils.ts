@@ -84,10 +84,8 @@ export const verifyAdmin = async (shouldRedirect = false) => {
     }
 
     if (authError || !userData?.user) {
-      if (process.env.NODE_ENV === "test") {
-        if (shouldRedirect) redirect("/auth/login");
-        throw new Error("Unauthorized: Not logged in");
-      }
+      if (shouldRedirect) redirect("/auth/login");
+      throw new Error("Unauthorized: Not logged in");
     }
   } catch (e: any) {
     if (
@@ -99,24 +97,10 @@ export const verifyAdmin = async (shouldRedirect = false) => {
     }
   }
 
-  // 3. Fallback for development / server tasks
-  try {
-    const res = await query(
-      "SELECT id, email, name, role FROM rsp.users WHERE role = 1 LIMIT 1;",
-    );
-    if (res.rows.length > 0) {
-      return res.rows[0];
-    }
-  } catch (e) {
-    console.warn("Could not query local users table:", e);
+  if (shouldRedirect) {
+    redirect("/");
   }
-
-  if (process.env.NODE_ENV === "test") {
-    if (shouldRedirect) redirect("/auth/login");
-    throw new Error("Unauthorized: Not logged in");
-  }
-
-  return { id: 1, email: "admin@voicepune.com", role: 1, name: "Admin" };
+  throw new Error("Unauthorized: Admin role required");
 };
 
 /**

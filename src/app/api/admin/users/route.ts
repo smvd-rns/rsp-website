@@ -5,11 +5,11 @@ import pool from "@/lib/db";
 export async function GET(req: NextRequest) {
   try {
     const session = await getSessionFromRequest(req);
-    // Allow admin access (or fallback during local administration)
-    const isAdmin = session ? Number(session.role) === 1 : true;
-    if (!isAdmin) {
+    const role = Number(session?.role || 0);
+    const isAdmin = role === 1 || role === 8;
+    if (!session || !isAdmin) {
       return NextResponse.json(
-        { error: "Unauthorized: Admin required" },
+        { error: "Unauthorized: Admin access required" },
         { status: 403 },
       );
     }

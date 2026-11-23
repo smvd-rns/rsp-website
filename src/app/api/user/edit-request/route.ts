@@ -19,8 +19,13 @@ interface EditRequestBody {
 export async function POST(req: NextRequest) {
   try {
     const session = await getSessionFromRequest(req);
+    if (!session?.userId && !session?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const body = (await req.json()) as EditRequestBody;
-    let targetUserId = session?.userId || body.user_id;
+    const isAdmin = Number(session.role) === 1 || Number(session.role) === 8;
+    let targetUserId = (!isAdmin || !body.user_id) ? session.userId : body.user_id;
 
     if (!targetUserId && session?.email) {
       const uRes = await pool.query(

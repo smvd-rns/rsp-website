@@ -4,10 +4,11 @@ import pool from "@/lib/db";
 
 export async function GET(req: NextRequest) {
   try {
-    // 1. Auth check: Admin role (1) or local dev fallback
+    // 1. Auth check: Admin role (1) or Manager role (8)
     const session = await getSessionFromRequest(req);
-    const isAdmin = session ? Number(session.role) === 1 : true;
-    if (!isAdmin) {
+    const role = Number(session?.role || 0);
+    const isAdmin = role === 1 || role === 8;
+    if (!session || !isAdmin) {
       return NextResponse.json(
         { error: "Forbidden: Admin access required" },
         { status: 403 },

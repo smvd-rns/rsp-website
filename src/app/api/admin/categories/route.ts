@@ -1,12 +1,21 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { getSessionFromRequest } from "@/lib/auth-server";
 import pool, { query } from "@/lib/db";
 import { revalidateUrlPaths } from "@/lib/revalidate";
 import { syncCategoryFolders } from "@/lib/upload-service";
 import { buildCategoryUrlPath } from "@/lib/utils";
 import type { Category } from "@/types";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const session = await getSessionFromRequest(request);
+    const role = Number(session?.role || 0);
+    if (!session || (role !== 1 && role !== 8)) {
+      return NextResponse.json(
+        { error: "Unauthorized: Admin access required" },
+        { status: 403 },
+      );
+    }
     const res = await pool.query(
       `SELECT id, name, img, image_url, path, orderind, parentid, allowed_roles, url_path, gdriveid, videogdriveid
        FROM rsp.categories
@@ -54,6 +63,15 @@ export async function GET() {
 
 export async function PATCH(request: NextRequest) {
   try {
+    const session = await getSessionFromRequest(request);
+    const role = Number(session?.role || 0);
+    if (!session || (role !== 1 && role !== 8)) {
+      return NextResponse.json(
+        { error: "Unauthorized: Admin access required" },
+        { status: 403 },
+      );
+    }
+
     const body = await request.json();
     const { id, name, parent, roles, imgId } = body as {
       id: number;

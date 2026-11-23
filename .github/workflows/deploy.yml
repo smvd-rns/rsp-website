@@ -7,16 +7,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  test:
+    name: Run Unit Tests
     runs-on: ubuntu-latest
-    env:
-      ENV_FILE: ${{ secrets.ENV_FILE }}
-
     steps:
-      - name: Checkout Source Code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 22 (LTS)
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -24,93 +22,45 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          version: 10
 
       - name: Install Dependencies
-        run: |
-          pnpm install --frozen-lockfile --prefer-offline || pnpm install --prefer-offline
+        run: pnpm install --frozen-lockfile || pnpm install
 
-      - name: Create .env file from Secret
-        if: env.ENV_FILE != ''
-        run: |
-          echo "$ENV_FILE" > .env.production
-          echo "$ENV_FILE" > .env
+      - name: Run Unit Tests
+        run: pnpm exec vitest run src/lib/auth-utils.test.ts src/app/api/admin/insights/route.test.ts
 
-      - name: Build Next.js Application (Cloud Runner)
-        run: pnpm run build
-
-      - name: Compress Build Artifacts
-        run: tar -czf next-build.tar.gz --exclude='.next/cache' .next
-
-      - name: Deploy Build Artifacts to Droplet
-        env:
-          SSHPASS: ${{ secrets.DROPLET_PASSWORD }}
-          DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
-          DROPLET_USER: ${{ secrets.DROPLET_USER || 'root' }}
-          DROPLET_PATH: ${{ secrets.DROPLET_APP_PATH || '/var/www/rsp-web' }}
-        run: |
-          echo "Installing OpenSSH and sshpass tools..."
-          sudo apt-get update -qq && sudo apt-get install -y -qq sshpass openssh-client
-
-          echo "Ensuring deployment directory exists on droplet..."
-          sshpass -e ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 ${DROPLET_USER}@${DROPLET_HOST} "mkdir -p ${DROPLET_PATH}"
-
-          echo "Uploading Next.js build artifacts to droplet..."
-          sshpass -e scp -o StrictHostKeyChecking=no -o ConnectTimeout=60 next-build.tar.gz ${DROPLET_USER}@${DROPLET_HOST}:${DROPLET_PATH}/
-
-          if [ -f ".env" ]; then
-            echo "Uploading .env to droplet..."
-            sshpass -e scp -o StrictHostKeyChecking=no -o ConnectTimeout=30 .env ${DROPLET_USER}@${DROPLET_HOST}:${DROPLET_PATH}/
-          fi
-
-          echo "Connecting to droplet to extract build and restart server..."
-          sshpass -e ssh -o StrictHostKeyChecking=no -o ConnectTimeout=60 ${DROPLET_USER}@${DROPLET_HOST} << EOF
+  deploy:
+    name: Deploy to Droplet
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy to Droplet via SSH Key
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USER || 'root' }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          passphrase: ${{ secrets.DROPLET_SSH_PASSPHRASE }}
+          script: |
             set -e
-            cd ${DROPLET_PATH}
+            echo "Navigating to /var/www/rsp-web..."
+            cd /var/www/rsp-web
 
-            # Ensure git branch is clean and strictly matches origin/main
-            if [ -d ".git" ]; then
-              git fetch origin main || true
-              git checkout -f main || git checkout -f -B main origin/main || true
-              git reset --hard origin/main || true
-            fi
+            echo "Pulling latest code from origin/main..."
+            git fetch origin main
+            git reset --hard origin/main
 
-            # Extract new build artifacts safely
-            if [ -f "next-build.tar.gz" ]; then
-              echo "Extracting new Next.js build artifacts..."
-              rm -rf .next
-              tar -xzf next-build.tar.gz
-              rm -f next-build.tar.gz
-              echo "Build artifacts unpacked successfully."
-            fi
+            echo "Installing dependencies..."
+            pnpm install
 
-            # Install dependencies and setup pnpm if missing
-            if ! command -v pnpm &> /dev/null; then
-              npm install -g pnpm
-            fi
+            echo "Building Next.js application..."
+            export NODE_OPTIONS="--max-old-space-size=3072"
+            pnpm run build
 
-            pnpm install --prod --prefer-offline || npm install --omit=dev --prefer-offline
-
-            # Run database migration for site_visits telemetry
-            pnpm run db:migrate || true
-
-            # Restart PM2 Next.js application
-            pm2 restart rsp-web --update-env || pm2 start pnpm --name "rsp-web" -- start || pm2 start npm --name "rsp-web" -- start
-
+            echo "Restarting application under PM2..."
+            pm2 restart rsp-web || pm2 start pnpm --name "rsp-web" -- start
             pm2 save
-            echo "Droplet deployment completed successfully!"
-          EOF
 
+            echo "Droplet deployment completed successfully!"

@@ -1,6 +1,7 @@
 import { Readable } from "node:stream";
 import { google } from "googleapis";
 import { type NextRequest, NextResponse } from "next/server";
+import { getSessionFromRequest } from "@/lib/auth-server";
 import { query } from "@/lib/db";
 
 // Google Drive API configuration
@@ -225,6 +226,15 @@ async function uploadToDrive(
  */
 export async function POST(request: NextRequest) {
   try {
+    const session = await getSessionFromRequest(request);
+    const role = Number(session?.role || 0);
+    if (!session || (role !== 1 && role !== 8)) {
+      return NextResponse.json(
+        { error: "Unauthorized: Admin access required" },
+        { status: 403 },
+      );
+    }
+
     const formData = await request.formData();
     const action = (formData.get("action") as string) || "upload";
 
