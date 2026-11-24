@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { TopAnnouncementBanner } from "@/components/announcement-banner";
 import { Header } from "@/components/header";
+import { BottomNav } from "@/components/bottom-nav";
 import { PageTransition } from "@/components/page-transition";
 import { Providers } from "@/components/providers";
 import "./globals.css";
@@ -14,6 +15,14 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#c2410c",
+};
 
 export const metadata: Metadata = {
   title: "Radheshyam Das Spiritual Discourses",
@@ -52,6 +61,7 @@ export default async function RootLayout({
           <Header />
           <PageTransition>{children}</PageTransition>
           <GlobalAudioPlayer />
+          <BottomNav />
           <LayoutInitializers />
         </Providers>
       </body>

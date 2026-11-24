@@ -126,7 +126,7 @@ export const RecordingMeta = ({ rec, m, sm, showLink }: RecordingMetaProps) => {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="text-xxs font-semibold h-6 px-1.5 shrink-0 cursor-pointer rounded-md"
+                  className="text-xxs font-semibold h-6 px-1.5 shrink-0 cursor-pointer rounded-md border border-[#9c6644]/40 hover:border-[#8b5a2b] dark:border-amber-700/50 bg-background/80 hover:bg-background text-foreground shadow-2xs"
                 >
                   +{materials.length - nMaterialPills} more
                 </Button>
@@ -142,7 +142,7 @@ export const RecordingMeta = ({ rec, m, sm, showLink }: RecordingMetaProps) => {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="text-xxs font-semibold h-6 px-1.5 shrink-0 cursor-pointer rounded-md"
+                  className="text-xxs font-semibold h-6 px-1.5 shrink-0 cursor-pointer rounded-md border border-[#9c6644]/40 hover:border-[#8b5a2b] dark:border-amber-700/50 bg-background/80 hover:bg-background text-foreground shadow-2xs"
                   title="View & download materials"
                 >
                   <Download className="w-3 h-3 text-muted-foreground" />

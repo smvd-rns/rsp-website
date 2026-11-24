@@ -1,6 +1,6 @@
 "use client";
 
-import { Shield } from "lucide-react";
+import { Search, Shield } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ADMIN_ROLE_ID } from "@/constants";
@@ -23,6 +23,16 @@ export const HeaderActions = () => {
 
   return (
     <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0 text-white">
+      {/* Quick Search Trigger on Mobile */}
+      <button
+        type="button"
+        onClick={() => window.dispatchEvent(new CustomEvent("open-search"))}
+        className="md:hidden flex items-center justify-center w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 text-white transition-all cursor-pointer active:scale-95"
+        aria-label="Search"
+      >
+        <Search className="w-4 h-4" />
+      </button>
+
       {/* Primary Top Navigation on Desktop */}
       <nav className="hidden lg:flex items-center gap-1 text-xs font-semibold mr-1">
         <Link
@@ -86,7 +96,7 @@ export const HeaderActions = () => {
       )}
 
       <NotificationCenter />
-      <div className="flex items-center">
+      <div className="hidden md:flex items-center">
         <UserNav />
       </div>
     </div>

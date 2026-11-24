@@ -9,7 +9,7 @@ export async function GET(
     return NextResponse.json({ error: 'Missing audio id' }, { status: 400 });
   }
 
-  const targetUrl = `https://drive.usercontent.google.com/download?id=${id}&export=download`;
+  const targetUrl = `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`;
   const range = req.headers.get('range');
 
   const headers: Record<string, string> = {

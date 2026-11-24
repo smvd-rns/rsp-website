@@ -2,6 +2,7 @@
 
 import { Slider } from "@/components/ui/slider";
 import { useAudioTimeline } from "@/hooks/use-audio";
+import { cn } from "@/lib/utils";
 
 const formatTime = (secs: number) => {
   if (Number.isNaN(secs)) return "0:00";
@@ -10,7 +11,11 @@ const formatTime = (secs: number) => {
   return `${m}:${s < 10 ? "0" : ""}${s}`;
 };
 
-export const TimelineSlider = () => {
+export const TimelineSlider = ({
+  compact,
+}: {
+  compact?: boolean;
+} = {}) => {
   const { currentTime, duration, seek } = useAudioTimeline();
 
   const handleValueChange = (values: number[]) => {
@@ -21,12 +26,17 @@ export const TimelineSlider = () => {
 
   return (
     <div
-      className="flex items-center gap-2 md:w-72"
-      style={{ minWidth: "160px", flexGrow: 1 }}
+      className={cn(
+        "flex items-center",
+        compact ? "gap-1.5 w-full" : "gap-2 md:w-72",
+      )}
+      style={{ minWidth: compact ? "100%" : "160px", flexGrow: 1 }}
     >
       <span
-        className="text-xxs text-muted-foreground min-w-8"
-        style={{ textAlign: "right" }}
+        className={cn(
+          "text-sky-900/80 dark:text-sky-200/70 shrink-0 font-mono select-none",
+          compact ? "text-[10px] min-w-7 text-right" : "text-xxs min-w-8 text-right",
+        )}
       >
         {formatTime(currentTime)}
       </span>
@@ -37,11 +47,16 @@ export const TimelineSlider = () => {
         max={duration || 100}
         step={1}
         onValueChange={handleValueChange}
-        className="cursor-pointer"
+        className="cursor-pointer flex-1"
         aria-label="Audio timeline slider"
       />
 
-      <span className="text-xxs text-muted-foreground min-w-8 text-left">
+      <span
+        className={cn(
+          "text-sky-900/80 dark:text-sky-200/70 shrink-0 font-mono select-none",
+          compact ? "text-[10px] min-w-7 text-left" : "text-xxs min-w-8 text-left",
+        )}
+      >
         {formatTime(duration)}
       </span>
     </div>

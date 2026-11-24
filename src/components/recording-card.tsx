@@ -326,7 +326,7 @@ export const RecordingCard = ({
         data-recording-item
         onKeyDown={onKeyDown}
         className={cn(
-          "group flex flex-col h-full rounded-2xl border border-stone-200/90 dark:border-stone-800 bg-card overflow-hidden shadow-xs hover:shadow-lg hover:border-primary/50 focus:ring-2 focus:ring-primary focus:outline-none transition-all duration-300",
+          "group flex flex-col h-full rounded-2xl border-[1.5px] border-[#8b5a2b]/35 dark:border-amber-600/40 bg-linear-to-b from-[#fffbf4] via-[#fff7ec] to-[#fff1df] dark:from-[#241911] dark:via-[#1e140d] dark:to-[#18100a] overflow-hidden shadow-[0_2px_10px_-2px_rgba(0,0,0,0.06),0_1px_3px_0_rgba(0,0,0,0.04)] hover:scale-[1.015] hover:border-[#8b5a2b] dark:hover:border-amber-500 hover:shadow-[0_12px_28px_-6px_rgba(139,90,43,0.18)] active:scale-[0.99] focus:ring-2 focus:ring-primary focus:outline-none transition-all duration-300 ease-out",
           isHighlighted && "border-primary bg-primary/5 ring-2 ring-primary",
         )}
       >
@@ -411,10 +411,10 @@ export const RecordingCard = ({
                 onClick={handlePlayClick}
                 disabled={isLoading}
                 className={cn(
-                  "font-semibold text-xs cursor-pointer gap-1.5 h-8 px-2.5 rounded-lg transition-all shadow-xs shrink-0",
+                  "font-semibold text-xs cursor-pointer gap-1.5 h-8 px-2.5 rounded-lg transition-all shadow-xs shrink-0 border",
                   isActiveTrack && isPlaying
-                    ? "bg-primary text-primary-foreground shadow-xs"
-                    : "hover:bg-primary/10 hover:text-primary",
+                    ? "bg-primary text-primary-foreground border-primary shadow-xs"
+                    : "border-[#9c6644]/40 hover:border-primary bg-amber-500/10 hover:bg-primary/15 text-amber-900 dark:text-amber-100",
                 )}
                 title={
                   isActiveTrack && isPlaying ? "Pause Audio" : "Play Audio"
@@ -449,10 +449,10 @@ export const RecordingCard = ({
                       size="sm"
                       disabled={isBatchProcessing}
                       className={cn(
-                        "h-8 px-2.5 text-xs font-medium rounded-lg gap-1.5 border-border/80 shrink-0",
+                        "h-8 px-2.5 text-xs font-medium rounded-lg gap-1.5 border border-[#9c6644]/40 hover:border-[#8b5a2b] dark:border-amber-700/50 bg-background/90 hover:bg-background shadow-xs shrink-0",
                         isBatchProcessing
                           ? "bg-primary/10 text-primary border-primary/30 cursor-wait"
-                          : "hover:bg-muted cursor-pointer",
+                          : "cursor-pointer",
                       )}
                       title={
                         isBatchProcessing
@@ -533,7 +533,7 @@ export const RecordingCard = ({
                   size="sm"
                   disabled={isBatchProcessing}
                   onClick={handleDownload}
-                  className="font-medium text-xs cursor-pointer h-8 px-2.5 gap-1.5 rounded-lg border-border/80 hover:bg-muted shadow-xs shrink-0"
+                  className="font-medium text-xs cursor-pointer h-8 px-2.5 gap-1.5 rounded-lg border border-[#9c6644]/40 hover:border-[#8b5a2b] dark:border-amber-700/50 bg-background/90 hover:bg-background shadow-xs shrink-0"
                   title="Download Audio (.mp3)"
                 >
                   <FileDown className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
@@ -547,7 +547,7 @@ export const RecordingCard = ({
                 size="sm"
                 onClick={handleCopyLink}
                 className={cn(
-                  "font-medium text-xs cursor-pointer h-8 w-8 p-0 rounded-lg border-border/80 shadow-xs transition-colors shrink-0 flex items-center justify-center",
+                  "font-medium text-xs cursor-pointer h-8 w-8 p-0 rounded-lg border border-[#9c6644]/40 hover:border-[#8b5a2b] dark:border-amber-700/50 bg-background/90 hover:bg-background shadow-xs transition-colors shrink-0 flex items-center justify-center",
                   isCopied && "border-success/50 bg-success/10 text-success",
                 )}
                 title={isCopied ? "Link copied!" : "Share recording link"}
@@ -573,16 +573,16 @@ export const RecordingCard = ({
       data-recording-item
       onKeyDown={onKeyDown}
       className={cn(
-        "p-4 border rounded-2xl shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-2 group focus:ring-1 focus:ring-primary focus:outline-none transition-all duration-200 ease-in-out",
+        "p-4 border-[1.5px] rounded-2xl shadow-[0_2px_10px_-2px_rgba(0,0,0,0.06),0_1px_3px_0_rgba(0,0,0,0.04)] flex flex-col md:flex-row justify-between items-start md:items-center gap-2 group transition-all duration-300 ease-out hover:scale-[1.01] hover:border-[#8b5a2b] dark:hover:border-amber-500 hover:shadow-[0_8px_25px_-5px_rgba(139,90,43,0.18)] active:scale-[0.99] focus:ring-1 focus:ring-primary focus:outline-none",
         isHighlighted
           ? "border-primary bg-primary/5 ring-1 ring-primary"
-          : "border-border bg-card hover:shadow-md",
+          : "border-[#8b5a2b]/35 dark:border-amber-600/40 bg-linear-to-b from-[#fffbf4] via-[#fff7ec] to-[#fff1df] dark:from-[#241911] dark:via-[#1e140d] dark:to-[#18100a]",
       )}
     >
       <RecordingMeta {...{ rec, m }} />
 
       {/* Media Links / Actions */}
-      <div className="flex items-center gap-2 self-stretch md:self-auto justify-end border-t md:border-none border-border pt-2 md:pt-0 shrink-0">
+      <div className="flex items-center gap-2 self-stretch md:self-auto justify-end border-t md:border-none border-border/60 pt-2 md:pt-0 shrink-0">
         {rec.audio_id && (
           <>
             {!isOverStreamLimit && (
@@ -592,7 +592,10 @@ export const RecordingCard = ({
                 size="sm"
                 onClick={handlePlayClick}
                 disabled={isLoading}
-                className="font-bold text-xs cursor-pointer"
+                className={cn(
+                  "font-bold text-xs cursor-pointer border border-[#9c6644]/40 hover:border-primary shadow-xs",
+                  isActiveTrack && isPlaying && "bg-primary text-primary-foreground border-primary",
+                )}
                 title={
                   isLoading
                     ? "Loading..."
@@ -626,7 +629,7 @@ export const RecordingCard = ({
                 open={isDropdownOpen}
                 onOpenChange={setIsDropdownOpen}
               >
-                <div className="inline-flex items-center rounded-lg border border-border bg-background overflow-hidden">
+                <div className="inline-flex items-center rounded-lg border border-[#9c6644]/40 hover:border-[#8b5a2b] dark:border-amber-700/50 bg-background/90 overflow-hidden shadow-xs">
                   <Button
                     type="button"
                     variant="ghost"
@@ -721,7 +724,7 @@ export const RecordingCard = ({
                 variant="outline"
                 size="sm"
                 onClick={handleDownload}
-                className="font-bold text-xs cursor-pointer"
+                className="font-bold text-xs cursor-pointer border border-[#9c6644]/40 hover:border-[#8b5a2b] dark:border-amber-700/50 bg-background/90 hover:bg-background shadow-xs"
                 title="Download Audio"
               >
                 <FileDown className="w-4 h-4" />
@@ -736,7 +739,7 @@ export const RecordingCard = ({
             type="button"
             variant="destructive"
             size="sm"
-            className="font-bold text-xs cursor-pointer bg-destructive text-white border-transparent"
+            className="font-bold text-xs cursor-pointer bg-destructive text-white border border-red-600 shadow-xs"
             title="Watch on YouTube"
             onClick={() => setYt(rec.yt_id ?? "", rec.name)}
           >
@@ -750,7 +753,7 @@ export const RecordingCard = ({
           variant="outline"
           size="sm"
           onClick={handleCopyLink}
-          className="font-bold text-xs cursor-pointer"
+          className="font-bold text-xs cursor-pointer border border-[#9c6644]/40 hover:border-[#8b5a2b] dark:border-amber-700/50 bg-background/90 hover:bg-background shadow-xs"
           title={isCopied ? "Link copied!" : "Copy link to recording"}
         >
           {isCopied ? (

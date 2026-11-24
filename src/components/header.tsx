@@ -17,7 +17,7 @@ export function Header() {
 
   return (
     <header
-      className="w-full border-b px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2 sm:gap-4 shadow-md transition-colors"
+      className="w-full border-b px-3 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-2 sm:gap-4 shadow-md transition-colors"
       style={{
         background: "var(--header-bg, linear-gradient(135deg, #c2410c 0%, #ea580c 50%, #d97706 100%))",
         borderColor: "var(--header-border, rgba(180, 83, 9, 0.4))",
@@ -27,17 +27,15 @@ export function Header() {
         position: "sticky",
       }}
     >
-      <div className="flex items-center gap-1 sm:gap-2">
-        <MobileDrawer />
-
+      <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
         {/* Brand */}
         <Link
           href="/"
-          className="flex items-center gap-1.5 sm:gap-2 transition-all shrink-0"
+          className="flex items-center gap-2 transition-all shrink-0"
           aria-label="Home"
           prefetch={false}
         >
-          <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 ring-2 ring-white/30 shadow-xs hidden md:flex">
+          <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 ring-2 ring-white/30 shadow-xs flex">
             <picture>
               <source srcSet="/icon-192x192.avif" type="image/avif" />
               <img
@@ -51,19 +49,21 @@ export function Header() {
               />
             </picture>
           </div>
-          <div className="hidden sm:flex flex-col">
-            <span className="font-bold text-sm font-heading leading-tight text-white drop-shadow-xs">
+          <div className="flex flex-col">
+            <span className="font-bold text-xs sm:text-sm font-heading leading-tight text-white drop-shadow-xs">
               Radheshyam Das
             </span>
-            <span className="text-xxs text-white/80 font-medium leading-none">
+            <span className="text-[10px] text-white/80 font-medium leading-none">
               Spiritual Discourses
             </span>
           </div>
         </Link>
       </div>
 
-      {/* Search */}
-      <SearchBar />
+      {/* Search on Desktop */}
+      <div className="hidden md:flex flex-1 max-w-md mx-4">
+        <SearchBar />
+      </div>
 
       {/* Actions */}
       <HeaderActions />

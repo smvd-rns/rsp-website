@@ -40,7 +40,7 @@ export const ASSET_BASE_URL = process.env[
 export const ASSET_PROXY = (
   process.env["NEXT_PUBLIC_ASSET_PROXY"] || "https://assets.radheshyamdas.com"
 ).replace(/\/+$/, "");
-export const STREAM_LIMIT_BYTES = 100 * 1024 * 1024; // 100MB
+export const STREAM_LIMIT_BYTES = 300 * 1024 * 1024; // 300MB
 
 // IndexedDB
 export const DB_NAME = "k";

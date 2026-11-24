@@ -93,16 +93,16 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
-        className="max-w-md p-6 sm:p-7 flex flex-col gap-5 rounded-2xl shadow-2xl border border-border/80 bg-card"
+        className="w-[calc(100vw-2rem)] sm:max-w-md max-h-[88dvh] overflow-y-auto p-4 sm:p-7 flex flex-col gap-4 sm:gap-5 rounded-2xl shadow-2xl border border-border/80 bg-card"
         showCloseButton
       >
         <DialogHeader className="text-left">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shadow-xs">
-              <Shield className="w-5 h-5 text-primary" />
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shadow-xs shrink-0">
+              <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
             </div>
             <div>
-              <DialogTitle className="text-xl font-bold font-heading tracking-tight">
+              <DialogTitle className="text-lg sm:text-xl font-bold font-heading tracking-tight">
                 {isSignUp ? "Create Your Account" : "Sign In to Radheshyam Das Media"}
               </DialogTitle>
               <p className="text-xs text-muted-foreground mt-0.5">

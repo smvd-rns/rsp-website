@@ -44,8 +44,14 @@ export const SearchBar = () => {
         setShowDropdown(true);
       }
     };
+    const handleOpenSearch = () => setShowDropdown(true);
+
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("open-search", handleOpenSearch);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("open-search", handleOpenSearch);
+    };
   }, [setShowDropdown]);
 
   // Focus input when dialog opens
@@ -84,7 +90,7 @@ export const SearchBar = () => {
         <DialogContent
           maxW="48rem"
           showCloseButton={false}
-          className="p-0 overflow-hidden bg-card rounded-2xl shadow-2xl border border-border/80 gap-0 z-50"
+          className="w-[calc(100vw-1.5rem)] sm:max-w-2xl max-h-[85dvh] p-0 overflow-hidden bg-card rounded-2xl shadow-2xl border border-border/80 gap-0 z-50 flex flex-col"
         >
           <DialogTitle className="sr-only">
             Search Spiritual Discourses

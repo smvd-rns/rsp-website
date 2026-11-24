@@ -88,10 +88,10 @@ export const MaterialBadge = ({
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-md border group overflow-hidden",
+        "inline-flex items-center rounded-md border group overflow-hidden transition-colors max-w-full sm:max-w-none shadow-2xs",
         isHighlighted
           ? "border-primary bg-primary/20 ring-1 ring-primary"
-          : "border-border bg-muted hover:bg-primary/10",
+          : "border-[#9c6644]/40 dark:border-amber-700/50 bg-amber-100/40 dark:bg-amber-950/40 hover:bg-amber-100/80 hover:border-[#8b5a2b]",
       )}
     >
       <Tooltip>
@@ -107,7 +107,7 @@ export const MaterialBadge = ({
             )}
           >
             {getMaterialIcon(mat)}
-            <span className="truncate" style={{ maxWidth: "8.5rem" }}>
+            <span className="truncate max-w-[13.5rem] sm:max-w-[17rem] md:max-w-[10.5rem] lg:max-w-[12rem] xl:max-w-[15rem]">
               {name}
             </span>
             {!isLink && <Eye className="w-3 h-3 text-primary shrink-0" />}

@@ -150,17 +150,21 @@ export const ClientShell = ({
   const { category, subcategories, recordings } = data;
 
   return (
-    <div className="flex flex-col gap-8 py-2">
-      <CategoryBreadcrumbs category={category} breadcrumbs={data.breadcrumbs} />
+    <div className="flex flex-col gap-6 py-2">
+      {/* Category Header Card with Sacred Warm Styling and Saffron Accent */}
+      <div className="rounded-2xl bg-linear-to-br from-amber-500/[0.04] via-card to-card border border-amber-500/20 dark:border-amber-500/30 p-4 sm:p-6 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.05)] flex flex-col gap-3 relative overflow-hidden">
+        {/* Subtle decorative saffron top accent bar */}
+        <div className="absolute top-0 inset-x-0 h-1 bg-linear-to-r from-amber-500 via-orange-500 to-amber-600" />
+        <CategoryBreadcrumbs category={category} breadcrumbs={data.breadcrumbs} />
 
-      {/* Category Header */}
-      <div className="flex flex-col gap-2 border-b border-border pb-6">
-        <span className="text-xs font-bold text-primary tracking-wider uppercase">
-          Category
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-bold font-heading tracking-tight">
-          {category.name}
-        </h1>
+        <div className="flex flex-col gap-1 border-t border-border/60 pt-3">
+          <span className="text-xs font-bold text-primary tracking-wider uppercase">
+            Category
+          </span>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading tracking-tight">
+            {category.name}
+          </h1>
+        </div>
       </div>
 
       {/* Subcategories Section */}
@@ -176,7 +180,9 @@ export const ClientShell = ({
 
       {/* Recordings Section */}
       {recordings.length > 0 && (
-        <RecordingsSection {...{ recordings }} categoryName={category.name} />
+        <section className="flex flex-col gap-4">
+          <RecordingsSection {...{ recordings }} categoryName={category.name} />
+        </section>
       )}
     </div>
   );
