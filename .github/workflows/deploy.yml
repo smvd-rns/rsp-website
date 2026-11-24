@@ -88,6 +88,7 @@ jobs:
             fi
 
             echo "Extracting pre-compiled Next.js bundle from GitHub..."
+            rm -rf .next
             tar -xzf next-build.tar.gz
             rm -f next-build.tar.gz
 
