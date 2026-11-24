@@ -29,10 +29,9 @@ export async function GET(req: NextRequest) {
     const clientId =
       process.env.GOOGLE_AUTH_CLIENT_ID ||
       process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID ||
-      process.env.GOOGLE_CLIENT_ID ||
-      "";
+      "760360904720-sh0rc0h7nnsmfiof0dfk1m8emq1klg26.apps.googleusercontent.com";
     const clientSecret =
-      process.env.GOOGLE_AUTH_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET;
+      process.env.GOOGLE_AUTH_CLIENT_SECRET;
     const redirectUri = `${origin}/api/auth/google`;
 
     // 0. Server-side initiate login (bypasses all client-side build-time issues)
