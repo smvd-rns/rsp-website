@@ -86,31 +86,8 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const handleGoogleLogin = () => {
     setErrorMsg("");
     setLoading(true);
-    try {
-      const clientId =
-        process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID ||
-        process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-      let origin = window.location.origin.replace(/\/+$/, "");
-      if (origin.includes("127.0.0.1")) {
-        origin = origin.replace("127.0.0.1", "localhost");
-      }
-      const redirectUri = `${origin}/api/auth/google`;
-      const state = encodeURIComponent(window.location.pathname || "/");
-
-      const googleOAuthUrl =
-        `https://accounts.google.com/o/oauth2/v2/auth?` +
-        `client_id=${clientId}&` +
-        `redirect_uri=${encodeURIComponent(redirectUri)}&` +
-        `response_type=code&` +
-        `scope=${encodeURIComponent("openid email profile")}&` +
-        `state=${state}&` +
-        `prompt=select_account`;
-
-      window.location.href = googleOAuthUrl;
-    } catch (err) {
-      setErrorMsg(getErrorMessage(err));
-      setLoading(false);
-    }
+    const returnPath = window.location.pathname || "/";
+    window.location.href = `/api/auth/google?action=signin&state=${encodeURIComponent(returnPath)}`;
   };
 
   return (

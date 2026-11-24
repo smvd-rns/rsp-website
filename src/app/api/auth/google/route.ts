@@ -5,6 +5,7 @@ import { setSessionCookie, signSessionToken } from "@/lib/auth-server";
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
+    const action = searchParams.get("action");
     const code = searchParams.get("code");
     const nextPath = searchParams.get("state") || "/";
 
@@ -25,6 +26,33 @@ export async function GET(req: NextRequest) {
       origin = origin.replace("127.0.0.1", "localhost");
     }
 
+    const clientId =
+      process.env.GOOGLE_AUTH_CLIENT_ID ||
+      process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID ||
+      process.env.GOOGLE_CLIENT_ID ||
+      "";
+    const clientSecret =
+      process.env.GOOGLE_AUTH_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET;
+    const redirectUri = `${origin}/api/auth/google`;
+
+    // 0. Server-side initiate login (bypasses all client-side build-time issues)
+    if (action === "signin" || action === "login") {
+      if (!clientId) {
+        console.error("[Google OAuth] Missing GOOGLE_AUTH_CLIENT_ID in server environment");
+        return NextResponse.redirect(
+          new URL("/?auth_error=client_id_missing", origin)
+        );
+      }
+      const googleUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+      googleUrl.searchParams.set("client_id", clientId);
+      googleUrl.searchParams.set("redirect_uri", redirectUri);
+      googleUrl.searchParams.set("response_type", "code");
+      googleUrl.searchParams.set("scope", "openid email profile");
+      googleUrl.searchParams.set("state", nextPath);
+      googleUrl.searchParams.set("prompt", "select_account");
+      return NextResponse.redirect(googleUrl.toString());
+    }
+
     if (!code) {
       const googleError = searchParams.get("error");
       const errParam = googleError
@@ -32,12 +60,6 @@ export async function GET(req: NextRequest) {
         : "?error=no_code";
       return NextResponse.redirect(new URL(errParam, origin));
     }
-
-    const clientId =
-      process.env.GOOGLE_AUTH_CLIENT_ID ||
-      process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID;
-    const clientSecret = process.env.GOOGLE_AUTH_CLIENT_SECRET;
-    const redirectUri = `${origin}/api/auth/google`;
 
     if (!clientId || !clientSecret) {
       console.error("[Google OAuth] Missing GOOGLE_AUTH_CLIENT_ID or GOOGLE_AUTH_CLIENT_SECRET");
