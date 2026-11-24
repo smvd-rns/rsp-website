@@ -11,7 +11,7 @@ export const PageTransition = ({ children }: { children: React.ReactNode }) => {
     <main
       key={pathname}
       className={cn(
-        "flex-1 w-full flex flex-col pb-20 md:pb-6",
+        "flex-1 w-full flex flex-col pb-[calc(7.5rem+env(safe-area-inset-bottom,0px))] md:pb-8",
         !isFullWidthPage && "max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6",
         pathname === "/queries" && "h-full overflow-hidden",
       )}

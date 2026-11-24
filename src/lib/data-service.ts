@@ -31,8 +31,11 @@ export interface DbRecording {
 }
 
 const mapCategoryRow = (row: any): Category => {
-  const base36 = row.img ? Number(row.img).toString(36) : '';
-  const resolvedImg = row.image_url || (base36 ? `/category-images/${base36}.webp` : '/rsp.webp');
+  const fallbackDriveUrl = 'https://lh3.googleusercontent.com/d/1uSfBfVRfVqNdhDJteMuOSYbVdYWEAUUZ=s1600';
+  const rawImg = row.image_url ? String(row.image_url).trim() : '';
+  const resolvedImg = (rawImg && rawImg !== '/rsp.webp' && !rawImg.startsWith('/category-images/'))
+    ? rawImg
+    : fallbackDriveUrl;
   const safeUrlPath = row.url_path || (row.path || row.name || '').toString()
     .split('/')
     .map((seg: string) =>

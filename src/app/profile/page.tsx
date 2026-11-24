@@ -113,9 +113,9 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto py-6 flex flex-col gap-8">
+    <div className="max-w-5xl mx-auto py-6 pb-28 sm:pb-36 flex flex-col gap-8">
       {/* Page Header */}
-      <div className="flex flex-col gap-2 border-b border-border pb-6">
+      <div className="flex flex-col gap-2 border-b border-[#8b5a2b]/20 dark:border-amber-600/30 pb-6">
         <h1 className="text-3xl sm:text-4xl font-bold font-heading tracking-tight">
           My Profile
         </h1>

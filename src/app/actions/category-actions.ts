@@ -66,11 +66,27 @@ export const createCategory = async (data: {
   );
   const newId = Number(nextIdRes.rows[0].next_id);
 
+  // Lookup image_url from rsp.images
+  let resolvedImageUrl: string | null = null;
+  if (data.imgId) {
+    const imgLookup = await query(
+      "SELECT gdrive_id, url FROM rsp.images WHERE id = $1 LIMIT 1;",
+      [data.imgId],
+    );
+    if (imgLookup.rows.length > 0) {
+      resolvedImageUrl =
+        imgLookup.rows[0].url ||
+        (imgLookup.rows[0].gdrive_id
+          ? `https://lh3.googleusercontent.com/d/${imgLookup.rows[0].gdrive_id}=s1600`
+          : null);
+    }
+  }
+
   // Insert into rsp.categories
   const insertRes = await query(
     `INSERT INTO rsp.categories (
-       id, name, url_path, path, img, allowed_roles, orderind, parentid
-     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       id, name, url_path, path, img, allowed_roles, orderind, parentid, image_url
+     ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
      RETURNING *;`,
     [
       newId,
@@ -81,6 +97,7 @@ export const createCategory = async (data: {
       data.roles,
       newOrderInd,
       parentId,
+      resolvedImageUrl,
     ],
   );
 
@@ -162,11 +179,37 @@ export const updateCategory = async (
     orderInd = Number(maxOrderRes.rows[0].next_order);
   }
 
+  let resolvedImageUrl: string | null = null;
+  if (imgId) {
+    const imgLookup = await query(
+      "SELECT gdrive_id, url FROM rsp.images WHERE id = $1 LIMIT 1;",
+      [imgId],
+    );
+    if (imgLookup.rows.length > 0) {
+      resolvedImageUrl =
+        imgLookup.rows[0].url ||
+        (imgLookup.rows[0].gdrive_id
+          ? `https://lh3.googleusercontent.com/d/${imgLookup.rows[0].gdrive_id}=s1600`
+          : null);
+    }
+  }
+
   await query(
     `UPDATE rsp.categories
-     SET name = $1, url_path = $2, path = $3, img = $4, allowed_roles = $5, orderind = $6, parentid = $7
-     WHERE id = $8;`,
-    [data.name, newUrlPath, newPath, imgId, data.roles, orderInd, parentId, id],
+    SET name = $1, url_path = $2, path = $3, img = $4, allowed_roles = $5, orderind = $6, parentid = $7,
+    image_url = COALESCE($8, image_url)
+     WHERE id = $9; `,
+    [
+      data.name,
+      newUrlPath,
+      newPath,
+      imgId,
+      data.roles,
+      orderInd,
+      parentId,
+      resolvedImageUrl,
+      id,
+    ],
   );
 
   const nameChanged = existingCategory.name !== data.name;
@@ -177,22 +220,22 @@ export const updateCategory = async (
   if (existingCategory.url_path && (nameChanged || parentChanged)) {
     const descRes = await query(
       "SELECT id, url_path, path FROM rsp.categories WHERE url_path LIKE $1;",
-      [`${existingCategory.url_path}.%`],
+      [`${ existingCategory.url_path }.% `],
     );
     const oldPrefix = existingCategory.path
-      ? `${existingCategory.path}.${id}`
-      : `${id}`;
-    const newPrefix = newPath ? `${newPath}.${id}` : `${id}`;
+      ? `${ existingCategory.path }.${ id } `
+      : `${ id } `;
+    const newPrefix = newPath ? `${ newPath }.${ id } ` : `${ id } `;
 
     for (const d of descRes.rows) {
       const oldUrl = d.url_path;
-      const newUrl = `${newUrlPath}${oldUrl.slice(existingCategory.url_path.length)}`;
+      const newUrl = `${ newUrlPath }${ oldUrl.slice(existingCategory.url_path.length) } `;
       let updatedChildPath = d.path;
       if (parentChanged) {
         if (d.path === oldPrefix) {
           updatedChildPath = newPrefix;
-        } else if (d.path.startsWith(`${oldPrefix}.`)) {
-          updatedChildPath = `${newPrefix}${d.path.slice(oldPrefix.length)}`;
+        } else if (d.path.startsWith(`${ oldPrefix }.`)) {
+          updatedChildPath = `${ newPrefix }${ d.path.slice(oldPrefix.length) } `;
         }
       }
       await query(
@@ -285,7 +328,7 @@ export const deleteCategoryWithContents = async (
   // 2. Fetch all descendant categories
   const descRes = await query(
     "SELECT id, name, path, url_path, gdriveid, videogdriveid FROM rsp.categories WHERE url_path = $1 OR url_path LIKE $2;",
-    [category.url_path, `${category.url_path}.%`],
+    [category.url_path, `${ category.url_path }.% `],
   );
   const allCategoryIds = descRes.rows.map((r) => Number(r.id));
 
@@ -336,7 +379,7 @@ export const deleteCategoryWithContents = async (
     );
     const trashId = trashRes.rows[0]?.id ? Number(trashRes.rows[0].id) : 1;
 
-    const trashUrlPath = `trash.${category.url_path.replace(/\./g, "-")}`;
+    const trashUrlPath = `trash.${ category.url_path.replace(/\./g, "-") } `;
     await query(
       "UPDATE rsp.categories SET parentid = $1, path = $2, url_path = $3 WHERE id = $4;",
       [trashId, String(trashId), trashUrlPath, id],
@@ -344,7 +387,7 @@ export const deleteCategoryWithContents = async (
 
     for (const d of descRes.rows) {
       if (Number(d.id) !== id) {
-        const subTrashUrl = `trash.${d.url_path.replace(/\./g, "-")}`;
+        const subTrashUrl = `trash.${ d.url_path.replace(/\./g, "-") } `;
         await query("UPDATE rsp.categories SET url_path = $1 WHERE id = $2;", [
           subTrashUrl,
           d.id,
@@ -433,7 +476,7 @@ export const getAllCategoriesForAdmin = async (): Promise<Category[]> => {
     `SELECT id, name, img, image_url, path, orderind, parentid, allowed_roles, url_path, gdriveid, videogdriveid
      FROM rsp.categories
      WHERE url_path != 'trash' AND url_path NOT LIKE 'trash.%'
-     ORDER BY orderind ASC NULLS LAST, id ASC;`,
+     ORDER BY orderind ASC NULLS LAST, id ASC; `,
   );
   return res.rows.map(formatCategoryRow);
 };

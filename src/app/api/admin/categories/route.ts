@@ -120,9 +120,9 @@ export async function PATCH(request: NextRequest) {
       : null;
     let parentUrlPath = existingCategory.url_path?.includes(".")
       ? existingCategory.url_path.substring(
-          0,
-          existingCategory.url_path.lastIndexOf("."),
-        )
+        0,
+        existingCategory.url_path.lastIndexOf("."),
+      )
       : undefined;
 
     if (parent !== undefined) {
@@ -161,10 +161,26 @@ export async function PATCH(request: NextRequest) {
       orderInd = Number(maxOrderRes.rows[0].next_order);
     }
 
+    let resolvedImageUrl: string | null = null;
+    if (cleanImgId) {
+      const imgLookup = await query(
+        "SELECT gdrive_id, url FROM rsp.images WHERE id = $1 LIMIT 1;",
+        [cleanImgId],
+      );
+      if (imgLookup.rows.length > 0) {
+        resolvedImageUrl =
+          imgLookup.rows[0].url ||
+          (imgLookup.rows[0].gdrive_id
+            ? `https://lh3.googleusercontent.com/d/${imgLookup.rows[0].gdrive_id}=s1600`
+            : null);
+      }
+    }
+
     await query(
       `UPDATE rsp.categories
-       SET name = $1, url_path = $2, path = $3, img = $4, allowed_roles = $5, orderind = $6, parentid = $7
-       WHERE id = $8;`,
+      SET name = $1, url_path = $2, path = $3, img = $4, allowed_roles = $5, orderind = $6, parentid = $7,
+      image_url = COALESCE($8, image_url)
+       WHERE id = $9; `,
       [
         trimmedName,
         newUrlPath,
@@ -173,6 +189,7 @@ export async function PATCH(request: NextRequest) {
         allowedRoles,
         orderInd,
         parentId,
+        resolvedImageUrl,
         id,
       ],
     );
@@ -185,22 +202,22 @@ export async function PATCH(request: NextRequest) {
     if (existingCategory.url_path && (nameChanged || parentChanged)) {
       const descRes = await query(
         "SELECT id, url_path, path FROM rsp.categories WHERE url_path LIKE $1;",
-        [`${existingCategory.url_path}.%`],
+        [`${ existingCategory.url_path }.% `],
       );
       const oldPrefix = existingCategory.path
-        ? `${existingCategory.path}.${id}`
-        : `${id}`;
-      const newPrefix = newPath ? `${newPath}.${id}` : `${id}`;
+        ? `${ existingCategory.path }.${ id } `
+        : `${ id } `;
+      const newPrefix = newPath ? `${ newPath }.${ id } ` : `${ id } `;
 
       for (const d of descRes.rows) {
         const oldUrl = d.url_path;
-        const newUrl = `${newUrlPath}${oldUrl.slice(existingCategory.url_path.length)}`;
+        const newUrl = `${ newUrlPath }${ oldUrl.slice(existingCategory.url_path.length) } `;
         let updatedChildPath = d.path;
         if (parentChanged) {
           if (d.path === oldPrefix) {
             updatedChildPath = newPrefix;
-          } else if (d.path.startsWith(`${oldPrefix}.`)) {
-            updatedChildPath = `${newPrefix}${d.path.slice(oldPrefix.length)}`;
+          } else if (d.path.startsWith(`${ oldPrefix }.`)) {
+            updatedChildPath = `${ newPrefix }${ d.path.slice(oldPrefix.length) } `;
           }
         }
         await query(

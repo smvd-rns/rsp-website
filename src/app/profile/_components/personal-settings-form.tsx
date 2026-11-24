@@ -188,19 +188,20 @@ export function PersonalSettingsForm({
   };
 
   return (
-    <Card className="border-border">
-      <CardHeader>
+    <Card className="border-[1.5px] border-[#8b5a2b]/35 dark:border-amber-600/40 shadow-sm rounded-2xl bg-card overflow-hidden">
+      <CardHeader className="bg-linear-to-r from-amber-500/[0.08] via-orange-500/[0.04] to-transparent border-b border-[#8b5a2b]/20 dark:border-amber-600/30 p-5 relative">
+        <div className="absolute top-0 inset-x-0 h-1 bg-linear-to-r from-amber-500 via-orange-500 to-amber-600" />
         <CardTitle className="text-xl font-bold flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-primary" />
           <span>Update Personal Settings</span>
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-xs text-muted-foreground">
           Submit settings and responsibility updates. Changes will be processed
           by administrative review.
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
-        <CardContent className="flex flex-col gap-4">
+        <CardContent className="p-5 sm:p-6 flex flex-col gap-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="flex flex-col gap-1.5">
               <Label
@@ -396,7 +397,7 @@ export function PersonalSettingsForm({
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-end pt-2 border-t border-border/40 mt-2">
+        <CardFooter className="flex justify-end pt-3 pb-5 px-5 sm:px-6 border-t border-[#8b5a2b]/20 dark:border-amber-600/30 bg-muted/20">
           <Button
             type="submit"
             disabled={updating || hasPendingRequest || isUnchanged}

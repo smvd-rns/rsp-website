@@ -239,16 +239,16 @@ export const MediaPreviewModal = () => {
   const [iframeLoading, setIframeLoading] = useState(true);
 
   const isOpen = !!ytId || !!material;
-  const isVideo = !!ytId;
 
-  const rawTitle = isVideo ? videoTitle : material?.name || "";
-  const title = rawTitle.replace(/\.(pptx?|pdf|docx?|mp3|xlsx?)$/i, "");
-  
-  const format: MaterialFormat = isVideo
+  const format: MaterialFormat = ytId
     ? "video"
     : material
       ? detectMaterialFormat(material.name, material.type, material.uri)
       : "other";
+
+  const isVideo = !!ytId || format === "video";
+  const rawTitle = ytId ? videoTitle : material?.name || "";
+  const title = rawTitle.replace(/\.(pptx?|pdf|docx?|mp3|xlsx?)$/i, "");
 
   const meta = getFormatMeta(format);
 
@@ -447,10 +447,20 @@ export const MediaPreviewModal = () => {
         ) : (
           /* Iframe or Embedded Video / Document View */
           <div
-            className="relative w-full flex items-center justify-center bg-black/95 overflow-hidden"
+            className={cn(
+              "relative w-full flex items-center justify-center overflow-hidden",
+              isVideo ? "aspect-video bg-black" : "bg-black/95",
+            )}
             style={{
               aspectRatio: isVideo ? "16/9" : undefined,
-              height: isVideo ? undefined : isMobile ? "75vh" : "80vh",
+              height: isVideo
+                ? undefined
+                : isMobile
+                  ? format === "presentation"
+                    ? "min(52vh, 400px)"
+                    : "min(70vh, 560px)"
+                  : "75vh",
+              minHeight: isVideo ? undefined : isMobile ? "260px" : "400px",
             }}
           >
             {iframeLoading && (
