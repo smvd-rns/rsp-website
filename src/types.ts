@@ -322,6 +322,11 @@ export interface ResolvedNotificationGroup {
 
 export type UserProfile = DB_TABLE<"users">;
 export type UserEditRequest = DB_TABLE<"user_edit_requests">;
+export type UserEditRequestWithUser = UserEditRequest & {
+  users?: { email?: string | null } | null;
+  roles?: { name?: string | null } | null;
+  reviewer?: { email?: string | null } | null;
+};
 
 export interface AudioCacheLedgerEntry {
   id: string; // audio_id

@@ -1,4 +1,5 @@
 -- Droplet Category & Image GDrive Sync Migration
+CREATE UNIQUE INDEX IF NOT EXISTS idx_rsp_images_id ON rsp.images (id);
 BEGIN;
 UPDATE rsp.categories SET image_url = 'https://lh3.googleusercontent.com/d/1TEzaasQGi-lU3S10Ku51SkTi_EnnKlWt=s1600' WHERE id = 888;
 UPDATE rsp.categories SET image_url = 'https://lh3.googleusercontent.com/d/1hpMygYSipOnzmvrPB5bEsfudy9zngpP9=s1600' WHERE id = 52;

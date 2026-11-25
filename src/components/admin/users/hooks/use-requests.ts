@@ -9,6 +9,18 @@ import { triggerSync } from "@/lib/utils";
 import type { UserEditRequestWithUser } from "../types";
 
 const getRequests = async (): Promise<UserEditRequestWithUser[]> => {
+  try {
+    const res = await fetch("/api/admin/requests");
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data.requests)) {
+        return data.requests;
+      }
+    }
+  } catch (e) {
+    console.warn("Failed to fetch requests from server, falling back to IDB", e);
+  }
+
   const db = await getDB();
   if (!db) return [];
 

@@ -1,6 +1,9 @@
 "use server";
 
-import { Resend } from "resend";
+import {
+  sendRoleApprovedEmailToUser,
+  sendSystemEmail,
+} from "@/lib/email-service";
 import type { UserProfileFields } from "@/components/admin/users/user-utils";
 import { ADMIN_ROLE_ID } from "@/constants";
 import { createAdminClient } from "@/lib/admin-server";
@@ -128,78 +131,66 @@ export const adminCreateUser = async (data: AdminCreateUserInput) => {
   let emailError: string | undefined;
 
   if (data.sendEmail) {
-    if (!process.env.RESEND_API_KEY) {
-      emailError = "Resend API key is not configured in environment variables.";
-    } else {
-      try {
-        const { Resend } = await import("resend");
-        const resend = new Resend(process.env.RESEND_API_KEY);
+    try {
+      const roleRes = await pool.query(
+        `SELECT name FROM rsp.roles WHERE id = $1 LIMIT 1`,
+        [roleId],
+      );
+      const roleName = roleRes.rows[0]?.name || "User";
+      const isAdmin = roleId === ADMIN_ROLE_ID;
+      const loginUrl = isAdmin
+        ? `${getURL()}auth/login`
+        : "https://radheshyamdas.com/";
+      const portalHeader = isAdmin ? "RSP Admin" : "Radheshyam Das Portal";
+      const portalButtonText = isAdmin
+        ? "Login to Dashboard"
+        : "Access Portal";
+      const portalFooter = isAdmin ? "RSP Admin" : "Radheshyam Das Portal";
 
-        const roleRes = await pool.query(
-          `SELECT name FROM rsp.roles WHERE id = $1 LIMIT 1`,
-          [roleId],
-        );
-        const roleName = roleRes.rows[0]?.name || "User";
-        const isAdmin = roleId === ADMIN_ROLE_ID;
-        const loginUrl = isAdmin
-          ? `${getURL()}auth/login`
-          : "https://radheshyamdas.com/";
-        const portalHeader = isAdmin ? "RSP Admin" : "Radheshyam Das Portal";
-        const portalButtonText = isAdmin
-          ? "Login to Dashboard"
-          : "Access Portal";
-        const portalFooter = isAdmin ? "RSP Admin" : "Radheshyam Das Portal";
+      let subject =
+        data.emailSubject ||
+        (isAdmin ? ADMIN_EMAIL_SUBJECT : USER_EMAIL_SUBJECT);
+      let body =
+        data.emailBody || (isAdmin ? ADMIN_EMAIL_BODY : USER_EMAIL_BODY);
 
-        let subject =
-          data.emailSubject ||
-          (isAdmin ? ADMIN_EMAIL_SUBJECT : USER_EMAIL_SUBJECT);
-        let body =
-          data.emailBody || (isAdmin ? ADMIN_EMAIL_BODY : USER_EMAIL_BODY);
+      const replacePlaceholders = (text: string) =>
+        text
+          .replaceAll("{role}", roleName)
+          .replaceAll("{email}", data.email)
+          .replaceAll("{login_url}", loginUrl);
 
-        const replacePlaceholders = (text: string) =>
-          text
-            .replaceAll("{role}", roleName)
-            .replaceAll("{email}", data.email)
-            .replaceAll("{login_url}", loginUrl);
+      subject = replacePlaceholders(subject);
+      body = replacePlaceholders(body);
 
-        subject = replacePlaceholders(subject);
-        body = replacePlaceholders(body);
+      const formattedBody = body
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\n/g, "<br />");
 
-        const formattedBody = body
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/\n/g, "<br />");
-
-        const htmlContent = `
-          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px; border: 1px solid #e4e4e7; border-radius: 12px; background-color: #ffffff; color: #18181b;">
-            <h2 style="color: #0f172a; margin-top: 0; font-size: 20px; font-weight: 700; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px; font-family: inherit;">${portalHeader}</h2>
-            <div style="margin-top: 24px; font-size: 15px; line-height: 1.6; color: #3f3f46; font-family: inherit;">${formattedBody}</div>
-            <div style="margin-top: 32px; margin-bottom: 32px; text-align: center;">
-              <a href="${loginUrl}" style="background-color: #18181b; color: #ffffff; padding: 12px 28px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; display: inline-block; font-family: inherit;">${portalButtonText}</a>
-            </div>
-            <hr style="border: 0; border-top: 1px solid #f4f4f5; margin: 32px 0;" />
-            <p style="font-size: 12px; color: #71717a; text-align: center; margin: 0; font-family: inherit;">This is an automated message from the ${portalFooter} team. Please do not reply.</p>
+      const htmlContent = `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px; border: 1.5px solid rgba(139, 90, 43, 0.25); border-radius: 16px; background-color: #ffffff; color: #18181b;">
+          <h2 style="color: #9a3412; margin-top: 0; font-size: 20px; font-weight: 700; border-bottom: 1px solid #f3e8dc; padding-bottom: 16px;">${portalHeader}</h2>
+          <div style="margin-top: 24px; font-size: 15px; line-height: 1.6; color: #3f3f46;">${formattedBody}</div>
+          <div style="margin-top: 32px; margin-bottom: 32px; text-align: center;">
+            <a href="${loginUrl}" style="background-color: #c2410c; color: #ffffff; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">${portalButtonText}</a>
           </div>
-        `;
+          <hr style="border: 0; border-top: 1px solid #f4f4f5; margin: 32px 0;" />
+          <p style="font-size: 12px; color: #71717a; text-align: center; margin: 0;">This is an automated message from the ${portalFooter} team.</p>
+        </div>
+      `;
 
-        const sendResult = await resend.emails.send({
-          from: "Radheshyam Das Tech Team <noreply@radheshyamdas.com>",
-          to: data.email,
-          subject,
-          html: htmlContent,
-        });
+      await sendSystemEmail({
+        to: data.email,
+        subject,
+        html: htmlContent,
+      });
 
-        if (sendResult.error) {
-          emailError = sendResult.error.message;
-        } else {
-          emailSent = true;
-        }
-      } catch (err) {
-        console.error("Error sending welcome email via Resend:", err);
-        emailError =
-          err instanceof Error ? err.message : "Unknown mail delivery error";
-      }
+      emailSent = true;
+    } catch (err) {
+      console.error("Error sending user notification email via SMTP:", err);
+      emailError =
+        err instanceof Error ? err.message : "Unknown mail delivery error";
     }
   }
 
@@ -223,161 +214,113 @@ export const updateUserEditRequestStatus = async (
   },
 ) => {
   const user = await verifyAdmin();
-  const adminClient = createAdminClient();
 
-  // Fetch the existing request to know the user and requested details
-  const { data: requestData } = await adminClient
-    .from("user_edit_requests")
-    .select("id, user_id, requested_role_id, name, review_comment")
-    .eq("id", id)
-    .maybeSingle();
+  // 1. Fetch existing request from rsp.user_edit_requests
+  const reqRes = await pool.query(
+    `SELECT * FROM rsp.user_edit_requests WHERE id = $1 LIMIT 1`,
+    [id],
+  );
+  const requestData = reqRes.rows[0];
 
-  const updatePayload: Database["prod"]["Tables"]["user_edit_requests"]["Update"] =
-    {
-      status: action,
-      reviewed_at: new Date().toISOString(),
-      reviewed_by: user.id,
-    };
+  // 2. Update rsp.user_edit_requests status
+  await pool.query(
+    `UPDATE rsp.user_edit_requests SET
+      status = $1,
+      review_comment = COALESCE($2, review_comment),
+      reviewed_by = $3,
+      reviewed_at = NOW(),
+      updated_at = NOW()
+     WHERE id = $4`,
+    [action, edits?.review_comment || null, user.id, id],
+  );
 
-  if (edits) {
-    if (edits.requested_role_id !== undefined)
-      updatePayload.requested_role_id = edits.requested_role_id;
-    if (edits.name !== undefined) updatePayload.name = edits.name;
-    if (edits.ashram !== undefined) updatePayload.ashram = edits.ashram;
-    if (edits.temple !== undefined) updatePayload.temple = edits.temple;
-    if (edits.purpose !== undefined) updatePayload.purpose = edits.purpose;
-    if (edits.authority_name !== undefined)
-      updatePayload.authority_name = edits.authority_name;
-    if (edits.authority_relationship !== undefined)
-      updatePayload.authority_relationship = edits.authority_relationship;
-    if (edits.authority_email !== undefined)
-      updatePayload.authority_email = edits.authority_email;
-    if (edits.phone !== undefined) updatePayload.phone = edits.phone;
-    if (edits.review_comment !== undefined)
-      updatePayload.review_comment = edits.review_comment;
+  // 3. If approved, apply the updates to rsp.users
+  const targetUserId = requestData?.user_id;
+  const roleToAssign = edits?.requested_role_id || requestData?.requested_role_id;
+
+  if (action === "approved" && targetUserId) {
+    await pool.query(
+      `UPDATE rsp.users SET
+        role = COALESCE($1, role),
+        ashram = COALESCE($2, ashram),
+        name = COALESCE($3, name),
+        phone = COALESCE($4, phone),
+        temple = COALESCE($5, temple),
+        purpose = COALESCE($6, purpose),
+        authorityname = COALESCE($7, authorityname),
+        authorityemail = COALESCE($8, authorityemail),
+        authorityrelationship = COALESCE($9, authorityrelationship),
+        updated_at = NOW()
+       WHERE CAST(id AS TEXT) = $10`,
+      [
+        roleToAssign,
+        edits?.ashram || requestData?.ashram || null,
+        edits?.name || requestData?.name || null,
+        edits?.phone || requestData?.phone || null,
+        edits?.temple || requestData?.temple || null,
+        edits?.purpose || requestData?.purpose || null,
+        edits?.authority_name || requestData?.authority_name || null,
+        edits?.authority_email || requestData?.authority_email || null,
+        edits?.authority_relationship || requestData?.authority_relationship || null,
+        String(targetUserId),
+      ],
+    );
   }
 
-  const { data, error } = await adminClient
-    .from("user_edit_requests")
-    .update(updatePayload)
-    .eq("id", id)
-    .select();
-
-  if (error) throw new Error(error.message);
-
-  // Send email notification to user
-  const targetUserId = requestData?.user_id;
-  if (targetUserId && process.env.RESEND_API_KEY) {
-    try {
-      const { data: targetUser } = await adminClient
-        .from("users")
-        .select("id, email, name, role_id")
-        .eq("id", targetUserId)
-        .maybeSingle();
-
-      const recipientEmail = targetUser?.email;
-      if (recipientEmail) {
-        const resend = new Resend(process.env.RESEND_API_KEY);
-
-        const recipientName =
-          targetUser.name || requestData?.name || edits?.name || "";
-
-        const isApproved = action === "approved";
-        const reviewComment =
-          edits?.review_comment !== undefined
-            ? edits.review_comment
-            : requestData?.review_comment;
-
-        const subject = isApproved
-          ? "Your Profile & Role Update Request Has Been Approved"
-          : "Update on Your Profile Request";
-
-        const greeting = `Hare Krishna${recipientName ? ` ${escapeHtml(recipientName)}` : ""},`;
-
-        const statusMessage = isApproved
-          ? `<p style="margin: 0 0 16px 0; font-size: 15px; color: #1e293b; line-height: 1.6;">
-              Your profile update request has been <strong>approved</strong> by the administrator.
-            </p>`
-          : `<p style="margin: 0 0 16px 0; font-size: 15px; color: #1e293b; line-height: 1.6;">
-              Your recent profile update request has been reviewed and was <strong>not approved</strong> at this time.
-            </p>`;
-
-        const sessionNotice = isApproved
-          ? `
-            <div style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 14px 16px; margin: 20px 0; border-radius: 4px;">
-              <p style="margin: 0 0 6px 0; font-size: 13px; font-weight: 700; color: #15803d;">
-                Session &amp; Permissions Note
-              </p>
-              <p style="margin: 0; font-size: 13px; color: #166534; line-height: 1.5;">
-                In case of any issues with access or updated permissions, please <strong>log out and log in again</strong> to refresh your account session. (Roles mostly sync automatically, but logging out and back in ensures your updated role and token refresh immediately).
-              </p>
-            </div>
-          `
-          : "";
-
-        const reviewerNoteBlock = reviewComment?.trim()
-          ? `
-            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px 16px; margin: 18px 0;">
-              <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">
-                Reviewer Note / Reason
-              </p>
-              <p style="margin: 0; font-size: 13px; color: #334155; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(reviewComment.trim())}</p>
-            </div>
-          `
-          : "";
-
-        const portalUrl = "https://radheshyamdas.com/";
-
-        const htmlContent = `
-          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px 24px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff; color: #0f172a;">
-            <div style="border-bottom: 2px solid #0f172a; padding-bottom: 16px; margin-bottom: 24px;">
-              <span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px;">Radheshyam Das Portal</span>
-              <h2 style="margin: 0; font-size: 20px; font-weight: 700; color: #0f172a;">
-                ${isApproved ? "Profile Request Approved" : "Profile Request Status Update"}
-              </h2>
-            </div>
-
-            <p style="font-size: 15px; margin: 0 0 16px 0; color: #0f172a;">
-              ${greeting}
-            </p>
-
-            ${statusMessage}
-            ${reviewerNoteBlock}
-            ${sessionNotice}
-
-            <div style="margin: 28px 0; text-align: center;">
-              <a href="${portalUrl}" style="background-color: #0f172a; color: #ffffff; padding: 12px 28px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; display: inline-block;">
-                Access Radheshyam Das Portal &rarr;
-              </a>
-            </div>
-
-            <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 28px 0 16px;" />
-
-            <div style="text-align: center; font-size: 11px; color: #94a3b8; line-height: 1.5;">
-              <p style="margin: 0 0 4px 0;">This email was sent from an automated notifications address.</p>
-              <p style="margin: 0; font-weight: 600; color: #64748b;">
-                Please note: This email is not monitored &mdash; do not reply. (noreply@radheshyamdas.com)
-              </p>
-            </div>
-          </div>
-        `;
-
-        await resend.emails.send({
-          from: "Radheshyam Das Tech Team <noreply@radheshyamdas.com>",
-          to: recipientEmail,
-          subject,
-          html: htmlContent,
-        });
-      }
-    } catch (emailErr) {
-      console.error(
-        "Error sending user edit request notification email via Resend:",
-        emailErr,
-      );
+  // 4. Resolve role name & send notification email
+  let approvedRoleName = "Devotee";
+  if (roleToAssign) {
+    const roleRes = await pool.query(
+      `SELECT name FROM rsp.roles WHERE id = $1 LIMIT 1`,
+      [roleToAssign],
+    );
+    if (roleRes.rows[0]?.name) {
+      approvedRoleName = roleRes.rows[0].name;
     }
   }
 
-  return data;
+  // Fetch recipient email from rsp.users
+  let recipientEmail = "";
+  let recipientName = edits?.name || requestData?.name || "";
+  if (targetUserId) {
+    const uRes = await pool.query(
+      `SELECT email, name FROM rsp.users WHERE CAST(id AS TEXT) = $1 LIMIT 1`,
+      [String(targetUserId)],
+    );
+    if (uRes.rows[0]) {
+      recipientEmail = uRes.rows[0].email;
+      if (!recipientName) recipientName = uRes.rows[0].name || "";
+    }
+  }
+
+  if (recipientEmail && action === "approved") {
+    try {
+      await sendRoleApprovedEmailToUser({
+        recipientEmail,
+        recipientName: recipientName || "Devotee",
+        approvedRoleName,
+        ashram: edits?.ashram || requestData?.ashram,
+        reviewComment: edits?.review_comment || requestData?.review_comment,
+      });
+    } catch (emailErr) {
+      console.error("[updateUserEditRequestStatus] Failed to send approval email:", emailErr);
+    }
+  }
+
+  // Also sync prod Supabase table in background if configured
+  try {
+    const adminClient = createAdminClient();
+    await adminClient
+      .from("user_edit_requests")
+      .update({
+        status: action,
+        reviewed_at: new Date().toISOString(),
+        reviewed_by: user.id,
+      })
+      .eq("id", id);
+  } catch {}
+
+  return { success: true };
 };
 
 export const deleteWhitelistUser = async (email: string) => {

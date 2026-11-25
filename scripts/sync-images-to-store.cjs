@@ -25,7 +25,7 @@ async function syncAll() {
   const catRows = await pool.query("SELECT id, image_url FROM rsp.categories WHERE image_url IS NOT NULL;");
   const imgRows = await pool.query("SELECT id, description, gdrive_id, url FROM rsp.images WHERE gdrive_id IS NOT NULL;");
 
-  let sql = '-- Droplet Category & Image GDrive Sync Migration\nBEGIN;\n';
+  let sql = '-- Droplet Category & Image GDrive Sync Migration\nCREATE UNIQUE INDEX IF NOT EXISTS idx_rsp_images_id ON rsp.images (id);\nBEGIN;\n';
   for (const c of catRows.rows) {
     const escapedUrl = c.image_url.replace(/'/g, "''");
     sql += `UPDATE rsp.categories SET image_url = '${escapedUrl}' WHERE id = ${c.id};\n`;

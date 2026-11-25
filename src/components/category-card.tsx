@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
-import { getCategoryImageUrl } from "@/lib/storage";
+import { DEFAULT_FALLBACK_IMAGE_URL, getCategoryImageUrl } from "@/lib/storage";
 import { categoryPath } from "@/lib/utils";
 import { useCategories } from "@/hooks/use-categories";
 import type { Category } from "@/types";
@@ -39,7 +39,7 @@ const findParentCategoryArtwork = (
     if (!parent) break;
 
     const parentUrl = getCategoryImageUrl(parent, "webp");
-    if (parentUrl && parentUrl !== "/rsp.webp") {
+    if (parentUrl && parentUrl !== "/rsp.webp" && parentUrl !== DEFAULT_FALLBACK_IMAGE_URL) {
       return parentUrl;
     }
     node = parent;
@@ -62,7 +62,9 @@ export const CategoryCard = ({
 
   // If category has its own custom artwork, use it; otherwise fall back to parent artwork
   const primaryImg =
-    directImg && directImg !== "/rsp.webp" ? directImg : (parentImg || "/rsp.webp");
+    directImg && directImg !== "/rsp.webp" && directImg !== DEFAULT_FALLBACK_IMAGE_URL
+      ? directImg
+      : (parentImg || directImg || DEFAULT_FALLBACK_IMAGE_URL);
 
   const href = categoryPath(cat.url_path);
 
