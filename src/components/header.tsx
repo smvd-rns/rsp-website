@@ -17,14 +17,11 @@ export function Header() {
 
   return (
     <header
-      className="w-full border-b px-3 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-2 sm:gap-4 shadow-md transition-colors"
+      className="sticky top-0 z-50 w-full border-b px-3 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-2 sm:gap-4 shadow-md transition-colors"
       style={{
         background: "var(--header-bg, linear-gradient(135deg, #c2410c 0%, #ea580c 50%, #d97706 100%))",
         borderColor: "var(--header-border, rgba(180, 83, 9, 0.4))",
         color: "var(--header-foreground, #ffffff)",
-        zIndex: 30,
-        top: 0,
-        position: "sticky",
       }}
     >
       <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">

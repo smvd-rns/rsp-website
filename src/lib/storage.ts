@@ -47,7 +47,8 @@ export const getCategoryImageUrl = (
       return `https://lh3.googleusercontent.com/d/${u}=s1600`;
     }
     // Check map for filename or slug
-    const mapped = categoryImageMap[u];
+    const normalizedKey = u.replace(/-password-/g, "-pwd-");
+    const mapped = categoryImageMap[u] || categoryImageMap[normalizedKey];
     if (mapped) {
       return `https://lh3.googleusercontent.com/d/${mapped}=s1600`;
     }
