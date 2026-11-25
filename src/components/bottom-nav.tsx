@@ -3,7 +3,6 @@
 import {
   BookOpen,
   Calendar,
-  Compass,
   ExternalLink,
   GraduationCap,
   Grid,
@@ -77,22 +76,19 @@ export const BottomNav = () => {
     router.refresh();
   };
 
-  const isHomeActive = pathname === "/";
-  const isLibraryActive =
-    pathname.startsWith("/library") ||
-    (pathname !== "/" &&
-      pathname !== "/about" &&
-      pathname !== "/contact-us" &&
-      pathname !== "/queries" &&
-      pathname !== "/profile" &&
-      pathname !== "/settings" &&
-      pathname !== "/get-involved" &&
-      !pathname.startsWith("/admin"));
   const isAboutActive = pathname === "/about";
   const isContactActive = pathname === "/contact-us";
   const isProfileActive = pathname === "/profile";
   const isQueriesActive = pathname === "/queries";
   const isAdminActive = pathname.startsWith("/admin");
+  const isHomeActive =
+    pathname === "/" ||
+    pathname.startsWith("/library") ||
+    (!isAboutActive &&
+      !isContactActive &&
+      !isProfileActive &&
+      !isQueriesActive &&
+      !isAdminActive);
   const isMoreActive =
     moreOpen ||
     isAboutActive ||
@@ -119,93 +115,89 @@ export const BottomNav = () => {
             "flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold transition-all active:scale-95 rounded-xl mx-0.5",
             isHomeActive
               ? "text-white font-bold bg-white/25 shadow-xs drop-shadow-xs ring-1 ring-white/30"
-            : "text-white/80 hover:text-white hover:bg-white/10",
+              : "text-white/80 hover:text-white hover:bg-white/10",
           )}
         prefetch={false}
         >
-        <Home className={cn("w-4.5 h-4.5 mb-0.5", isHomeActive ? "stroke-[2.6]" : "stroke-[2]")} />
-        <span>Home</span>
-      </Link>
+      <Home className={cn("w-4.5 h-4.5 mb-0.5", isHomeActive ? "stroke-[2.6]" : "stroke-[2]")} />
+      <span>Home</span>
+    </Link >
 
-      {/* 2. Library (Left 2 - Core Discourses) */}
-      <Link
-        href="/library"
-        className={cn(
-          "flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold transition-all active:scale-95 rounded-xl mx-0.5",
-          isLibraryActive
-            ? "text-white font-bold bg-white/25 shadow-xs drop-shadow-xs ring-1 ring-white/30"
-            : "text-white/80 hover:text-white hover:bg-white/10",
-        )}
-        prefetch={false}
-      >
-        <Compass className={cn("w-4.5 h-4.5 mb-0.5", isLibraryActive ? "stroke-[2.6]" : "stroke-[2]")} />
-        <span>Library</span>
-      </Link>
+  {/* 2. Books (Left 2) */ }
+  < a
+href = "https://voicepublication.in/collections/radheshyam-das-books"
+target = "_blank"
+rel = "noopener noreferrer"
+className = "flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/80 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
+  >
+          <BookOpen className="w-4.5 h-4.5 mb-0.5" />
+          <span>Books</span>
+        </a >
 
-      {/* 3. Books (Left 3) */}
-      <a
-        href="https://voicepublication.in/collections/radheshyam-das-books"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/80 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
-      >
-        <BookOpen className="w-4.5 h-4.5 mb-0.5" />
-        <span>Books</span>
-      </a>
+  {/* 3. Calendar (Left 3) */ }
+  < a
+href = "https://drive.google.com/drive/u/7/folders/16O9qZXeWSruSU3YyYhnpZkCsmIHtIf6s"
+target = "_blank"
+rel = "noopener noreferrer"
+className = "flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/80 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
+  >
+          <Calendar className="w-4.5 h-4.5 mb-0.5" />
+          <span>Calendar</span>
+        </a >
 
-      {/* 4. SEARCH (DEAD CENTER - Elevated Prominent Button) */}
-      <button
-        type="button"
-        onClick={handleSearchClick}
-        className="flex flex-col items-center justify-center flex-1 h-full py-0.5 group active:scale-95 transition-transform cursor-pointer"
-        aria-label="Search discourses"
-      >
-        <div className="w-11 h-11 rounded-full bg-white text-orange-600 shadow-xl shadow-black/25 ring-3 ring-white/35 flex items-center justify-center -translate-y-2 transition-all">
-          <Search className="w-5 h-5 stroke-[2.6]" />
-        </div>
-        <span className="text-[9px] font-bold text-white -translate-y-1 drop-shadow-xs">Search</span>
-      </button>
+  {/* 4. SEARCH (DEAD CENTER - Elevated Prominent Button) */ }
+  < button
+type = "button"
+onClick = { handleSearchClick }
+className = "flex flex-col items-center justify-center flex-1 h-full py-0.5 group active:scale-95 transition-transform cursor-pointer"
+aria - label="Search discourses"
+  >
+          <div className="w-11 h-11 rounded-full bg-white text-orange-600 shadow-xl shadow-black/25 ring-3 ring-white/35 flex items-center justify-center -translate-y-2 transition-all">
+            <Search className="w-5 h-5 stroke-[2.6]" />
+          </div>
+          <span className="text-[9px] font-bold text-white -translate-y-1 drop-shadow-xs">Search</span>
+        </button >
 
-      {/* 5. Courses (Right 1) */}
-      <a
-        href="https://courses.radheshyamdas.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/80 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
-      >
-        <GraduationCap className="w-4.5 h-4.5 mb-0.5" />
-        <span>Courses</span>
-      </a>
+  {/* 5. Courses (Right 1) */ }
+  < a
+href = "https://courses.radheshyamdas.com/"
+target = "_blank"
+rel = "noopener noreferrer"
+className = "flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/80 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
+  >
+          <GraduationCap className="w-4.5 h-4.5 mb-0.5" />
+          <span>Courses</span>
+        </a >
 
-      {/* 6. Donate (Right 2) */}
-      <a
-        href="http://cvms.radheshyamdas.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/90 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
-      >
-        <Heart className="w-4.5 h-4.5 mb-0.5 fill-white/30 stroke-white stroke-[2.2]" />
-        <span>Donate</span>
-      </a>
+  {/* 6. Donate (Right 2) */ }
+  < a
+href = "http://cvms.radheshyamdas.com/"
+target = "_blank"
+rel = "noopener noreferrer"
+className = "flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/90 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
+  >
+          <Heart className="w-4.5 h-4.5 mb-0.5 fill-white/30 stroke-white stroke-[2.2]" />
+          <span>Donate</span>
+        </a >
 
-      {/* 7. More (Right 3) */}
-      <button
-        type="button"
-        onClick={() => setMoreOpen(true)}
-        className={cn(
-          "flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold transition-all active:scale-95 cursor-pointer rounded-xl mx-0.5",
-          isMoreActive
-            ? "text-white font-bold bg-white/25 shadow-xs drop-shadow-xs ring-1 ring-white/30"
-            : "text-white/80 hover:text-white hover:bg-white/10",
-        )}
-      >
-        <Grid className={cn("w-4.5 h-4.5 mb-0.5", isMoreActive ? "stroke-[2.6]" : "stroke-[2]")} />
-        <span>More</span>
-      </button>
+{/* 7. More (Right 3) */ }
+<button
+  type="button"
+  onClick={() => setMoreOpen(true)}
+  className={cn(
+    "flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold transition-all active:scale-95 cursor-pointer rounded-xl mx-0.5",
+    isMoreActive
+      ? "text-white font-bold bg-white/25 shadow-xs drop-shadow-xs ring-1 ring-white/30"
+      : "text-white/80 hover:text-white hover:bg-white/10",
+  )}
+>
+  <Grid className={cn("w-4.5 h-4.5 mb-0.5", isMoreActive ? "stroke-[2.6]" : "stroke-[2]")} />
+  <span>More</span>
+</button>
     </nav >
 
-      {/* Guest Sign-in Modal */ }
-      < AuthModal isOpen = { authOpen } onClose = {() => setAuthOpen(false)} />
+  {/* Guest Sign-in Modal */ }
+  < AuthModal isOpen = { authOpen } onClose = {() => setAuthOpen(false)} />
 
 {/* Adaptive Mobile 'More' Drawer Sheet (Clean, uncluttered, no redundant top header) */ }
 <Sheet open={moreOpen} onOpenChange={setMoreOpen}>
@@ -288,23 +280,6 @@ export const BottomNav = () => {
 
       {/* Core Sections */}
       <div className="flex flex-col gap-1 rounded-2xl bg-muted/30 border border-border/50 p-1.5">
-        <Link
-          href="/library"
-          onClick={() => setMoreOpen(false)}
-          className={cn(
-            "flex items-center justify-between p-3 rounded-xl text-sm font-medium transition-colors",
-            isLibraryActive
-              ? "bg-primary/15 text-primary font-bold border border-primary/30"
-              : "hover:bg-muted/70 text-foreground"
-          )}
-          prefetch={false}
-        >
-          <div className="flex items-center gap-3">
-            <Compass className="w-4.5 h-4.5 text-primary" />
-            <span>Explore Spiritual Library</span>
-          </div>
-        </Link>
-
         <a
           href="https://drive.google.com/drive/u/7/folders/16O9qZXeWSruSU3YyYhnpZkCsmIHtIf6s"
           target="_blank"
