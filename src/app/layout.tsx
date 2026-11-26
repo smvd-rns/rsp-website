@@ -57,8 +57,8 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <Providers>
           <VisitorTracker />
-          <TopAnnouncementBanner />
           <Header />
+          <TopAnnouncementBanner />
           <PageTransition>{children}</PageTransition>
           <GlobalAudioPlayer />
           <BottomNav />
