@@ -17,44 +17,44 @@ const navLinks: {
   iconColorClass?: string;
   title: string;
 }[] = [
-  {
-    href: "https://voicepublication.in/collections/radheshyam-das-books",
-    Icon: BookOpen,
-    title: "Books",
-  },
-  {
-    href: "/about",
-    Icon: Info,
-    title: "About",
-  },
-  {
-    href: "/contact-us",
-    Icon: Mail,
-    title: "Contact us",
-  },
-  {
-    href: "http://cvms.radheshyamdas.com/",
-    Icon: Heart,
-    iconColorClass: "text-destructive",
-    title: "Donate",
-  },
-  {
-    href: "https://courses.radheshyamdas.com/",
-    Icon: GraduationCap,
-    title: "Online certified course",
-  },
-  {
-    href: "https://drive.google.com/drive/u/7/folders/16O9qZXeWSruSU3YyYhnpZkCsmIHtIf6s",
-    Icon: Calendar,
-    title: "Calendar",
-  },
-  {
-    href: "/get-involved",
-    Icon: HeartHandshake,
-    iconColorClass: "text-destructive",
-    title: "Get Involved",
-  },
-];
+    {
+      href: "https://voicepublication.in/collections/radheshyam-das-books",
+      Icon: BookOpen,
+      title: "Books",
+    },
+    {
+      href: "/about",
+      Icon: Info,
+      title: "About",
+    },
+    {
+      href: "/contact-us",
+      Icon: Mail,
+      title: "Contact us",
+    },
+    {
+      href: "http://cvms.radheshyamdas.com/",
+      Icon: Heart,
+      iconColorClass: "text-destructive",
+      title: "Donate",
+    },
+    {
+      href: "https://courses.radheshyamdas.com/",
+      Icon: GraduationCap,
+      title: "Online certified course",
+    },
+    {
+      href: "/calendar",
+      Icon: Calendar,
+      title: "Calendar",
+    },
+    {
+      href: "/get-involved",
+      Icon: HeartHandshake,
+      iconColorClass: "text-destructive",
+      title: "Get Involved",
+    },
+  ];
 
 interface NavLinksProps {
   onItemClick?: () => void;

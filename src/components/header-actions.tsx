@@ -25,16 +25,18 @@ export const HeaderActions = () => {
 
   const isAboutActive = pathname === "/about";
   const isContactActive = pathname === "/contact-us";
+  const isCalendarActive = pathname === "/calendar";
   const isAdminActive = pathname?.startsWith("/admin");
   const isHomeActive =
     pathname === "/" ||
     pathname?.startsWith("/library") ||
-      (!isAboutActive &&
-        !isContactActive &&
-        !isAdminActive &&
-        pathname !== "/profile" &&
-        pathname !== "/settings" &&
-  pathname !== "/queries");
+  (!isAboutActive &&
+    !isContactActive &&
+    !isCalendarActive &&
+    !isAdminActive &&
+    pathname !== "/profile" &&
+    pathname !== "/settings" &&
+    pathname !== "/queries");
 
   return (
     <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0 text-white">
@@ -90,58 +92,64 @@ export const HeaderActions = () => {
         >
           Courses
         </a>
-        <a
-          href="https://drive.google.com/drive/u/7/folders/16O9qZXeWSruSU3YyYhnpZkCsmIHtIf6s"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-2.5 py-1.5 rounded-lg text-white/90 hover:text-white hover:bg-white/15 transition-colors"
-        >
-          Calendar
-        </a>
-        <a
-          href="http://cvms.radheshyamdas.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-3 py-1.5 rounded-full bg-white text-orange-700 hover:bg-amber-50 font-bold transition-all shadow-xs text-xs active:scale-95"
-        >
-          Donate
-        </a>
         <Link
-          href="/contact-us"
+          href="/calendar"
           className={cn(
             "px-2.5 py-1.5 rounded-lg transition-all",
-            isContactActive
+            isCalendarActive
               ? "bg-white/25 text-white font-bold ring-1 ring-white/40 shadow-xs drop-shadow-xs"
               : "text-white/90 hover:text-white hover:bg-white/15"
           )}
           prefetch={false}
         >
-          Contact
-        </Link>
-      </nav>
+          Calendar
+      </Link>
+      <a
+        href="http://cvms.radheshyamdas.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="px-3 py-1.5 rounded-full bg-white text-orange-700 hover:bg-amber-50 font-bold transition-all shadow-xs text-xs active:scale-95"
+      >
+        Donate
+      </a>
+      <Link
+        href="/contact-us"
+        className={cn(
+          "px-2.5 py-1.5 rounded-lg transition-all",
+          isContactActive
+            ? "bg-white/25 text-white font-bold ring-1 ring-white/40 shadow-xs drop-shadow-xs"
+            : "text-white/90 hover:text-white hover:bg-white/15"
+        )}
+        prefetch={false}
+      >
+        Contact
+      </Link>
+    </nav>
 
-      {isAdmin && (
-        <Link
-          href="/admin"
-          className={cn(
-            "inline-flex items-center gap-1.5 font-medium border text-white transition-all shadow-xs rounded-lg px-2.5 h-8 text-xs",
-            isAdminActive
-              ? "bg-white/30 border-white/50 font-bold ring-1 ring-white/40"
-              : "border-white/30 bg-white/15 hover:bg-white/25"
-          )}
-          title="Admin Dashboard"
-          prefetch={false}
-        >
-          <Shield className="w-3.5 h-3.5 text-white" />
-          <span className="hidden sm:inline">Admin</span>
-        </Link>
-      )}
+      {
+    isAdmin && (
+      <Link
+        href="/admin"
+        className={cn(
+          "inline-flex items-center gap-1.5 font-medium border text-white transition-all shadow-xs rounded-lg px-2.5 h-8 text-xs",
+          isAdminActive
+            ? "bg-white/30 border-white/50 font-bold ring-1 ring-white/40"
+            : "border-white/30 bg-white/15 hover:bg-white/25"
+        )}
+        title="Admin Dashboard"
+        prefetch={false}
+      >
+        <Shield className="w-3.5 h-3.5 text-white" />
+        <span className="hidden sm:inline">Admin</span>
+      </Link>
+    )
+  }
 
       <NotificationCenter />
       <div className="hidden md:flex items-center">
         <UserNav />
       </div>
-    </div>
+    </div >
   );
 };
 

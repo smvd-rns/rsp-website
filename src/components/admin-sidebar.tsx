@@ -68,6 +68,13 @@ const items = [
     bg: "bg-indigo-500/15",
   },
   {
+    title: "HG RSP Calendar",
+    url: "/admin/calendar",
+    icon: CalendarDays,
+    color: "text-amber-700",
+    bg: "bg-amber-500/15",
+  },
+  {
     title: "Service Center",
     url: "/admin/services",
     icon: Settings,

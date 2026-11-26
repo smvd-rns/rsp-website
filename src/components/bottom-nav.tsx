@@ -78,6 +78,7 @@ export const BottomNav = () => {
 
   const isAboutActive = pathname === "/about";
   const isContactActive = pathname === "/contact-us";
+  const isCalendarActive = pathname === "/calendar";
   const isProfileActive = pathname === "/profile";
   const isQueriesActive = pathname === "/queries";
   const isAdminActive = pathname.startsWith("/admin");
@@ -86,6 +87,7 @@ export const BottomNav = () => {
     pathname.startsWith("/library") ||
     (!isAboutActive &&
       !isContactActive &&
+      !isCalendarActive &&
       !isProfileActive &&
       !isQueriesActive &&
       !isAdminActive);
@@ -135,69 +137,73 @@ export const BottomNav = () => {
         </a>
 
         {/* 3. Calendar (Left 3) */}
-        <a
-          href="https://drive.google.com/drive/u/7/folders/16O9qZXeWSruSU3YyYhnpZkCsmIHtIf6s"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/80 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
-        >
-          <Calendar className="w-4.5 h-4.5 mb-0.5" />
-          <span>Calendar</span>
-        </a>
-
-        {/* 4. SEARCH (DEAD CENTER - Elevated Prominent Button) */}
-        <button
-          type="button"
-          onClick={handleSearchClick}
-          className="flex flex-col items-center justify-center flex-1 h-full py-0.5 group active:scale-95 transition-transform cursor-pointer"
-          aria-label="Search discourses"
-        >
-          <div className="w-11 h-11 rounded-full bg-white text-orange-600 shadow-xl shadow-black/25 ring-3 ring-white/35 flex items-center justify-center -translate-y-2 transition-all">
-            <Search className="w-5 h-5 stroke-[2.6]" />
-          </div>
-          <span className="text-[9px] font-bold text-white -translate-y-1 drop-shadow-xs">Search</span>
-        </button>
-
-        {/* 5. Courses (Right 1) */}
-        <a
-          href="https://courses.radheshyamdas.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/80 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
-        >
-          <GraduationCap className="w-4.5 h-4.5 mb-0.5" />
-          <span>Courses</span>
-        </a>
-
-        {/* 6. Donate (Right 2) */}
-        <a
-          href="http://cvms.radheshyamdas.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/90 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
-        >
-          <Heart className="w-4.5 h-4.5 mb-0.5 fill-white/30 stroke-white stroke-[2.2]" />
-          <span>Donate</span>
-        </a>
-
-        {/* 7. More (Right 3) */}
-        <button
-          type="button"
-          onClick={() => setMoreOpen(true)}
+        <Link
+          href="/calendar"
           className={cn(
-            "flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold transition-all active:scale-95 cursor-pointer rounded-xl mx-0.5",
-            isMoreActive
+            "flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold transition-all active:scale-95 rounded-xl mx-0.5",
+            isCalendarActive
               ? "text-white font-bold bg-white/25 shadow-xs drop-shadow-xs ring-1 ring-white/30"
-              : "text-white/80 hover:text-white hover:bg-white/10",
+              : "text-white/80 hover:text-white hover:bg-white/10"
           )}
+          prefetch={false}
         >
-          <Grid className={cn("w-4.5 h-4.5 mb-0.5", isMoreActive ? "stroke-[2.6]" : "stroke-[2]")} />
-          <span>More</span>
-        </button>
-      </nav>
+          <Calendar className={cn("w-4.5 h-4.5 mb-0.5", isCalendarActive ? "stroke-[2.6]" : "stroke-[2]")} />
+          <span>Calendar</span>
+      </Link>
 
-      {/* Guest Sign-in Modal */}
-      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
+      {/* 4. SEARCH (DEAD CENTER - Elevated Prominent Button) */}
+      <button
+        type="button"
+        onClick={handleSearchClick}
+        className="flex flex-col items-center justify-center flex-1 h-full py-0.5 group active:scale-95 transition-transform cursor-pointer"
+        aria-label="Search discourses"
+      >
+        <div className="w-11 h-11 rounded-full bg-white text-orange-600 shadow-xl shadow-black/25 ring-3 ring-white/35 flex items-center justify-center -translate-y-2 transition-all">
+          <Search className="w-5 h-5 stroke-[2.6]" />
+        </div>
+        <span className="text-[9px] font-bold text-white -translate-y-1 drop-shadow-xs">Search</span>
+      </button>
+
+      {/* 5. Courses (Right 1) */}
+      <a
+        href="https://courses.radheshyamdas.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/80 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
+      >
+        <GraduationCap className="w-4.5 h-4.5 mb-0.5" />
+        <span>Courses</span>
+      </a>
+
+      {/* 6. Donate (Right 2) */}
+      <a
+        href="http://cvms.radheshyamdas.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold text-white/90 hover:text-white transition-all active:scale-95 rounded-xl mx-0.5 hover:bg-white/10"
+      >
+        <Heart className="w-4.5 h-4.5 mb-0.5 fill-white/30 stroke-white stroke-[2.2]" />
+        <span>Donate</span>
+      </a>
+
+      {/* 7. More (Right 3) */}
+      <button
+        type="button"
+        onClick={() => setMoreOpen(true)}
+        className={cn(
+          "flex flex-col items-center justify-center flex-1 h-full py-1 text-[9px] font-semibold transition-all active:scale-95 cursor-pointer rounded-xl mx-0.5",
+          isMoreActive
+            ? "text-white font-bold bg-white/25 shadow-xs drop-shadow-xs ring-1 ring-white/30"
+            : "text-white/80 hover:text-white hover:bg-white/10",
+        )}
+      >
+        <Grid className={cn("w-4.5 h-4.5 mb-0.5", isMoreActive ? "stroke-[2.6]" : "stroke-[2]")} />
+        <span>More</span>
+      </button>
+    </nav >
+
+      {/* Guest Sign-in Modal */ }
+      < AuthModal isOpen = { authOpen } onClose = {() => setAuthOpen(false)} />
 
 {/* Adaptive Mobile 'More' Drawer Sheet (Clean, uncluttered, no redundant top header) */ }
 <Sheet open={moreOpen} onOpenChange={setMoreOpen}>
@@ -280,87 +286,91 @@ export const BottomNav = () => {
 
       {/* Core Sections */}
       <div className="flex flex-col gap-1 rounded-2xl bg-muted/30 border border-border/50 p-1.5">
-        <a
-          href="https://drive.google.com/drive/u/7/folders/16O9qZXeWSruSU3YyYhnpZkCsmIHtIf6s"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-between p-3 rounded-xl hover:bg-muted/70 text-sm font-medium transition-colors"
+        <Link
+          href="/calendar"
+          onClick={() => setMoreOpen(false)}
+          className={cn(
+            "flex items-center justify-between p-3 rounded-xl text-sm font-medium transition-colors",
+            isCalendarActive
+              ? "bg-primary/15 text-primary font-bold border border-primary/30"
+              : "hover:bg-muted/70 text-foreground"
+          )}
+          prefetch={false}
         >
           <div className="flex items-center gap-3">
             <Calendar className="w-4.5 h-4.5 text-primary" />
             <span>Discourse Calendar & Schedule</span>
           </div>
-          <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
-        </a>
+      </Link>
 
-        <Link
-          href="/about"
-          onClick={() => setMoreOpen(false)}
-          className={cn(
-            "flex items-center justify-between p-3 rounded-xl text-sm font-medium transition-colors",
-            isAboutActive
-              ? "bg-primary/15 text-primary font-bold border border-primary/30"
-              : "hover:bg-muted/70 text-foreground"
-          )}
-          prefetch={false}
-        >
-          <div className="flex items-center gap-3">
-            <Info className="w-4.5 h-4.5 text-primary" />
-            <span>About HG Radheshyam Das</span>
-          </div>
-        </Link>
-
-        <Link
-          href="/contact-us"
-          onClick={() => setMoreOpen(false)}
-          className={cn(
-            "flex items-center justify-between p-3 rounded-xl text-sm font-medium transition-colors",
-            isContactActive
-              ? "bg-primary/15 text-primary font-bold border border-primary/30"
-              : "hover:bg-muted/70 text-foreground"
-          )}
-          prefetch={false}
-        >
-          <div className="flex items-center gap-3">
-            <PhoneCall className="w-4.5 h-4.5 text-primary" />
-            <span>Contact & Feedback</span>
-          </div>
-        </Link>
-
-        {isAdmin && (
-          <Link
-            href="/admin"
-            onClick={() => setMoreOpen(false)}
-            className={cn(
-              "flex items-center justify-between p-3 rounded-xl text-sm font-bold transition-colors",
-              isAdminActive
-                ? "bg-primary/25 border-2 border-primary text-primary shadow-xs"
-                : "bg-primary/10 border border-primary/20 text-primary"
-            )}
-            prefetch={false}
-          >
-            <div className="flex items-center gap-3">
-              <Shield className="w-4.5 h-4.5 text-primary" />
-              <span>Admin Dashboard</span>
-            </div>
-          </Link>
+      <Link
+        href="/about"
+        onClick={() => setMoreOpen(false)}
+        className={cn(
+          "flex items-center justify-between p-3 rounded-xl text-sm font-medium transition-colors",
+          isAboutActive
+            ? "bg-primary/15 text-primary font-bold border border-primary/30"
+            : "hover:bg-muted/70 text-foreground"
         )}
-      </div>
+        prefetch={false}
+      >
+        <div className="flex items-center gap-3">
+          <Info className="w-4.5 h-4.5 text-primary" />
+          <span>About HG Radheshyam Das</span>
+        </div>
+      </Link>
 
-      {/* Logout (if authenticated) */}
-      {session && (
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="flex items-center gap-3 p-3 rounded-xl text-destructive hover:bg-destructive/10 text-sm font-semibold transition-colors cursor-pointer w-full text-left"
+      <Link
+        href="/contact-us"
+        onClick={() => setMoreOpen(false)}
+        className={cn(
+          "flex items-center justify-between p-3 rounded-xl text-sm font-medium transition-colors",
+          isContactActive
+            ? "bg-primary/15 text-primary font-bold border border-primary/30"
+            : "hover:bg-muted/70 text-foreground"
+        )}
+        prefetch={false}
+      >
+        <div className="flex items-center gap-3">
+          <PhoneCall className="w-4.5 h-4.5 text-primary" />
+          <span>Contact & Feedback</span>
+        </div>
+      </Link>
+
+      {isAdmin && (
+        <Link
+          href="/admin"
+          onClick={() => setMoreOpen(false)}
+          className={cn(
+            "flex items-center justify-between p-3 rounded-xl text-sm font-bold transition-colors",
+            isAdminActive
+              ? "bg-primary/25 border-2 border-primary text-primary shadow-xs"
+              : "bg-primary/10 border border-primary/20 text-primary"
+          )}
+          prefetch={false}
         >
-          <LogOut className="w-4 h-4" />
-          <span>Sign Out</span>
-        </button>
+          <div className="flex items-center gap-3">
+            <Shield className="w-4.5 h-4.5 text-primary" />
+            <span>Admin Dashboard</span>
+          </div>
+        </Link>
       )}
     </div>
-  </SheetContent>
-</Sheet>
+
+    {/* Logout (if authenticated) */}
+    {session && (
+      <button
+        type="button"
+        onClick={handleLogout}
+        className="flex items-center gap-3 p-3 rounded-xl text-destructive hover:bg-destructive/10 text-sm font-semibold transition-colors cursor-pointer w-full text-left"
+      >
+        <LogOut className="w-4 h-4" />
+        <span>Sign Out</span>
+      </button>
+    )}
+  </div>
+</SheetContent>
+</Sheet >
     </>
   );
 };
