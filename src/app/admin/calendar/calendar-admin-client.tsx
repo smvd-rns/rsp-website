@@ -9,7 +9,10 @@ import {
   Globe,
   Link as LinkIcon,
   Loader2,
+  RotateCcw,
   Save,
+  ZoomIn,
+  ZoomOut,
 } from "lucide-react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
@@ -30,6 +33,7 @@ export const CalendarAdminClient = ({
   const [url, setUrl] = useState(initialConfig.rawUrl);
   const [isPending, startTransition] = useTransition();
   const [savedConfig, setSavedConfig] = useState(initialConfig);
+  const [zoom, setZoom] = useState(1);
 
   const previewUrls = getCalendarViewerUrls(url);
   const isDirty = url.trim() !== savedConfig.rawUrl.trim();
@@ -183,7 +187,7 @@ export const CalendarAdminClient = ({
 
       {/* Live Admin Preview */}
       <div className="rounded-2xl border border-border/80 bg-card p-5 sm:p-6 shadow-sm flex flex-col gap-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Eye className="w-4 h-4 text-primary" />
             <h2 className="text-sm font-bold text-foreground">
@@ -191,12 +195,53 @@ export const CalendarAdminClient = ({
             </h2>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Zoom Controls */}
+            <div className="inline-flex items-center gap-1 p-1 rounded-xl border border-border bg-background shadow-xs text-xs">
+              <button
+                type="button"
+                onClick={() => setZoom((prev) => Math.max(0.6, Number((prev - 0.15).toFixed(2))))}
+                disabled={zoom <= 0.6}
+                className="p-1 rounded-lg hover:bg-muted text-foreground transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                title="Zoom out"
+              >
+                <ZoomOut className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setZoom(1)}
+                className="px-2 py-0.5 font-mono font-bold text-foreground hover:bg-muted rounded-md transition-colors cursor-pointer"
+                title="Reset zoom to 100%"
+              >
+                {Math.round(zoom * 100)}%
+              </button>
+              <button
+                type="button"
+                onClick={() => setZoom((prev) => Math.min(2.5, Number((prev + 0.15).toFixed(2))))}
+                disabled={zoom >= 2.5}
+                className="p-1 rounded-lg hover:bg-muted text-foreground transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                title="Zoom in"
+              >
+                <ZoomIn className="w-3.5 h-3.5" />
+              </button>
+              {zoom !== 1 && (
+                <button
+                  type="button"
+                  onClick={() => setZoom(1)}
+                  className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[11px] font-semibold text-primary hover:bg-primary/10 rounded-md transition-colors cursor-pointer"
+                  title="Reset zoom"
+                >
+                  <RotateCcw className="w-3 h-3" />
+                  <span>Reset</span>
+                </button>
+              )}
+            </div>
+
             <a
               href={previewUrls.viewUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline ml-1"
             >
               <span>Test Open Drive</span>
               <ExternalLink className="w-3 h-3" />
@@ -214,14 +259,35 @@ export const CalendarAdminClient = ({
           </div>
         </div>
 
-        {/* Embedded Iframe */}
-        <div className="w-full rounded-xl border border-border overflow-hidden bg-background h-[550px]">
-          <iframe
-            src={previewUrls.embedUrl}
-            title="Calendar Live Admin Preview"
-            className="w-full h-full border-0"
-            allow="autoplay"
-          />
+        {/* Embedded Iframe in Zoomable Container */}
+        <div className="relative w-full rounded-xl border border-border overflow-auto bg-background h-[550px] overscroll-contain">
+          <div
+            style={{
+              width: `${Math.max(100, zoom * 100)}%`,
+              height: `${Math.max(100, zoom * 100)}%`,
+              minWidth: "100%",
+              minHeight: "100%",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                width: `${100 / zoom}%`,
+                height: `${100 / zoom}%`,
+                transform: `scale(${zoom})`,
+                transformOrigin: "0 0",
+              }}
+              className="w-full h-full"
+            >
+              <iframe
+                src={previewUrls.embedUrl}
+                title="Calendar Live Admin Preview"
+                className="w-full h-full border-0"
+                allow="autoplay"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
