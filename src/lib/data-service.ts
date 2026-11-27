@@ -379,6 +379,10 @@ export async function getCategoryPageDataFromDb(
   };
 }
 
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 /**
  * Fast search across recordings, categories, materials, and events with role filtering
  */
@@ -393,13 +397,14 @@ export async function searchContent(
 
   const isSuperAdmin = roleId === 1;
   const pattern = `%${trimmed}%`;
+  const regexPattern = escapeRegex(trimmed);
 
   let catRoleWhere = "";
   let recRoleWhere = "";
   let matRoleWhere = "";
-  const catParams: any[] = [pattern, trimmed];
+  const catParams: any[] = [pattern, trimmed, regexPattern];
   const recParams: any[] = [pattern];
-  const matParams: any[] = [pattern, trimmed];
+  const matParams: any[] = [pattern, trimmed, regexPattern];
 
   if (!isSuperAdmin) {
     catRoleWhere += " AND lower(name) NOT LIKE '%dump%' AND url_path NOT LIKE '%dump%' AND url_path NOT LIKE 'all-category-dump%' AND lower(name) NOT LIKE '%trash%' AND url_path NOT LIKE 'trash%'";
@@ -433,10 +438,17 @@ export async function searchContent(
     `
     SELECT id, name, img, image_url, path, url_path, orderind, parentid, allowed_roles
     FROM rsp.categories 
-    WHERE (name ILIKE $1 OR url_path ILIKE $1)
+    WHERE (name ILIKE $1 OR substring(url_path from '[^.]+$') ILIKE $1)
       ${catRoleWhere}
     ORDER BY 
-      CASE WHEN lower(name) = lower($2) THEN 0 ELSE 1 END,
+      CASE 
+        WHEN lower(name) = lower($2) THEN 1
+        WHEN lower(name) LIKE lower($2) || '%' THEN 2
+        WHEN name ~* ('\\y' || $3 || '\\y') THEN 3
+        WHEN name ~* ('\\y' || $3) THEN 4
+        WHEN name ILIKE $1 THEN 5
+        ELSE 6
+      END ASC,
       (CASE WHEN parentid IS NULL OR parentid = 0 THEN 0 ELSE 1 END) ASC,
       orderind ASC
     LIMIT 8;
@@ -472,12 +484,22 @@ export async function searchContent(
   recParams.push(trimmed);
   const exactParamIdx = recParams.length;
 
+  recParams.push(regexPattern);
+  const regexParamIdx = recParams.length;
+
   recParams.push(limit);
   const limitParamIdx = recParams.length;
 
   recQuery += ` 
     ORDER BY 
-      CASE WHEN lower(r.name) ILIKE lower($${exactParamIdx}) THEN 0 ELSE 1 END,
+      CASE 
+        WHEN lower(r.name) = lower($${exactParamIdx}) THEN 1
+        WHEN lower(r.name) LIKE lower($${exactParamIdx}) || '%' THEN 2
+        WHEN r.name ~* ('\\y' || $${regexParamIdx} || '\\y') THEN 3
+        WHEN r.name ~* ('\\y' || $${regexParamIdx}) THEN 4
+        WHEN r.name ILIKE $1 THEN 5
+        ELSE 6
+      END ASC,
       r.recdatetime DESC NULLS LAST, 
       r.id DESC 
     LIMIT $${limitParamIdx}
@@ -506,7 +528,14 @@ export async function searchContent(
     WHERE m.name ILIKE $1
       ${matRoleWhere}
     ORDER BY 
-      CASE WHEN lower(m.name) = lower($2) THEN 0 ELSE 1 END,
+      CASE 
+        WHEN lower(m.name) = lower($2) THEN 1
+        WHEN lower(m.name) LIKE lower($2) || '%' THEN 2
+        WHEN m.name ~* ('\\y' || $3 || '\\y') THEN 3
+        WHEN m.name ~* ('\\y' || $3) THEN 4
+        WHEN m.name ILIKE $1 THEN 5
+        ELSE 6
+      END ASC,
       m.id DESC
     LIMIT 15;
     `,
