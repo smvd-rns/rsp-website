@@ -9,16 +9,16 @@ let pool: Pool;
 if (process.env.NODE_ENV === 'production') {
   pool = new Pool({
     connectionString,
-    max: 20,
-    idleTimeoutMillis: 30000,
+    max: 3,
+    idleTimeoutMillis: 5000,
     connectionTimeoutMillis: 10000,
   });
 } else {
   if (!(global as any)._pgPool) {
     (global as any)._pgPool = new Pool({
       connectionString,
-      max: 10,
-      idleTimeoutMillis: 30000,
+      max: 3,
+      idleTimeoutMillis: 5000,
       connectionTimeoutMillis: 10000,
     });
   }
