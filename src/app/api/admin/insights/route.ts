@@ -48,20 +48,26 @@ export async function GET(req: NextRequest) {
     // 3. Overall KPI stats
     const statsQuery = `
       SELECT 
-        COUNT(DISTINCT visitor_id) AS total_visitors,
-        COUNT(DISTINCT visitor_id) FILTER (WHERE is_logged_in = false) AS guest_visitors,
-        COUNT(DISTINCT visitor_id) FILTER (WHERE is_logged_in = true) AS logged_in_visitors,
-        COUNT(*) AS total_pageviews,
+        COUNT(DISTINCT visitor_id) FILTER (WHERE is_bot = false) AS total_visitors,
+        COUNT(DISTINCT visitor_id) FILTER (WHERE is_bot = false AND is_logged_in = false) AS guest_visitors,
+        COUNT(DISTINCT visitor_id) FILTER (WHERE is_bot = false AND is_logged_in = true) AS logged_in_visitors,
+        COUNT(*) FILTER (WHERE is_bot = false) AS total_pageviews,
         COUNT(DISTINCT visitor_id) FILTER (
-          WHERE page_path LIKE '/categories%' 
-             OR page_path LIKE '/content%' 
-             OR page_path LIKE '/listen%' 
-             OR page_path LIKE '/recording%'
-             OR page_path LIKE '/topics%'
+          WHERE is_bot = false AND (
+            page_path LIKE '/categories%' 
+            OR page_path LIKE '/content%' 
+            OR page_path LIKE '/listen%' 
+            OR page_path LIKE '/recording%'
+            OR page_path LIKE '/topics%'
+          )
         ) AS discourse_visitors,
-        COUNT(DISTINCT visitor_id) FILTER (WHERE page_path = '/donate' OR page_path LIKE '/donate/%') AS donate_visitors
+        COUNT(DISTINCT visitor_id) FILTER (WHERE is_bot = false AND (page_path = '/donate' OR page_path LIKE '/donate/%')) AS donate_visitors,
+        COUNT(DISTINCT visitor_id) FILTER (WHERE is_bot = true) AS bot_visitors,
+        COUNT(*) FILTER (WHERE is_bot = true) AS bot_pageviews,
+        COUNT(DISTINCT visitor_id) AS total_all_visitors,
+        COUNT(*) AS total_all_pageviews
       FROM rsp.site_visits
-      WHERE is_bot = false AND created_at >= ${intervalClause};
+      WHERE created_at >= ${intervalClause};
     `;
     const statsRes = await pool.query(statsQuery);
     const stats = statsRes.rows[0] || {
@@ -71,6 +77,10 @@ export async function GET(req: NextRequest) {
       total_pageviews: 0,
       discourse_visitors: 0,
       donate_visitors: 0,
+      bot_visitors: 0,
+      bot_pageviews: 0,
+      total_all_visitors: 0,
+      total_all_pageviews: 0,
     };
 
     // 4. Daily trend
@@ -230,6 +240,10 @@ export async function GET(req: NextRequest) {
         totalPageviews: Number(stats.total_pageviews || 0),
         discourseVisitors: Number(stats.discourse_visitors || 0),
         donateVisitors: Number(stats.donate_visitors || 0),
+        botVisitors: Number(stats.bot_visitors || 0),
+        botPageviews: Number(stats.bot_pageviews || 0),
+        totalAllVisitors: Number(stats.total_all_visitors || 0),
+        totalAllPageviews: Number(stats.total_all_pageviews || 0),
       },
       trend: trendRes.rows.map((r) => ({
         date: r.date,
