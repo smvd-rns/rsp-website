@@ -10,6 +10,37 @@ export const useQueries = () =>
   useQuery({
     queryKey: [STORE.USER_QUERIES],
     queryFn: async (): Promise<UserQueryWithUser[]> => {
+      try {
+        const res = await fetch("/api/admin/queries");
+        if (res.ok) {
+          const json = await res.json();
+          if (Array.isArray(json.data)) {
+            const db = await getDB();
+            if (db) {
+              for (const q of json.data) {
+                await db.put(STORE.USER_QUERIES, {
+                  id: q.id,
+                  user_id: q.user_id,
+                  guest_email: q.guest_email,
+                  guest_name: q.guest_name,
+                  subject: q.subject,
+                  message: q.message,
+                  category: q.category,
+                  status: q.status,
+                  attachments: q.attachments,
+                  forward_history: q.forward_history,
+                  created_at: q.created_at,
+                  updated_at: q.updated_at,
+                });
+              }
+            }
+            return json.data as UserQueryWithUser[];
+          }
+        }
+      } catch {
+        // Fallback to IndexedDB when offline or non-admin
+      }
+
       const db = await getDB();
       if (!db) return [];
       const [queries, users] = await Promise.all([
